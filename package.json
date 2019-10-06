@@ -1,0 +1,23 @@
+{
+  "name": "stops",
+  "version": "0.0.1",
+  "description": "Application to see HSL public transportation stations and bus stops and their schedules",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsantt/stops.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsantt/stops/issues"
+  },
+  "homepage": "https://github.com/jsantt/stops#readme",
+  "dependencies": {
+    "serve": "^11.2.0"
+  }
+}

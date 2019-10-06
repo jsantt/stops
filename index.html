@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <meta
+      name="keywords"
+      content="pysäkit, pysäkkiaikataulu, lähdöt, HSL, hsl"
+    />
+    <meta name="author" content="Jani Säntti" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"
+    />
+
+    <title>Pysäkit - HSL pysäkkiaikataulut</title>
+    <meta
+      name="description"
+      content="Näe lähimmät pysäkkisi ja niiden aikataulut"
+    />
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="image/logo-32x32.png"
+      sizes="32x32"
+    />
+
+    <script type="module" url="./src/index.js"></script>
+    <script type="module">
+      import { load } from "./src/index.js";
+      load();
+    </script>
+
+    <!-- Loading web fonts asynchronoysly, see-->
+    <script>
+      WebFontConfig = {
+        google: {
+          families: ["Open Sans Condensed:300"]
+        }
+      };
+
+      (function(d) {
+        var wf = d.createElement("script"),
+          s = d.scripts[0];
+        wf.src =
+          "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js";
+        wf.async = true;
+        s.parentNode.insertBefore(wf, s);
+      })(document);
+    </script>
+
+    <meta name="theme-color" content="#84b9ff" />
+
+    <!-- iOS -->
+
+    <!-- Allow full-screen mode. -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- Status bar style -->
+    <!-- meta name="apple-mobile-web-app-status-bar-style" content="black" -->
+
+    <!-- iPhone non-retina icon -->
+    <link rel="apple-touch-icon" href="image/weather-icon-57x57.png" />
+
+    <!-- override title -->
+    <meta name="apple-mobile-web-app-title" content="Sää" />
+
+    <!-- iOS startup image -->
+    <!-- see media queries: https://gist.github.com/jabez128/28c19b386f610f8a0cf3#file-ios-8-web-app-html-L36-->
+
+    <!-- iPhone 6 startup image -->
+    <link
+      href="image/ios-startup-750x1294.png"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+
+    <style>
+      article {
+        display: flex;
+      }
+      article > div {
+        padding: 0 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      HSL:n pysäkkiaikataulut
+    </h1>
+    <main data-hook="main"></main>
+
+    <script>
+      window.fetch(
+        "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            query: `
+            {
+        nearest(lat: 60.16172, lon: 24.65164, maxResults: 8, maxDistance: 1500, filterByPlaceTypes: [STOP]) {
+            edges {
+            node {
+                place {
+                lat
+                lon
+                ... on Stop {
+                    name
+                    gtfsId
+                    code
+                    desc
+                    locationType
+                    vehicleType
+                    stoptimesWithoutPatterns { 
+                    scheduledArrival 
+                    realtimeArrival 
+                    arrivalDelay 
+                    scheduledDeparture 
+                    realtimeDeparture 
+                    departureDelay 
+                    realtime 
+                    realtimeState
+                    headsign
+                    trip{
+                        routeShortName
+                    }
+                    } 
+                    
+                }
+                }
+                distance
+            }
+            }
+        }
+        }`
+          })
+        }
+      );
+    </script>
+    <noscript>
+      Please enable JavaScript to view this website!
+    </noscript>
+  </body>
+</html>

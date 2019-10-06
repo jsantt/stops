@@ -7,7 +7,7 @@ function createScheduleHtml(stopData) {
   stops.map(stop => {
     const stopHtml = stringToHtml(
       `<section>
-            <h2>${stop.node.distance}m ${stop.node.place.name} (${stop.node.place.desc})</h2>
+            <h2>${stop.node.distance}m ${stop.node.place.name} <span class="secondary">(${stop.node.place.desc})</span></h2>
         </section>`
     );
     stopFragment = document.createDocumentFragment();
@@ -16,7 +16,12 @@ function createScheduleHtml(stopData) {
     stop.node.place.stoptimesWithoutPatterns.map(time => {
       const timeNodes = stringToHtml(
         `<article>
-            <div>${timeToString(toHourAndMinutes(time.scheduledArrival))}</div>
+            <div>${timeToString(
+              toHourAndMinutes(time.scheduledArrival)
+            )}<span class="secondary"> +${
+          toHourAndMinutes(time.arrivalDelay).minutes
+        }</span>
+            </div>
             <div>${time.trip.routeShortName}</div>
             <div>${time.headsign}</div>
         </article>`

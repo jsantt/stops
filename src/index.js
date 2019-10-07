@@ -1,18 +1,14 @@
-import { createScheduleHtml } from "./createScheduleHtml.js";
+import { initMain } from "./main.js";
 import { geolocate } from "./geolocate.js";
 import { fetchSchedule } from "./data.js";
+import { initNavigation } from "./navigation.js";
 
 async function load() {
   const coordinates = await geolocate();
   const schedule = await fetchSchedule(coordinates.lat, coordinates.lon);
-  const scheduleHtml = createScheduleHtml(schedule);
-  updateDom(scheduleHtml);
-}
 
-function updateDom(htmlContent) {
-  const element = document.querySelector("[data-hook=main]");
-  // element.parentElement.removeChild(element);
-  element.appendChild(htmlContent);
+  initMain("[data-hook=main]", schedule);
+  initNavigation("[data-hook=navigation]");
 }
 
 export { load };

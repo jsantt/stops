@@ -1,4 +1,11 @@
-function createScheduleHtml(stopData) {
+import { stringToHtml, updateDom } from "./domHelper.js";
+
+function initMain(querySelector, stopData) {
+  const scheduleHtml = createHtml(stopData);
+  updateDom(querySelector, scheduleHtml);
+}
+
+function createHtml(stopData) {
   const stops = stopData.data.nearest.edges;
 
   let mainFragment = document.createDocumentFragment();
@@ -7,7 +14,12 @@ function createScheduleHtml(stopData) {
   stops.map(stop => {
     const stopHtml = stringToHtml(
       `<section>
-            <h2>${stop.node.distance}m ${stop.node.place.name} <span class="secondary">(${stop.node.place.desc})</span></h2>
+            <header>
+                <h2>${stop.node.place.name}<span class="secondary"> ${stop.node.place.desc}</span></h2>
+                <div>${stop.node.distance}m</div>
+                <div>&#11088;</div> 
+            </header>
+            
         </section>`
     );
     stopFragment = document.createDocumentFragment();
@@ -18,12 +30,13 @@ function createScheduleHtml(stopData) {
         `<article>
             <div>${timeToString(
               toHourAndMinutes(time.scheduledDeparture)
-            )}<span class="secondary"> +${
-          toHourAndMinutes(time.departureDelay).minutes
-        }</span>
+            )}<span class="secondary"> 
+                ${delayToString(time.departureDelay, time.realtime)}
+            </span>
             </div>
             <div>${time.trip.routeShortName}</div>
             <div>${time.headsign}</div>
+            <div>&#128943;</div>
         </article>`
       );
       stopFragment.querySelector("section").appendChild(timeNodes);
@@ -32,15 +45,6 @@ function createScheduleHtml(stopData) {
   });
 
   return mainFragment;
-}
-
-/**
- * Convert string into HTML DOM nodes
- */
-function stringToHtml(str) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(str, "text/html");
-  return doc.body.firstChild;
 }
 
 function toHourAndMinutes(seconds) {
@@ -58,4 +62,22 @@ function timeToString(time) {
   return `${hours}.${minutes}`;
 }
 
-export { createScheduleHtml };
+function delayToString(seconds, realtime) {
+  if (realtime === false) {
+    return "?";
+  }
+
+  if (seconds === 0) {
+    return "&#10003;";
+  }
+
+  if (seconds < 30) {
+    return seconds > 0 ? `+${seconds}s` : `${seconds}s`;
+  }
+
+  const rounded = Math.round(seconds / 60);
+
+  return rounded > 0 ? `+${rounded}min` : `${rounded}min`;
+}
+
+export { initMain };

@@ -17,9 +17,9 @@ function createScheduleHtml(stopData) {
       const timeNodes = stringToHtml(
         `<article>
             <div>${timeToString(
-              toHourAndMinutes(time.scheduledArrival)
+              toHourAndMinutes(time.scheduledDeparture)
             )}<span class="secondary"> +${
-          toHourAndMinutes(time.arrivalDelay).minutes
+          toHourAndMinutes(time.departureDelay).minutes
         }</span>
             </div>
             <div>${time.trip.routeShortName}</div>

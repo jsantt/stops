@@ -1,42 +1,39 @@
-const query = `
-{
-nearest(lat: 60.16172, lon: 24.65164, maxResults: 8, maxDistance: 1500, filterByPlaceTypes: [STOP]) {
-edges {
-node {
-    place {
-    lat
-    lon
-    ... on Stop {
-        name
-        gtfsId
-        code
-        desc
-        locationType
-        vehicleType
-        stoptimesWithoutPatterns { 
-        scheduledArrival 
-        realtimeArrival 
-        arrivalDelay 
-        scheduledDeparture 
-        realtimeDeparture 
-        departureDelay 
-        realtime 
-        realtimeState
-        headsign
-        trip{
-            routeShortName
+function query(lat, lon) {
+  return `
+    {
+        nearest(lat: ${lat}, lon: ${lon}, maxResults: 8, maxDistance: 2000, filterByPlaceTypes: [STOP]) {
+          edges {
+            node {
+              place {
+                lat
+                lon
+                ... on Stop {
+                  name
+                  gtfsId
+                  code
+                  desc
+                  locationType
+                  vehicleType
+                  stoptimesWithoutPatterns {
+                    scheduledDeparture
+                    departureDelay
+                    realtime
+                    realtimeState
+                    headsign
+                    trip {
+                      routeShortName
+                    }
+                  }
+                }
+              }
+              distance
+            }
+          }
         }
-        } 
-        
-    }
-    }
-    distance
+    }`;
 }
-}
-}
-}`;
 
-async function fetchSchedule() {
+async function fetchSchedule(lat, lon) {
   const response = await window.fetch(
     "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
     {
@@ -45,7 +42,7 @@ async function fetchSchedule() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: query
+        query: query(lat, lon)
       })
     }
   );

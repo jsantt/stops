@@ -14,7 +14,10 @@ function stringToHtml(str) {
  */
 function updateDom(selector, htmlContent) {
   const element = document.querySelector(selector);
-  // element.parentElement.removeChild(element);
+  console.dir(element);
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
   element.appendChild(htmlContent);
 }
 

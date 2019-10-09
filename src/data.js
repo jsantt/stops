@@ -1,7 +1,9 @@
-function query(lat, lon) {
+function query(lat, lon, stops) {
   return `
     {
-        nearest(lat: ${lat}, lon: ${lon}, maxResults: 8, maxDistance: 2000, filterByPlaceTypes: [STOP]) {
+        nearest(lat: ${lat}, lon: ${lon}, maxResults: 8, maxDistance: 2000, filterByPlaceTypes: [STOP] ${
+    stops === undefined ? "" : `filterByIds:{stops: ${stops}}`
+  }) {
           edges {
             node {
               place {
@@ -33,7 +35,7 @@ function query(lat, lon) {
     }`;
 }
 
-async function fetchSchedule(lat, lon) {
+async function fetchSchedule(lat, lon, stops) {
   const response = await window.fetch(
     "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
     {
@@ -42,7 +44,7 @@ async function fetchSchedule(lat, lon) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: query(lat, lon)
+        query: query(lat, lon, stops)
       })
     }
   );

@@ -1,6 +1,6 @@
 import { stringToHtml, updateDom } from "./domHelper.js";
 
-function initMain(querySelector, stopData) {
+function initSchedule(querySelector, stopData) {
   const scheduleHtml = createHtml(stopData);
   updateDom(querySelector, scheduleHtml);
 }
@@ -80,4 +80,4 @@ function delayToString(seconds, realtime) {
   return rounded > 0 ? `+${rounded}min` : `${rounded}min`;
 }
 
-export { initMain };
+export { initSchedule };

@@ -36,7 +36,7 @@ function createHtml() {
   const html = stringToHtml(
     `
     <div>
-        <div data-hook="nearest-stops">📍<br>Lähimmät pysäkit</div>
+        <div selected="true" data-hook="nearest-stops">📍<br>Lähimmät pysäkit</div>
         <div data-hook="favorites">⭐<br>suosikit</div>
     </div>`
   );

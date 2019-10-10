@@ -11,11 +11,11 @@ function setupRealtimeSwitch() {
 
   toggle.addEventListener("click", () => {
     if (toggle.checked) {
-      removeAttribute("[data-hook=time-schedule]", "hidden");
-      setAttribute("[data-hook=time-realtime]", "hidden", true);
-    } else {
       setAttribute("[data-hook=time-schedule]", "hidden", true);
       removeAttribute("[data-hook=time-realtime]", "hidden");
+    } else {
+      removeAttribute("[data-hook=time-schedule]", "hidden");
+      setAttribute("[data-hook=time-realtime]", "hidden", true);
     }
   });
 }

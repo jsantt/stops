@@ -3,11 +3,42 @@ import { stringToHtml, updateDom } from "./domHelper.js";
 function initSchedule(querySelector, stopData) {
   const scheduleHtml = createHtml(stopData);
   updateDom(querySelector, scheduleHtml);
+  setupRealtimeSwitch();
+}
+
+function setupRealtimeSwitch() {
+  const toggle = document.querySelector("[data-hook=realtime]");
+
+  toggle.addEventListener("click", () => {
+    if (toggle.checked) {
+      removeAttribute("[data-hook=time-schedule]", "hidden");
+      setAttribute("[data-hook=time-realtime]", "hidden", true);
+    } else {
+      setAttribute("[data-hook=time-schedule]", "hidden", true);
+      removeAttribute("[data-hook=time-realtime]", "hidden");
+    }
+  });
+}
+
+function setAttribute(selector, attribute, value) {
+  const elementArray = document.querySelectorAll(selector);
+
+  for (const elem of elementArray) {
+    elem.setAttribute(attribute, value);
+  }
+}
+
+function removeAttribute(selector, attribute) {
+  const elementArray = document.querySelectorAll(selector);
+
+  for (const elem of elementArray) {
+    elem.removeAttribute(attribute);
+  }
 }
 
 function createHtml(stopData) {
   const stops = stopData.data.nearest.edges;
-
+  const timeNow = new Date();
   let mainFragment = document.createDocumentFragment();
   let stopFragment;
 
@@ -17,8 +48,13 @@ function createHtml(stopData) {
             <header>
                 <h2>${stop.node.place.name}<span class="secondary"> ${stop.node.place.desc}</span></h2>
                 <div>${stop.node.distance}m</div>
-                <div>&#11088;</div> 
+                <div>&#128943;</div> 
             </header>
+            <article class="secondary">
+                <div>Min</div>
+                <div></div>
+                <div></div> 
+            </article>
             
         </section>`
     );
@@ -28,10 +64,17 @@ function createHtml(stopData) {
     stop.node.place.stoptimesWithoutPatterns.map(time => {
       const timeNodes = stringToHtml(
         `<article>
-            <div>${timeToString(
+            <div>
+            <span hidden data-hook="time-schedule">${timeToString(
               toHourAndMinutes(time.scheduledDeparture)
-            )}<span class="secondary"> 
-                ${delayToString(time.departureDelay, time.realtime)}
+            )}</span>
+            <span data-hook="time-realtime"> 
+                ${toRealtime(
+                  timeNow,
+                  time.scheduledDeparture,
+                  time.departureDelay,
+                  time.realtime
+                )}
             </span>
             </div>
             <div>${time.trip.routeShortName}</div>
@@ -62,22 +105,33 @@ function timeToString(time) {
   return `${hours}.${minutes}`;
 }
 
-function delayToString(seconds, realtime) {
+function toRealtime(timeNow, departure, delay, realtime) {
+  const secondsNow = getSecondsSinceMidnight(timeNow);
+
+  const scheduledDeparture = Math.floor((departure - secondsNow) / 60);
+
   if (realtime === false) {
-    return "?";
+    return `${scheduledDeparture}`;
   }
 
-  if (seconds === 0) {
-    return "&#10003;";
+  // TODO: CASE NEGATIVE DELAY = AHEAD TIME
+  if (Math.abs(delay) < 30) {
+    return `${scheduledDeparture}&#10003;`;
   }
 
-  if (seconds < 30) {
-    return seconds > 0 ? `+${seconds}s` : `${seconds}s`;
+  if (delay > 0) {
+    return `${scheduledDeparture}-${scheduledDeparture +
+      Math.ceil(delay / 60)}`;
   }
+  const rounded = Math.floor(seconds / 60);
 
-  const rounded = Math.round(seconds / 60);
+  return `${rounded}`;
+}
 
-  return rounded > 0 ? `+${rounded}min` : `${rounded}min`;
+function getSecondsSinceMidnight(time) {
+  let timeCopy = new Date(time);
+  const milliseconds = time - timeCopy.setHours(0, 0, 0, 0);
+  return Math.round(milliseconds / 1000);
 }
 
 export { initSchedule };

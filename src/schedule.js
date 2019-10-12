@@ -1,4 +1,5 @@
 import { stringToHtml, updateDom } from "./domHelper.js";
+import { favorite } from "./favorite.js";
 
 function initSchedule(querySelector, stopData) {
   const scheduleHtml = createHtml(stopData);
@@ -16,9 +17,13 @@ function createHtml(stopData) {
     const stopHtml = stringToHtml(
       `<section>
             <header>
-                <h2>${stop.node.place.name}<span class="secondary"> ${stop.node.place.desc}</span></h2>
+                <h2>${stop.node.place.name} 
+                  <span class="secondary">(${stop.node.place.code}) ${
+        stop.node.place.desc
+      }</span>
+                </h2>
                 <div>${stop.node.distance}m</div>
-                <div>&#128943;</div> 
+                <div>${favorite(stop.node.place.gtfsId)}</div> 
             </header>
             <article class="secondary">
                 <div></div>    
@@ -78,6 +83,7 @@ function timeToString(time) {
   return `${hours}.${minutes}`;
 }
 
+//TODO: over 12 pm leaving busses are shown as -1025, -1048 etc
 function toRealtime(timeNow, departure, delay, realtime) {
   const secondsNow = getSecondsSinceMidnight(timeNow);
 

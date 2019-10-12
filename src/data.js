@@ -6,7 +6,9 @@ function query(lat, lon, stops) {
   }) {
           edges {
             node {
+              distance
               place {
+                id
                 lat
                 lon
                 ... on Stop {
@@ -28,7 +30,6 @@ function query(lat, lon, stops) {
                   }
                 }
               }
-              distance
             }
           }
         }

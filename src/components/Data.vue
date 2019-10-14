@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: "Data",
+  fetchSchedule: fetchSchedule
+};
+
 function query(lat, lon, stops) {
   return `
     {
@@ -24,6 +30,7 @@ function query(lat, lon, stops) {
                     realtime
                     realtimeState
                     headsign
+                    serviceDay
                     trip {
                       routeShortName
                     }
@@ -51,5 +58,4 @@ async function fetchSchedule(lat, lon, stops) {
   );
   return await response.json();
 }
-
-export { fetchSchedule };
+</script>

@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang=fi><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=keywords content="pysäkit, pysäkkiaikataulu, lähdöt, hsl"><meta name=author content="Jani Säntti"><meta name=description content="Näe lähimmät pysäkkisi ja niiden aikataulut"><!--[if IE]><link rel="icon" href="/favicon.ico" /><![endif]--><title>Pysäkit - HSL pysäkkiaikataulut</title><style>body {
+        margin: 0;
+        max-width: 500px;
+        font-size: 20px;
+      }
+      h1 {
+        font-size: 18px;
+        text-align: center;
+      }
+      h2 {
+        font-size: 20px;
+        margin: 0;
+      }
+      header {
+        display: grid;
+        grid-template-columns: auto 3rem 2rem;
+        margin: 1rem 0 0.5rem 0;
+      }
+      article {
+        display: grid;
+        grid-template-columns: 0.75rem 4rem 3.5rem auto 2rem;
+        margin-left: 0.5rem;
+      }
+
+      .important {
+        font-weight: 700;
+      }
+      .secondary {
+        color: darkgray;
+        font-size: 16px;
+      }
+
+      nav > div {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 3rem;
+        background-color: lightgreen;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        text-align: center;
+      }
+
+      [selected="true"] {
+        background-color: mediumseagreen;
+      }
+
+      .realtime-sign {
+        margin-top: 9px;
+        color: green;
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: green;
+        cursor: pointer;
+        box-shadow: 0 0 0 lightgreen;
+        animation: pulse 2s infinite;
+      }
+      .realtime-sign:hover {
+        animation: none;
+      }
+
+      @-webkit-keyframes pulse {
+        0% {
+          -webkit-box-shadow: 0 0 0 0 rgba(44, 204, 52, 0.4);
+        }
+        70% {
+          -webkit-box-shadow: 0 0 0 10px rgba(44, 204, 44, 0);
+        }
+        100% {
+          -webkit-box-shadow: 0 0 0 0 rgba(44, 204, 57, 0);
+        }
+      }
+      @keyframes pulse {
+        0% {
+          -moz-box-shadow: 0 0 0 0 rgba(44, 204, 65, 0.4);
+          box-shadow: 0 0 0 0 rgba(44, 204, 52, 0.4);
+        }
+        70% {
+          -moz-box-shadow: 0 0 0 10px rgba(57, 204, 44, 0);
+          box-shadow: 0 0 0 10px rgba(44, 204, 44, 0);
+        }
+        100% {
+          -moz-box-shadow: 0 0 0 0 rgba(63, 204, 44, 0);
+          box-shadow: 0 0 0 0 rgba(57, 204, 44, 0);
+        }
+      }
+      footer {
+        padding: 1rem;
+      }</style><link href=/css/app.ba19b4de.css rel=preload as=style><link href=/js/app.1c142015.js rel=preload as=script><link href=/js/chunk-vendors.ec12355f.js rel=preload as=script><link href=/css/app.ba19b4de.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/img/icons/favicon-16x16.png><link rel=manifest href=/manifest.json><meta name=theme-color content=#4DBA87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content=stops><link rel=apple-touch-icon href=/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/img/icons/safari-pinned-tab.svg color=#4DBA87><meta name=msapplication-TileImage content=/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#000000></head><body><h1>HSL:n pysäkkiaikataulut</h1><div id=app></div><footer>*=GPS-signaaliin perusteella laskettu arvio</footer><noscript><strong>Hei, sallithan JavaScriptin tai kävelet lähimmälle pysäkille katsomaan aikataulut</strong></noscript><script src=/js/chunk-vendors.ec12355f.js></script><script src=/js/app.1c142015.js></script></body></html>

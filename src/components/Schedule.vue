@@ -37,6 +37,16 @@ export default {
     };
   },
   async mounted() {
+    document.addEventListener("visibilitychange", async () => {
+      if (document.visibilityState === "visible") {
+        console.log("visible");
+        const location = await geolocate();
+        this.fetchSchedule(location.lat, location.lon);
+      } else {
+        console.log("not");
+      }
+    });
+
     const location = await geolocate();
     this.fetchSchedule(location.lat, location.lon);
 

@@ -44,6 +44,7 @@
   cursor: pointer;
   position: relative;
   margin: 0 1rem;
+  padding-bottom: 0.3rem;
 }
 
 .switch input[type="checkbox"]:disabled::before {

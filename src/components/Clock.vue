@@ -1,11 +1,4 @@
 <style scoped>
-div {
-  top: 0;
-  position: fixed;
-  left: 0;
-  background-color: #e2e1e1;
-  padding: 0.5rem 1rem;
-}
 </style>
 <template>
   <div>{{time}}</div>

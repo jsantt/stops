@@ -1,22 +1,19 @@
 <template>
   <div id="app">
-    <Clock></Clock>
-    <TimeSwitch v-on:time-switch-clicked="showRealtime"></TimeSwitch>
     <Schedule :realtime="realtime" />
+    <Navigation v-on:time-switch-clicked="showRealtime"></Navigation>
   </div>
 </template>
 
 <script>
-import Clock from "./components/Clock.vue";
-import TimeSwitch from "./components/TimeSwitch.vue";
+import Navigation from "./components/Navigation.vue";
 import Schedule from "./components/Schedule.vue";
 
 export default {
   name: "app",
   components: {
-    Clock,
-    Schedule,
-    TimeSwitch
+    Navigation,
+    Schedule
   },
   data() {
     return {
@@ -25,6 +22,7 @@ export default {
   },
   methods: {
     showRealtime: function() {
+      console.log("clicked!!");
       this.realtime = !this.realtime;
     }
   }

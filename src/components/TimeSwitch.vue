@@ -53,9 +53,7 @@
 
 <template>
   <label class="switch">
-    aikataulu
     <input type="checkbox" @change="checkboxChanged()" />
-    reaaliaikainen
   </label>
 </template>
 
@@ -64,7 +62,7 @@ export default {
   name: "TimeSwitch",
   methods: {
     checkboxChanged() {
-      this.$emit("time-switch-clicked", 0.1);
+      this.$emit("time-switch-clicked");
     }
   }
 };

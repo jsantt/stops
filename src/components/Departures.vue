@@ -2,7 +2,10 @@
   <div>
     <article class="secondary">
       <div></div>
-      <div>MIN</div>
+      <div>
+        <span v-show="realtime">MIN</span>
+        <span v-show="!realtime">KLO</span>
+      </div>
       <div>LINJA</div>
       <div>MÄÄRÄNPÄÄ</div>
     </article>
@@ -66,7 +69,6 @@ export default {
     toRealtime: function(timeNow, departure, delay, realtime, serviceDay) {
       const day = this.dayNumber(serviceDay);
       const today = timeNow.getDate();
-
       const secondsNow = this.getSecondsSinceMidnight(timeNow);
 
       const scheduledDeparture = Math.floor((departure - secondsNow) / 60);
@@ -75,26 +77,19 @@ export default {
         return this.timeToString(this.toHourAndMinutes(departure));
       }
 
-      if (departure < 30 || departure - delay < 30) {
-        return `&#126;0`;
-      }
+      const shownDeparture = scheduledDeparture > 0 ? scheduledDeparture : 0;
+      let shownDepartureWithDelay = scheduledDeparture + Math.ceil(delay / 60);
+      shownDepartureWithDelay =
+        shownDepartureWithDelay > 0 ? shownDepartureWithDelay : 0;
 
-      if (Math.abs(delay) < 30) {
-        return `${scheduledDeparture}`;
+      if (shownDepartureWithDelay === shownDeparture) {
+        return shownDeparture;
       }
-
-      if (delay > 0) {
-        return `${scheduledDeparture}-${scheduledDeparture +
-          Math.ceil(delay / 60)}*`;
+      if (shownDeparture < shownDepartureWithDelay) {
+        return `${shownDeparture}-${shownDepartureWithDelay}*`;
+      } else {
+        return `${shownDepartureWithDelay}*-${shownDeparture}`;
       }
-      if (delay < 0) {
-        return `${scheduledDeparture +
-          Math.ceil(delay / 60)}*-${scheduledDeparture}`;
-      }
-
-      const rounded = Math.floor((departure - delay) / 60);
-
-      return `${rounded} ${departure}${delay}`;
     },
     getSecondsSinceMidnight: function(time) {
       let timeCopy = new Date(time);

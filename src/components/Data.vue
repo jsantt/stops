@@ -1,61 +1,35 @@
+<template></template>
+
 <script>
+import { fetchNearest } from "./FetchNearest.js";
+import { geolocate } from "./Geolocate.js";
+
 export default {
   name: "Data",
-  fetchSchedule: fetchSchedule
-};
+  props: {
+    favoriteStops: Array
+  },
+  mounted: async function() {
+    document.addEventListener("visibilitychange", async () => {
+      if (document.visibilityState === "visible") {
+        this.locateAndfetch();
+      }
+    });
 
-function query(lat, lon, stops) {
-  return `
-    {
-        nearest(lat: ${lat}, lon: ${lon}, maxResults: 8, maxDistance: 2000, filterByPlaceTypes: [STOP] ${
-    stops === undefined ? "" : `filterByIds:{stops: ${stops}}`
-  }) {
-          edges {
-            node {
-              distance
-              place {
-                id
-                lat
-                lon
-                ... on Stop {
-                  name
-                  gtfsId
-                  code
-                  desc
-                  locationType
-                  vehicleType
-                  stoptimesWithoutPatterns {
-                    scheduledDeparture
-                    departureDelay
-                    realtime
-                    realtimeState
-                    headsign
-                    serviceDay
-                    trip {
-                      routeShortName
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-    }`;
-}
+    this.locateAndfetch();
 
-async function fetchSchedule(lat, lon, stops) {
-  const response = await window.fetch(
-    "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query: query(lat, lon, stops)
-      })
+    setInterval(async () => {
+      this.locateAndfetch();
+    }, 20 * 1000);
+  },
+  methods: {
+    locateAndfetch: async function() {
+      const location = await geolocate();
+      const result = await fetchNearest(location.lat, location.lon, this.favoriteStops);
+      const stops = result.data.nearest.edges;
+
+      this.$emit("nearest-stops", stops);
     }
-  );
-  return await response.json();
-}
+  }
+};
 </script>

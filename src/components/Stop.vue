@@ -8,20 +8,27 @@
     </h2>
     <div>{{ stop.node.distance }}m</div>
     <div>
-      <Star v-on:click="$emit('stop-selected', stop.node.place.gtfsId)"></Star>
+      <Star :selected="favorite" v-on:toggle="toggleFavorite"></Star>
     </div>
   </header>
 </template>
 
 <script>
 import Star from "./Star.vue";
+
 export default {
   name: "Stop",
   props: {
+    favorite: Boolean,
     stop: Object
   },
   components: {
     Star
+  },
+  methods: {
+    toggleFavorite: function() {
+      this.$emit("toggle-favorite", this.stop.node.place.gtfsId);
+    }
   }
 };
 </script>

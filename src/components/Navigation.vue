@@ -27,8 +27,8 @@
     <div>
       <Clock></Clock>
     </div>
-    <div>lähellä</div>
-    <div>suosikit</div>
+    <div v-on:click="$emit('nearby')">lähellä</div>
+    <div v-on:click="$emit('favorite')">suosikit</div>
   </nav>
 </template>
 

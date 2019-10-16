@@ -18,12 +18,11 @@
 export default {
   name: "Star",
   props: {
-    selected: false
+    selected: Boolean
   },
   methods: {
     toggle: function() {
-      this.selected = !this.selected;
-      this.$emit("clicked", this.selected);
+      this.$emit("toggle", this.selected);
     }
   }
 };

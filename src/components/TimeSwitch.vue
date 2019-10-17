@@ -1,15 +1,15 @@
 <style scoped>
 /* switch */
-.switch input[type="checkbox"]:checked::before {
+input:checked::before {
   transform: translateX(10px);
 }
 
-.switch input[type="checkbox"]:not(:checked)::before {
+input:not(:checked)::before {
   right: 10px;
   transform: translateX(-10px);
 }
 
-.switch input[type="checkbox"]::before {
+input::before {
   content: "";
   display: block;
   position: absolute;
@@ -25,11 +25,11 @@
   background: white;
 }
 
-.switch input[type="checkbox"]:checked::after {
+input:checked::after {
   background: mediumseagreen;
 }
 
-.switch input[type="checkbox"]::after {
+input::after {
   content: "";
   display: block;
   width: 1rem;
@@ -38,8 +38,8 @@
   border-radius: 5px;
 }
 
-.switch input[type="checkbox"] {
-  appearance: none;
+input {
+  -moz-appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
   position: relative;
@@ -47,7 +47,7 @@
   padding-bottom: 0.3rem;
 }
 
-.switch input[type="checkbox"]:disabled::before {
+input:disabled::before {
   background-color: darkgrey;
 }
 </style>

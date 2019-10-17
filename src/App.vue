@@ -13,6 +13,7 @@
       v-on:toggle-favorite="toggleFavorite"
     ></Favorite>
     <Navigation
+      :favoriteTab="favoriteTab"
       v-on:time-switch-clicked="showRealtime"
       v-on:nearby="favoriteTab = false"
       v-on:favorite="favoriteTab = true"

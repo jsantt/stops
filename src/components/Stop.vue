@@ -1,3 +1,8 @@
+<style scoped>
+header {
+  background-color: #faebd7;
+}
+</style>
 <template>
   <header>
     <h2>

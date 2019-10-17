@@ -1,3 +1,9 @@
+<style scoped>
+.departure:nth-child(even) {
+  background-color: #f0f8ff;
+}
+</style>
+</style>
 <template>
   <div>
     <article class="secondary">
@@ -10,7 +16,7 @@
       <div>MÄÄRÄNPÄÄ</div>
     </article>
 
-    <article v-for="time in departures">
+    <article class="departure" v-for="time in departures">
       <div v-bind:class="{ 'realtime-sign': time.realtime && realtime }"></div>
       <div>
         <span

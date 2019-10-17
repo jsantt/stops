@@ -45,9 +45,6 @@ export default {
     Clock,
     TimeSwitch
   },
-  data() {
-    return {};
-  }
 };
 </script>
 

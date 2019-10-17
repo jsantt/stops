@@ -1,9 +1,13 @@
 <template>
   <div>
-    <Data v-on:nearest-stops="populateStops"></Data>nearest
+    <Data v-on:nearest-stops="populateStops"></Data>
     <div v-for="stop in stops">
       <section>
-        <Stop :stop="stop" v-on:toggle-favorite="addFavorite"></Stop>
+        <Stop
+          :stop="stop"
+          :favorite="isFavorite(stop.node.place.gtfsId)"
+          v-on:toggle-favorite="toggleFavorite"
+        ></Stop>
         <Departures
           :departures="stop.node.place.stoptimesWithoutPatterns"
           :timeNow="timeNow"
@@ -23,6 +27,7 @@ import Stop from "./Stop.vue";
 export default {
   name: "Nearest",
   props: {
+    favoriteStops: Array,
     realtime: Boolean
   },
   components: {
@@ -37,8 +42,11 @@ export default {
     };
   },
   methods: {
-    addFavorite: function(stopId) {
-      this.$emit("add-favorite", stopId);
+    toggleFavorite: function(details) {
+      this.$emit("toggle-favorite", details);
+    },
+    isFavorite(stopId) {
+      return this.favoriteStops.includes(stopId);
     },
     populateStops: function(result) {
       this.stops = result;

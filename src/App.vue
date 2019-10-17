@@ -1,11 +1,16 @@
 <template>
   <div id="app">
-    <Nearest v-if="!favoriteTab" :realtime="realtime" v-on:add-favorite="addFavorite"></Nearest>
+    <Nearest
+      v-if="!favoriteTab"
+      :favoriteStops="favoriteStops"
+      :realtime="realtime"
+      v-on:toggle-favorite="toggleFavorite"
+    ></Nearest>
     <Favorite
       v-if="favoriteTab"
-      :realtime="realtime"
       :favoriteStops="favoriteStops"
-      v-on:remove-favorite="removeFavorite"
+      :realtime="realtime"
+      v-on:toggle-favorite="toggleFavorite"
     ></Favorite>
     <Navigation
       v-on:time-switch-clicked="showRealtime"
@@ -43,6 +48,11 @@ export default {
     }
   },
   methods: {
+    toggleFavorite: function(details) {
+      details.selected === true
+        ? this.addFavorite(details.stopId)
+        : this.removeFavorite(details.stopId);
+    },
     addFavorite: function(stopId) {
       this.favoriteStops.push(stopId);
       window.localStorage.setItem(
@@ -52,7 +62,7 @@ export default {
     },
     removeFavorite: function(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
-        return item === stopId;
+        return item !== stopId;
       });
       window.localStorage.setItem(
         "favoriteStops",

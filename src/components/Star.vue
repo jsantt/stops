@@ -20,10 +20,18 @@ export default {
   props: {
     selected: Boolean
   },
+  mounted: function() {
+    //this._select = selected;
+  },
   methods: {
     toggle: function() {
-      this.$emit("toggle", this.selected);
+      this.$emit("toggle", !this.selected);
     }
+  },
+  data() {
+    return {
+      //_selected: false
+    };
   }
 };
 </script>

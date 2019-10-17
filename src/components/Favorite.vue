@@ -1,9 +1,13 @@
 <template>
   <div>
-    <Data :favoriteStops="favoriteStops" v-on:nearest-stops="populateStops"></Data>favorites
+    <Data :favoriteStops="favoriteStops" v-on:nearest-stops="populateStops"></Data>
     <div v-for="stop in stops">
       <section>
-        <Stop :stop="stop" :favorite="true" v-on:toggle-favorite="removeFavorite"></Stop>
+        <Stop
+          :stop="stop"
+          :favorite="isFavorite(stop.node.place.gtfsId)"
+          v-on:toggle-favorite="toggleFavorite"
+        ></Stop>
         <Departures
           :departures="stop.node.place.stoptimesWithoutPatterns"
           :timeNow="timeNow"
@@ -38,11 +42,14 @@ export default {
     };
   },
   methods: {
+    isFavorite(stopId) {
+      return this.favoriteStops.includes(stopId);
+    },
     populateStops(result) {
       this.stops = result;
     },
-    removeFavorite(stopId) {
-      this.$emit("remove-favorite", stopId);
+    toggleFavorite(details) {
+      this.$emit("toggle-favorite", details);
     }
   }
 };

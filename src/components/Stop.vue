@@ -26,8 +26,11 @@ export default {
     Star
   },
   methods: {
-    toggleFavorite: function() {
-      this.$emit("toggle-favorite", this.stop.node.place.gtfsId);
+    toggleFavorite: function(selected) {
+      this.$emit("toggle-favorite", {
+        stopId: this.stop.node.place.gtfsId,
+        selected: selected
+      });
     }
   }
 };

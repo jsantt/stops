@@ -8,13 +8,14 @@
           :favorite="isFavorite(stop.node.place.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures
-          :departures="stop.node.place.stoptimesWithoutPatterns"
-          :timeNow="timeNow"
-          :realtime="realtime"
-        ></Departures>
+        <Departures :departures="stop.node.place.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
       </section>
-    </div>
+      <br />
+      <br />
+    </div>Vain lähistöllä olevat suosikit näkyvät
+    <br />
+    <br />Kaikki suosikit:
+    <div v-for="favorite in favoriteStops">{{favorite}}</div>
   </div>
 </template>
 
@@ -37,8 +38,7 @@ export default {
   },
   data() {
     return {
-      stops: [],
-      timeNow: new Date()
+      stops: []
     };
   },
   methods: {

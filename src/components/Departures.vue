@@ -27,7 +27,7 @@
         <span v-show="realtime">
           {{
           toRealtime(
-          timeNow,
+          new Date(),
           time.scheduledDeparture,
           time.departureDelay,
           time.realtime,
@@ -49,7 +49,6 @@ export default {
   props: {
     departures: Array,
     realtime: Boolean,
-    timeNow: Date
   },
 
   methods: {

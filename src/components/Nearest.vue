@@ -10,7 +10,6 @@
         ></Stop>
         <Departures
           :departures="stop.node.place.stoptimesWithoutPatterns"
-          :timeNow="timeNow"
           :realtime="realtime"
         ></Departures>
       </section>
@@ -37,8 +36,7 @@ export default {
   },
   data() {
     return {
-      stops: [],
-      timeNow: new Date()
+      stops: []
     };
   },
   methods: {

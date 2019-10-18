@@ -1,61 +1,90 @@
 <style scoped>
-/* switch */
-input:checked::before {
-  transform: translateX(10px);
-}
-
-input:not(:checked)::before {
-  right: 10px;
-  transform: translateX(-10px);
-}
-
-input::before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  top: -0.25rem;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.2),
-    0 -1px 3px 0 rgba(0, 0, 0, 0.1);
-  transition: transform 0.225s cubic-bezier(0.66, 0.04, 0, 1.005),
-    background-color 0.1s ease-in;
-  background: white;
-}
-
-input:checked::after {
-  background: mediumseagreen;
-}
-
-input::after {
-  content: "";
-  display: block;
-  width: 1rem;
-  height: 0.5rem;
-  background-color: grey;
-  border-radius: 5px;
-}
-
-input {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
+.onoffswitch {
+  margin-top: 6px;
   position: relative;
-  margin: 0 1rem;
-  padding-bottom: 0.3rem;
+  width: 43px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
-
-input:disabled::before {
-  background-color: darkgrey;
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #999999;
+  border-radius: 20px;
+}
+.onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 12px;
+  padding: 0;
+  line-height: 12px;
+  font-size: 12px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "";
+  padding-left: 10px;
+  background-color: #000;
+  color: #ffffff;
+}
+.onoffswitch-inner:after {
+  content: "";
+  padding-right: 10px;
+  background-color: #eeeeee;
+  color: #999999;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block;
+  width: 17px;
+  margin: -2.5px;
+  background: #ffffff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 27px;
+  border: 2px solid #999999;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
 }
 </style>
 
 <template>
-  <label class="switch">
-    <input type="checkbox" @change="checkboxChanged()" />
-  </label>
+  <div class="onoffswitch">
+    <input
+      type="checkbox"
+      name="onoffswitch"
+      class="onoffswitch-checkbox"
+      id="myonoffswitch"
+      checked
+    />
+    <label class="onoffswitch-label" for="myonoffswitch">
+      <span class="onoffswitch-inner"></span>
+      <span class="onoffswitch-switch"></span>
+    </label>
+  </div>
 </template>
 
 <script>

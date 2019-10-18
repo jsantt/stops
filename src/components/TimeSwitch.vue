@@ -1,6 +1,7 @@
 <style scoped>
 .onoffswitch {
   margin-top: 6px;
+  margin-bottom: 2px;
   position: relative;
   width: 43px;
   -webkit-user-select: none;
@@ -14,7 +15,7 @@
   display: block;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #999999;
+  border: 2px solid #000;
   border-radius: 20px;
 }
 .onoffswitch-inner {
@@ -46,8 +47,8 @@
 .onoffswitch-inner:after {
   content: "";
   padding-right: 10px;
-  background-color: #eeeeee;
-  color: #999999;
+  background-color: #fff;
+  color: #000;
   text-align: right;
 }
 .onoffswitch-switch {
@@ -59,7 +60,7 @@
   top: 0;
   bottom: 0;
   right: 27px;
-  border: 2px solid #999999;
+  border: 2px solid #000;
   border-radius: 20px;
   transition: all 0.3s ease-in 0s;
 }
@@ -74,6 +75,7 @@
 <template>
   <div class="onoffswitch">
     <input
+      @change="checkboxChanged()"
       type="checkbox"
       name="onoffswitch"
       class="onoffswitch-checkbox"

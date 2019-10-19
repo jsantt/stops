@@ -30,7 +30,7 @@ export default {
       const stops =
         this.favoriteStops === undefined
           ? await fetchNearest(location.lat, location.lon)
-          : await fetchStops(this.favoriteStops);
+          : await fetchStops(this.favoriteStops, location.lat, location.lon);
 
       this.$emit("nearest-stops", stops);
     }

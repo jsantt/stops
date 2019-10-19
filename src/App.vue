@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      realtime: false,
+      realtime: true,
       favoriteStops: [],
       favoriteTab: false
     };

@@ -1,15 +1,15 @@
 <template>
   <div>
     <Data v-on:nearest-stops="populateStops"></Data>
-    <div v-for="stop in stops">
+    <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
           :stop="stop"
-          :favorite="isFavorite(stop.node.place.gtfsId)"
+          :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
         <Departures
-          :departures="stop.node.place.stoptimesWithoutPatterns"
+          :departures="stop.stoptimesWithoutPatterns"
           :realtime="realtime"
         ></Departures>
       </section>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { geolocate } from "./Geolocate.js";
 import Data from "./Data.vue";
 import Departures from "./Departures.vue";
 import Stop from "./Stop.vue";

@@ -1,7 +1,6 @@
-<style scoped>
-</style>
+<style scoped></style>
 <template>
-  <div>{{time}}</div>
+  <div>{{ time }}</div>
 </template>
 
 <script>

@@ -3,7 +3,7 @@
   background-color: #f0f8ff;
 }
 </style>
-</style>
+
 <template>
   <div>
     <article class="secondary">
@@ -16,23 +16,26 @@
       <div>MÄÄRÄNPÄÄ</div>
     </article>
 
-    <article class="departure" v-for="time in departures">
+    <article
+      class="departure"
+      v-for="time in departures"
+      v-bind:key="time.scheduledArrival"
+    >
       <div v-bind:class="{ 'realtime-sign': time.realtime && realtime }"></div>
       <div>
-        <span
-          v-show="!realtime"
-          data-hook="time-schedule"
-        >{{ timeToString(toHourAndMinutes(time.scheduledDeparture)) }}</span>
+        <span v-show="!realtime" data-hook="time-schedule">
+          {{ timeToString(toHourAndMinutes(time.scheduledDeparture)) }}
+        </span>
 
         <span v-show="realtime">
           {{
-          toRealtime(
-          new Date(),
-          time.scheduledDeparture,
-          time.departureDelay,
-          time.realtime,
-          time.serviceDay
-          )
+            toRealtime(
+              new Date(),
+              time.scheduledDeparture,
+              time.departureDelay,
+              time.realtime,
+              time.serviceDay
+            )
           }}
         </span>
       </div>
@@ -48,7 +51,7 @@ export default {
   name: "Schedule",
   props: {
     departures: Array,
-    realtime: Boolean,
+    realtime: Boolean
   },
 
   methods: {
@@ -71,9 +74,7 @@ export default {
     },
 
     //TODO: over 12 pm leaving busses are shown as -1025, -1048 etc
-    toRealtime: function(timeNow, departure, delay, realtime, serviceDay) {
-      const day = this.dayNumber(serviceDay);
-      const today = timeNow.getDate();
+    toRealtime: function(timeNow, departure, delay) {
       const secondsNow = this.getSecondsSinceMidnight(timeNow);
 
       const scheduledDeparture = Math.floor((departure - secondsNow) / 60);

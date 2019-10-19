@@ -11,7 +11,20 @@ async function fetchNearest(lat, lon, stops) {
       })
     }
   );
-  return await response.json();
+  return await flattenResult(response);
+}
+
+async function flattenResult(response) {
+  const responseJson = await response.json();
+  const edges = responseJson.data.nearest.edges;
+  const flatten = [];
+
+  edges.forEach(stop => {
+    const newStop = { ...stop.node.place };
+    newStop.distance = stop.node.distance;
+    flatten.push(newStop);
+  });
+  return flatten;
 }
 
 function query(lat, lon, stops) {

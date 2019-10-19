@@ -1,26 +1,26 @@
 <template>
   <div>
-    <Data :favoriteStops="favoriteStops" v-on:nearest-stops="populateStops"></Data>
-    <div v-for="stop in stops">
+    <Data
+      :favoriteStops="favoriteStops"
+      v-on:nearest-stops="populateStops"
+    ></Data>
+    <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
           :stop="stop"
-          :favorite="isFavorite(stop.node.place.gtfsId)"
+          :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures :departures="stop.node.place.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
+        <Departures
+          :departures="stop.stoptimesWithoutPatterns"
+          :realtime="realtime"
+        ></Departures>
       </section>
-      <br />
-      <br />
-    </div>Vain lähistöllä olevat suosikit näkyvät
-    <br />
-    <br />Kaikki suosikit:
-    <div v-for="favorite in favoriteStops">{{favorite}}</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { geolocate } from "./Geolocate.js";
 import Data from "./Data.vue";
 import Departures from "./Departures.vue";
 import Stop from "./Stop.vue";

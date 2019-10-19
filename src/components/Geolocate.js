@@ -1,5 +1,5 @@
 function geolocate() {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         resolve({

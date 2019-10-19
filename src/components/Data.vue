@@ -1,6 +1,8 @@
-<template></template>
-
+<template>
+  <span></span>
+</template>
 <script>
+import { fetchStops } from "./FetchStops.js";
 import { fetchNearest } from "./FetchNearest.js";
 import { geolocate } from "./Geolocate.js";
 
@@ -25,8 +27,10 @@ export default {
   methods: {
     locateAndfetch: async function() {
       const location = await geolocate();
-      const result = await fetchNearest(location.lat, location.lon, this.favoriteStops);
-      const stops = result.data.nearest.edges;
+      const stops =
+        this.favoriteStops === undefined
+          ? await fetchNearest(location.lat, location.lon)
+          : await fetchStops(this.favoriteStops);
 
       this.$emit("nearest-stops", stops);
     }

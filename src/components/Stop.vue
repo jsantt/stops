@@ -6,12 +6,10 @@ header {
 <template>
   <header>
     <h2>
-      {{ stop.node.place.name }}
-      <span
-        class="secondary"
-      >({{ stop.node.place.code }}) {{ stop.node.place.desc }}</span>
+      {{ stop.name }}
+      <span class="secondary">({{ stop.code }}) {{ stop.desc }}</span>
     </h2>
-    <div>{{ stop.node.distance }}m</div>
+    <div>{{ stop.distance }}m</div>
     <div>
       <Star :selected="favorite" v-on:toggle="toggleFavorite"></Star>
     </div>
@@ -33,7 +31,7 @@ export default {
   methods: {
     toggleFavorite: function(selected) {
       this.$emit("toggle-favorite", {
-        stopId: this.stop.node.place.gtfsId,
+        stopId: this.stop.gtfsId,
         selected: selected
       });
     }

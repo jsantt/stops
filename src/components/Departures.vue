@@ -1,7 +1,17 @@
 <style scoped>
-.departure {
-  min-height: 3rem;
+article {
+  display: grid;
+  grid-template-columns: 0.75rem 4rem 3.5rem auto 2rem;
 }
+.header,
+.departure {
+  padding: 0.25rem 0;
+}
+.secondary {
+  color: var(--color-secondary);
+  font-size: 18px;
+}
+
 .departure:nth-child(even) {
   background-color: #f0f8ff;
 }
@@ -12,12 +22,53 @@
 .line {
   font-size: 24px;
 }
+.realtime-sign {
+  margin: auto 0;
+  color: green;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: green;
+  cursor: pointer;
+  box-shadow: 0 0 0 lightgreen;
+  animation: pulse 2s infinite;
+}
+.realtime-sign:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(44, 204, 52, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(44, 204, 44, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(44, 204, 57, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(44, 204, 65, 0.4);
+    box-shadow: 0 0 0 0 rgba(44, 204, 52, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(57, 204, 44, 0);
+    box-shadow: 0 0 0 10px rgba(44, 204, 44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(63, 204, 44, 0);
+    box-shadow: 0 0 0 0 rgba(57, 204, 44, 0);
+  }
+}
 </style>
 
 <template>
   <div>
     <div v-if="departures.length < 1" class="no-departures">&mdash;</div>
-    <article v-if="departures.length > 0" class="secondary">
+    <article v-if="departures.length > 0" class="secondary header">
       <div></div>
       <div>
         <span v-show="realtime">MIN</span>
@@ -36,6 +87,10 @@
         >{{ timeToString(toHourAndMinutes(time.scheduledDeparture)) }}</span>
 
         <span v-show="realtime">
+          <!--span>showEarlierTime</span>
+          <span v-if="aheadschedule"></span>
+          <span>showLaterTime</span>
+          <span v-if="!aheadShedule"></span-->
           {{
           toRealtime(
           new Date(),

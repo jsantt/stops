@@ -1,16 +1,41 @@
 <style scoped>
 header {
   background-color: #faebd7;
+  display: grid;
+  grid-template-columns: auto 3rem 2rem;
+  align-items: baseline;
+  padding: 0 0.25rem;
+}
+
+.name {
+  font-size: 24px;
+  padding-right: 0.5rem;
+}
+header > div {
+  margin: auto 0;
+  padding: 0.25rem;
+}
+
+.secondary {
+  color: var(--color-secondary);
+  font-size: 20px;
+}
+.favorite,
+.distance {
+  margin-left: auto;
 }
 </style>
 <template>
   <header>
-    <h2>
-      {{ stop.name }}
-      <span class="secondary">({{ stop.code }}) {{ stop.desc }}</span>
-    </h2>
-    <div>{{ stop.distance }}m</div>
     <div>
+      <span class="name">{{ stop.name }}</span>
+      <wbr />
+
+      <span class="secondary">{{ stop.desc }}</span>
+    </div>
+
+    <div class="distance secondary">{{ stop.distance }}m</div>
+    <div class="favorite">
       <Star :selected="favorite" v-on:toggle="toggleFavorite"></Star>
     </div>
   </header>

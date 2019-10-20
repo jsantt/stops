@@ -8,6 +8,10 @@
 .no-departures {
   text-align: center;
 }
+.time,
+.line {
+  font-size: 24px;
+}
 </style>
 
 <template>
@@ -25,7 +29,7 @@
 
     <article class="departure" v-for="time in departures" v-bind:key="time.scheduledArrival">
       <div v-bind:class="{ 'realtime-sign': time.realtime && realtime }"></div>
-      <div>
+      <div class="time">
         <span
           v-show="!realtime"
           data-hook="time-schedule"
@@ -43,7 +47,7 @@
           }}
         </span>
       </div>
-      <div>{{ time.trip.routeShortName }}</div>
+      <div class="line">{{ time.trip.routeShortName }}</div>
       <div>{{ time.headsign }}</div>
       <div></div>
     </article>

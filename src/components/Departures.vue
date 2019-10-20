@@ -3,6 +3,9 @@ article {
   display: grid;
   grid-template-columns: 0.75rem 4rem 3.5rem auto 2rem;
 }
+.header {
+  font-size: 16px;
+}
 .header,
 .departure {
   padding: 0.25rem 0;
@@ -23,7 +26,7 @@ article {
   font-size: 24px;
 }
 .realtime-sign {
-  margin: auto 0;
+  margin: auto;
   color: green;
   display: inline-block;
   width: 7px;

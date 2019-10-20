@@ -24,6 +24,9 @@ header > div {
 .distance {
   margin-left: auto;
 }
+.code {
+  font-size: 17px;
+}
 </style>
 <template>
   <header>
@@ -31,7 +34,10 @@ header > div {
       <span class="name">{{ stop.name }}</span>
       <wbr />
 
-      <span class="secondary">{{ stop.desc }}</span>
+      <span class="secondary">
+        <span class="code">{{stop.code}}</span>
+        {{ stop.desc }}
+      </span>
     </div>
 
     <div class="distance secondary">{{ stop.distance }}m</div>

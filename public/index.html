@@ -78,7 +78,11 @@
       *=GPS-signaaliin perusteella laskettu arvio
     </footer>
     <script type="module">
-      document.querySelector(".bus-icon").classList.add("bus-icon--loaded");
+      window.addEventListener("DOMContentLoaded", event => {
+        setTimeout(() => {
+          document.querySelector(".bus-icon").classList.add("bus-icon--loaded");
+        }, 1500);
+      });
     </script>
     <noscript>
       <strong

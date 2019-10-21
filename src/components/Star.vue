@@ -1,6 +1,39 @@
+<style scoped>
+svg {
+  transition: all ease-out 0.1s;
+}
+
+svg.animate {
+  animation: stretch-bounce 0.5s ease-in-out;
+}
+@keyframes stretch-bounce {
+  0% {
+    -webkit-transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(1.5);
+  }
+  50% {
+    -webkit-transform: scale(0.95);
+  }
+  75% {
+    -webkit-transform: scale(1.05);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+</style>
+
 <template>
   <a v-on:click="toggle()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+    <svg
+      v-bind:class="{ animate : selected }"
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+    >
       <path
         v-show="!selected"
         fill="#a9a9a9"
@@ -28,11 +61,6 @@ export default {
     toggle: function() {
       this.$emit("toggle", !this.selected);
     }
-  },
-  data() {
-    return {
-      //_selected: false
-    };
   }
 };
 </script>

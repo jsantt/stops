@@ -35,7 +35,7 @@ header > div {
       <wbr />
 
       <span class="secondary">
-        <span class="code">{{stop.code}}</span>
+        <span class="code">{{ stop.code }}</span>
         {{ stop.desc }}
       </span>
     </div>

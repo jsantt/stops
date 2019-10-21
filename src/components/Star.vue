@@ -11,7 +11,7 @@ svg.animate {
     -webkit-transform: scale(1);
   }
   25% {
-    -webkit-transform: scale(1.5);
+    -webkit-transform: scale(1.3);
   }
   50% {
     -webkit-transform: scale(0.95);

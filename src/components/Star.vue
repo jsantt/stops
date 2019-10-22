@@ -28,7 +28,7 @@ svg.animate {
 <template>
   <a v-on:click="toggle()">
     <svg
-      v-bind:class="{ animate : selected }"
+      v-bind:class="{ animate: selected }"
       xmlns="http://www.w3.org/2000/svg"
       width="28"
       height="28"

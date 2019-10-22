@@ -26,13 +26,19 @@ export default {
   },
   methods: {
     locateAndfetch: async function() {
-      const location = await geolocate();
-      const stops =
-        this.favoriteStops === undefined
-          ? await fetchNearest(location.lat, location.lon)
-          : await fetchStops(this.favoriteStops, location.lat, location.lon);
+      try {
+        const location = await geolocate();
+        const stops =
+          this.favoriteStops === undefined
+            ? await fetchNearest(location.lat, location.lon)
+            : await fetchStops(this.favoriteStops, location.lat, location.lon);
 
-      this.$emit("nearest-stops", stops);
+        this.$emit("nearest-stops", stops);
+      } catch (exception) {
+        console.log(exception);
+        alert(exception);
+        this.$emit("location-error", exception);
+      }
     }
   }
 };

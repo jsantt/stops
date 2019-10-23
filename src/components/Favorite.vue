@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Data :favoriteStops="favoriteStops" v-on:nearest-stops="populateStops"></Data>
+    <Data
+      :favoriteStops="favoriteStops"
+      v-on:nearest-stops="populateStops"
+    ></Data>
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
@@ -8,7 +11,10 @@
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures :departures="stop.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
+        <Departures
+          :departures="stop.stoptimesWithoutPatterns"
+          :realtime="realtime"
+        ></Departures>
       </section>
     </div>
   </div>

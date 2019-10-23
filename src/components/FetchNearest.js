@@ -1,3 +1,5 @@
+import { distance, formatDistance } from "./calculateDistance.js";
+
 async function fetchNearest(lat, lon, stops) {
   const response = await window.fetch(
     "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
@@ -11,20 +13,27 @@ async function fetchNearest(lat, lon, stops) {
       })
     }
   );
-  return await flattenResult(response);
+  return await flattenResult(response, lat, lon);
 }
 
-async function flattenResult(response) {
+async function flattenResult(response, lat, lon) {
   const responseJson = await response.json();
   const edges = responseJson.data.nearest.edges;
   const flatten = [];
 
   edges.forEach(stop => {
     const newStop = { ...stop.node.place };
-    newStop.distance = stop.node.distance;
+
+    newStop.distance = formatDistance(
+      distance(lat, lon, stop.node.place.lat, stop.node.place.lon)
+    );
+
     flatten.push(newStop);
   });
-  return flatten;
+
+  const sorted = flatten.sort((a, b) => (a.distance > b.distance ? 1 : -1));
+
+  return sorted;
 }
 
 function query(lat, lon, stops) {

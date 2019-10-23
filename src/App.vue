@@ -32,7 +32,7 @@ export default {
     Navigation,
     Nearest
   },
-  data() {
+  data: function() {
     return {
       realtime: true,
       favoriteStops: [],
@@ -45,6 +45,7 @@ export default {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
     } else {
       this.favoriteStops = JSON.parse(favoritesString);
+      console.log("parsed" + this.favoriteStops);
     }
   },
   methods: {

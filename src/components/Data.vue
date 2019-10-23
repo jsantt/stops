@@ -2,7 +2,7 @@
   <span></span>
 </template>
 <script>
-import { fetchStops } from "./FetchStops.js";
+import { fetchFavorites } from "./FetchFavorites.js";
 import { fetchNearest } from "./FetchNearest.js";
 import { geolocate } from "./Geolocate.js";
 
@@ -11,8 +11,8 @@ export default {
   props: {
     favoriteStops: Array
   },
-  mounted: async function() {
-    document.addEventListener("visibilitychange", async () => {
+  mounted: function() {
+    document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") {
         this.locateAndfetch();
       }
@@ -20,7 +20,7 @@ export default {
 
     this.locateAndfetch();
 
-    setInterval(async () => {
+    setInterval(() => {
       this.locateAndfetch();
     }, 15 * 1000);
   },
@@ -28,10 +28,16 @@ export default {
     locateAndfetch: async function() {
       try {
         const location = await geolocate();
+        console.log("hip");
+        console.log(this.favoriteStops);
         const stops =
           this.favoriteStops === undefined
             ? await fetchNearest(location.lat, location.lon)
-            : await fetchStops(this.favoriteStops, location.lat, location.lon);
+            : await fetchFavorites(
+                this.favoriteStops,
+                location.lat,
+                location.lon
+              );
 
         this.$emit("nearest-stops", stops);
       } catch (exception) {

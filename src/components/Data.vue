@@ -22,7 +22,7 @@ export default {
 
     setInterval(async () => {
       this.locateAndfetch();
-    }, 20 * 1000);
+    }, 15 * 1000);
   },
   methods: {
     locateAndfetch: async function() {

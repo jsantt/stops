@@ -40,7 +40,7 @@ header > div {
       </span>
     </div>
 
-    <div class="distance secondary">{{ stop.distance }}m</div>
+    <div class="distance secondary">{{ formatDistance(stop.distance) }}</div>
     <div class="favorite">
       <Star :selected="favorite" v-on:toggle="toggleFavorite"></Star>
     </div>
@@ -65,6 +65,14 @@ export default {
         stopId: this.stop.gtfsId,
         selected: selected
       });
+    },
+    formatDistance: function(distance) {
+      if (distance < 1000) {
+        return `${distance}m`;
+      }
+
+      const kilometres = Math.round(distance / 100) / 10;
+      return `${kilometres}km`;
     }
   }
 };

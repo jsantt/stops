@@ -25,7 +25,7 @@ function geolocate() {
               reject(new Error("Tuntematon virhe paikannuksessa"));
           }
         },
-        { maximumAge: 10000 }
+        { maximumAge: 0 }
       );
     } else {
       reject(new Error("Käyttämäsi selain ei tue paikannusta"));

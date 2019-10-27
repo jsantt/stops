@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
-    <meta name="keywords" content="pysäkit, pysäkkiaikataulu, lähdöt, hsl" />
+    <meta
+      name="keywords"
+      content="hsl, pysäkit, hsl pysäkit, lähin pysäkki, pysäkkiaikataulu, lähdöt, lähimmät pysäkit, espoo, helsinki, vantaa"
+    />
     <meta name="author" content="Jani Säntti" />
     <meta
       name="description"
@@ -50,8 +53,14 @@
         height: 5rem;
         padding: 1rem;
       }
+
+      .version {
+        margin-top: 4rem;
+        color: var(--color-secondary);
+        font-size: 16px;
+      }
     </style>
-    <!-- Loading web fonts asynchronoysly, see-->
+    <!-- Loading web fonts asynchronoysly-->
     <script>
       WebFontConfig = {
         google: {
@@ -78,7 +87,7 @@
     <footer>
       *=GPS-signaaliin perusteella laskettu arvio
 
-      <div>
+      <div class="version">
         versio 0.1
       </div>
     </footer>

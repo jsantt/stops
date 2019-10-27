@@ -41,6 +41,9 @@ export default {
       stops: []
     };
   },
+  mounted: function(){
+    console.log("mounted favorite");
+  },
   methods: {
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);

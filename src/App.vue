@@ -45,7 +45,6 @@ export default {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
     } else {
       this.favoriteStops = JSON.parse(favoritesString);
-      console.log("parsed" + this.favoriteStops);
     }
   },
   methods: {

@@ -28,8 +28,7 @@ export default {
     locateAndfetch: async function() {
       try {
         const location = await geolocate();
-        console.log("hip");
-        console.log(this.favoriteStops);
+
         const stops =
           this.favoriteStops === undefined
             ? await fetchNearest(location.lat, location.lon)

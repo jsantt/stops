@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Data
+    <!--Data
       :favoriteStops="favoriteStops"
       v-on:nearest-stops="populateStops"
-    ></Data>
+    ></Data-->
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Data from "./Data.vue";
+/*import Data from "./Data.vue";*/
 import Departures from "./Departures.vue";
 import Stop from "./Stop.vue";
 
@@ -29,25 +29,26 @@ export default {
   name: "Favorite",
   props: {
     favoriteStops: Array,
-    realtime: Boolean
+    realtime: Boolean,
+    stops: Array
   },
   components: {
-    Data,
+    /*Data,*/
     Departures,
     Stop
   },
   data() {
     return {
-      stops: []
+      /*stops: []*/
     };
   },
   methods: {
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
     },
-    populateStops(result) {
+    /*populateStops(result) {
       this.stops = result;
-    },
+    },*/
     toggleFavorite(details) {
       this.$emit("toggle-favorite", details);
     }

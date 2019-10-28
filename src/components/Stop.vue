@@ -1,6 +1,6 @@
 <style scoped>
 header {
-  background-color: #faebd7;
+  background-color: var(--color-main);
   display: grid;
   grid-template-columns: auto 3rem 2rem;
   align-items: baseline;

@@ -4,6 +4,7 @@
       ref="data"
       :fetchFavorites="favoriteTab"
       :favoriteStops="favoriteStops"
+      v-on:location-error="onLocationError"
       v-on:nearest-stops="populateStops"
     ></Data>
     <Nearest
@@ -26,8 +27,18 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification v-if="!locationSuccesful" v-on:open-locate-prompt="openLocatePrompt"></Notification>
+      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
+        <div slot="header">{{ locationError.header }}</div>
+        <div slot="body">{{ locationError.body }}</div>
+        <div slot="button">{{ locationError.button }}</div>
+      </Notification>
     </Navigation>
+    <footer>
+      *=GPS-signaaliin perusteella laskettu arvio
+      <div class="version">
+        <Version></Version>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -37,6 +48,7 @@ import Favorite from "./components/Favorite.vue";
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
+import Version from "./components/Version.vue";
 
 export default {
   name: "app",
@@ -45,13 +57,14 @@ export default {
     Favorite,
     Navigation,
     Nearest,
-    Notification
+    Notification,
+    Version
   },
   data: function() {
     return {
       favoriteStops: [],
       favoriteTab: false,
-      locationSuccesful: true,
+      locationError: undefined,
       realtime: true,
       stops: []
     };
@@ -60,10 +73,10 @@ export default {
     const favoritesString = window.localStorage.getItem("favoriteStops");
     if (favoritesString === null) {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
-      this.locationSuccesful = false;
+      this.setAllowLocationNotification();
     } else {
       this.favoriteStops = JSON.parse(favoritesString);
-      this.locationSuccesful = false;
+      this.openLocatePrompt();
     }
   },
   methods: {
@@ -101,10 +114,21 @@ export default {
     },
     populateStops: function(result) {
       this.stops = result;
-      this.locationSuccesful = true;
+      this.locationError = undefined;
+    },
+    onLocationError: function(error) {
+      this.locationError = error;
     },
     showRealtime: function() {
       this.realtime = !this.realtime;
+    },
+    setAllowLocationNotification: function() {
+      this.locationError = {
+        header: "Tarvitsemme sijaintisi",
+        body:
+          "Jotta voimme näyttää lähimmät pysäkit. Sijaintiasi ei tallenneta mihinkään",
+        button: "salli sijainti"
+      };
     }
   }
 };

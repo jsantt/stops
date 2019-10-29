@@ -41,7 +41,6 @@ export default {
 
         this.$emit("nearest-stops", stops);
       } catch (exception) {
-        alert(exception);
         this.$emit("location-error", exception);
       }
     }

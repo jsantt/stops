@@ -53,15 +53,14 @@ button {
           />
         </svg>
       </div>
-      Tarvitsemme sijaintisi
+      <slot name="header"></slot>
     </h2>
     <main>
-      Jotta voimme näyttää lähimmät pysäkit. Sijaintiasi ei tallenneta
-      mihinkään.
+      <slot name="body"></slot>
     </main>
     <footer>
       <button v-on:click="$emit('open-locate-prompt')">
-        Jatka sallimaan sijainti
+        <slot name="button"></slot>
       </button>
     </footer>
   </div>

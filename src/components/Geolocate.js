@@ -11,21 +11,35 @@ function geolocate() {
         error => {
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              reject(new Error("Salli paikannus käyttääksesi palvelua"));
+              reject({
+                header: "Salli paikannus",
+                body: "Salli paikannus käyttääksesi palvelua",
+                button: "ok"
+              });
               break;
             case error.POSITION_UNAVAILABLE:
-              reject(new Error("Lokaatiota ei saatavilla"));
+              reject({
+                header: "Lokaatiota ei saatavilla",
+                body: "Kokeile uudestaan",
+                button: "ok"
+              });
               break;
             case error.TIMEOUT:
-              reject(
-                new Error("Paikantaminen kesti liian kauan ja epäonnistui")
-              );
+              reject({
+                header: "Aikakatkaisu",
+                body: "Lokaatiota ei löytynyt",
+                button: "ok"
+              });
               break;
             case error.UNKNOWN_ERROR:
-              reject(new Error("Tuntematon virhe paikannuksessa"));
+              reject({
+                header: "Tuntematon virhe",
+                body: "Tuntematon virhe, kokeile uudestaan",
+                button: "ok"
+              });
           }
         },
-        { maximumAge: 0 }
+        { maximumAge: 0, enableHighAccuracy: true, timeout: 30000 }
       );
     } else {
       reject(new Error("Käyttämäsi selain ei tue paikannusta"));

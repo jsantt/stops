@@ -23,6 +23,7 @@
     ></Favorite>
 
     <Navigation
+      ref="navigation"
       v-on:time-switch-clicked="showRealtime"
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
@@ -113,7 +114,7 @@ export default {
       );
     },
     populateStops: function(result) {
-      console.log("updated");
+      this.$refs.navigation.dataUpdated();
       this.stops = result;
       this.locationError = undefined;
     },

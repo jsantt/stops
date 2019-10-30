@@ -1,4 +1,20 @@
 <style scoped>
+.above-notification {
+  position: fixed;
+  /*top: -1.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);*/
+  top: 0;
+  right: 0;
+  background-color: #eee;
+  padding: 0.15rem 1rem;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out;
+}
+.above-notification--hidden {
+  opacity: 0;
+}
+
 .bottom-sheet {
   box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
   position: fixed;
@@ -9,7 +25,6 @@
 
   max-width: var(--main-width);
 }
-
 nav {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -31,19 +46,17 @@ nav {
 
 <template>
   <div class="bottom-sheet">
+    <div
+      v-bind:class="{ 'above-notification--hidden': !showUpdatedText }"
+      class="above-notification"
+    >päivitetty</div>
     <slot></slot>
     <nav>
       <div class="tab">
-        <TimeSwitch
-          v-on:time-switch-clicked="$emit('time-switch-clicked')"
-        ></TimeSwitch>
+        <TimeSwitch v-on:time-switch-clicked="$emit('time-switch-clicked')"></TimeSwitch>
         <Clock></Clock>
       </div>
-      <div
-        class="tab"
-        :selected="selectedTab === 'nearby'"
-        v-on:click="clickNearby"
-      >
+      <div class="tab" :selected="selectedTab === 'nearby'" v-on:click="clickNearby">
         <svg
           class="icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -57,17 +70,8 @@ nav {
         </svg>
         <div>lähellä</div>
       </div>
-      <div
-        class="tab"
-        :selected="selectedTab === 'favorite'"
-        v-on:click="clickFavorite"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
+      <div class="tab" :selected="selectedTab === 'favorite'" v-on:click="clickFavorite">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
           />
@@ -96,7 +100,8 @@ export default {
         FAVORITE: "favorite",
         STORAGE_NAME: "selectedTab"
       },
-      selectedTab: "nearby"
+      selectedTab: "nearby",
+      showUpdatedText: false
     };
   },
   mounted: function() {
@@ -113,6 +118,12 @@ export default {
     clickFavorite: function() {
       this.$emit(this.TAB.FAVORITE);
       this.setSelectedTab(this.TAB.FAVORITE);
+    },
+    dataUpdated: function() {
+      this.showUpdatedText = true;
+      setTimeout(() => {
+        this.showUpdatedText = false;
+      }, 3000);
     },
     getSelectedTab: function() {
       return window.localStorage.getItem(this.TAB.STORAGE_NAME);

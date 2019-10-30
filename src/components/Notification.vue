@@ -69,8 +69,10 @@ button {
 <script>
 export default {
   name: "Notification",
-  methods: {
-    allowLocation: function() {}
+  data: function() {
+    return {
+      showUpdatedText: false
+    };
   }
 };
 </script>

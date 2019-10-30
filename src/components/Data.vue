@@ -12,19 +12,31 @@ export default {
     favoriteStops: Array,
     fetchFavorites: Boolean
   },
+  data: function() {
+    return {
+      pollingHandle: undefined
+    };
+  },
   methods: {
     startPolling: function() {
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible") {
-          this.locateAndfetch();
-        }
-      });
+      this.stopPolling();
+
+      document.addEventListener("visibilitychange", this.visibilityChange);
 
       this.locateAndfetch();
 
-      setInterval(() => {
+      this.pollingHandle = setInterval(this.locateAndfetch, 15 * 1000);
+    },
+    stopPolling: function() {
+      if (this.pollingHandle !== undefined) {
+        clearInterval(this.pollingHandle);
+        document.removeEventListener("visibilitychange", this.visibilityChange);
+      }
+    },
+    visibilityChange: function() {
+      if (document.visibilityState === "visible") {
         this.locateAndfetch();
-      }, 15 * 1000);
+      }
     },
     locateAndfetch: async function() {
       try {

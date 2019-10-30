@@ -97,11 +97,11 @@ export default {
     },
     nearbyClicked: function() {
       this.favoriteTab = false;
-      this.$refs.data.locateAndfetch();
+      this.$refs.data.startPolling();
     },
     favoriteClicked: function() {
       this.favoriteTab = true;
-      this.$refs.data.locateAndfetch();
+      this.$refs.data.startPolling();
     },
     removeFavorite: function(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
@@ -113,6 +113,7 @@ export default {
       );
     },
     populateStops: function(result) {
+      console.log("updated");
       this.stops = result;
       this.locationError = undefined;
     },

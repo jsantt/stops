@@ -42,16 +42,15 @@ export default {
       try {
         const location = await geolocate();
 
-        const stops =
-          this.fetchFavorites === true
-            ? await fetchFavorites(
-                this.favoriteStops,
-                location.lat,
-                location.lon
-              )
-            : await fetchNearest(location.lat, location.lon);
+        const nearestData = await fetchNearest(location.lat, location.lon);
+        this.$emit("nearest-stops", nearestData);
 
-        this.$emit("nearest-stops", stops);
+        const favoriteData = await fetchFavorites(
+          this.favoriteStops,
+          location.lat,
+          location.lon
+        );
+        this.$emit("favorite-stops", favoriteData);
       } catch (exception) {
         this.$emit("location-error", exception);
       }

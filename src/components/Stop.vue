@@ -7,6 +7,10 @@ header {
   padding: 0 0.25rem;
 }
 
+header.favorite {
+  background-color: #d7fae1;
+}
+
 .name {
   font-size: 24px;
   padding-right: 0.5rem;
@@ -29,7 +33,7 @@ header > div {
 }
 </style>
 <template>
-  <header>
+  <header v-bind:class="{'favorite': isFavorite}">
     <div>
       <span class="name">{{ stop.name }}</span>
       <wbr />
@@ -54,6 +58,7 @@ export default {
   name: "Stop",
   props: {
     favorite: Boolean,
+    isFavorite: Boolean,
     stop: Object
   },
   components: {

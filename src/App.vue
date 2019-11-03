@@ -1,3 +1,20 @@
+<style scoped>
+.swipe {
+  display: grid;
+  grid-template-columns: repeat(2, 100%);
+  will-change: transform;
+  align-content: center;
+  overflow-x: auto;
+  scroll-snap-coordinate: 0 0;
+  scroll-snap-points-x: repeat(100%);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: hidden;
+}
+.swipe-page {
+  scroll-snap-align: start;
+}
+</style>
 <template>
   <div id="app">
     <Data
@@ -6,21 +23,24 @@
       :favoriteStops="favoriteStops"
       v-on:location-error="onLocationError"
       v-on:nearest-stops="populateStops"
+      v-on:favorite-stops="populateFavorites"
     ></Data>
-    <Nearest
-      v-if="!favoriteTab"
-      :favoriteStops="favoriteStops"
-      :realtime="realtime"
-      :stops="stops"
-      v-on:toggle-favorite="toggleFavorite"
-    ></Nearest>
-    <Favorite
-      v-if="favoriteTab"
-      :favoriteStops="favoriteStops"
-      :realtime="realtime"
-      :stops="stops"
-      v-on:toggle-favorite="toggleFavorite"
-    ></Favorite>
+    <div ref="swipe" class="swipe">
+      <Nearest
+        class="swipe-page"
+        :favoriteStops="favoriteStops"
+        :realtime="realtime"
+        :stops="nearestData"
+        v-on:toggle-favorite="toggleFavorite"
+      ></Nearest>
+      <Favorite
+        class="swipe-page"
+        :favoriteStops="favoriteStops"
+        :realtime="realtime"
+        :stops="favoriteData"
+        v-on:toggle-favorite="toggleFavorite"
+      ></Favorite>
+    </div>
 
     <Navigation
       ref="navigation"
@@ -67,7 +87,8 @@ export default {
       favoriteTab: false,
       locationError: undefined,
       realtime: true,
-      stops: []
+      nearestData: [],
+      favoriteData: []
     };
   },
   mounted: function() {
@@ -79,8 +100,27 @@ export default {
       this.favoriteStops = JSON.parse(favoritesString);
       this.openLocatePrompt();
     }
+
+    document
+      .querySelector(".swipe")
+      .addEventListener("touchend", this.swipeListener);
   },
   methods: {
+    /**
+     * Listen until swipe ends and select nearest / favorite tab
+     */
+    swipeListener: function() {
+      setTimeout(() => {
+        let position = document.querySelector(".swipe").scrollLeft;
+        if (position < 200) {
+          this.favoriteTab = false;
+          this.$refs.navigation.setSelectedTab("nearby");
+        } else {
+          this.favoriteTab = true;
+          this.$refs.navigation.setSelectedTab("favorite");
+        }
+      }, 500);
+    },
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
     },
@@ -97,10 +137,12 @@ export default {
       );
     },
     nearbyClicked: function() {
+      this.$refs.swipe.scrollTo(0, 0);
       this.favoriteTab = false;
       this.$refs.data.startPolling();
     },
     favoriteClicked: function() {
+      this.$refs.swipe.scrollTo(this.$refs.swipe.scrollWidth, 0);
       this.favoriteTab = true;
       this.$refs.data.startPolling();
     },
@@ -114,10 +156,15 @@ export default {
       );
     },
     populateStops: function(result) {
-      this.$refs.navigation.dataUpdated();
-      this.stops = result;
+      this.nearestData = result;
       this.locationError = undefined;
     },
+    populateFavorites: function(result) {
+      this.$refs.navigation.dataUpdated();
+      this.favoriteData = result;
+      this.locationError = undefined;
+    },
+
     onLocationError: function(error) {
       this.locationError = error;
     },

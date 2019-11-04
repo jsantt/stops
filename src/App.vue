@@ -48,7 +48,10 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
+      <Notification
+        v-if="locationError !== undefined"
+        v-on:open-locate-prompt="openLocatePrompt"
+      >
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
         <div slot="button">{{ locationError.button }}</div>
@@ -112,14 +115,12 @@ export default {
     swipeListener: function() {
       setTimeout(() => {
         let position = document.querySelector(".swipe").scrollLeft;
-        if (position < 200) {
-          this.favoriteTab = false;
-          this.$refs.navigation.setSelectedTab("nearby");
-        } else {
-          this.favoriteTab = true;
-          this.$refs.navigation.setSelectedTab("favorite");
+        if (position < 200 && this.favoriteTab === true) {
+          this.nearbyClicked();
+        } else if (position >= 200 && this.favoriteTab === false) {
+          this.favoriteClicked();
         }
-      }, 500);
+      }, 800);
     },
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
@@ -138,11 +139,13 @@ export default {
     },
     nearbyClicked: function() {
       this.$refs.swipe.scrollTo(0, 0);
+      document.querySelector("html").scrollTop = 0;
       this.favoriteTab = false;
       this.$refs.data.startPolling();
     },
     favoriteClicked: function() {
       this.$refs.swipe.scrollTo(this.$refs.swipe.scrollWidth, 0);
+      document.querySelector("html").scrollTop = 0;
       this.favoriteTab = true;
       this.$refs.data.startPolling();
     },

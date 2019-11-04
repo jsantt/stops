@@ -33,7 +33,7 @@ header > div {
 }
 </style>
 <template>
-  <header v-bind:class="{'favorite': isFavorite}">
+  <header v-bind:class="{ favorite: isFavorite }">
     <div>
       <span class="name">{{ stop.name }}</span>
       <wbr />

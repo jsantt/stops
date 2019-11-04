@@ -12,7 +12,10 @@
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures :departures="stop.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
+        <Departures
+          :departures="stop.stoptimesWithoutPatterns"
+          :realtime="realtime"
+        ></Departures>
       </section>
     </div>
   </div>

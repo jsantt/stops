@@ -125,6 +125,8 @@ export default {
     const tab = this.getSelectedTab();
     if (tab === this.TAB.FAVORITE) {
       this.clickFavorite();
+    } else {
+      this.clickNearby();
     }
   },
   methods: {

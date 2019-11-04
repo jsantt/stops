@@ -8,7 +8,7 @@ article {
 }
 .header,
 .departure {
-  padding: 0.25rem 0;
+  padding: 0.45rem 0;
 }
 .secondary {
   color: var(--color-secondary);
@@ -23,8 +23,9 @@ article {
 }
 .time,
 .line {
-  font-size: 24px;
+  font-size: 20px;
 }
+
 .realtime-sign {
   margin: auto;
   color: green;
@@ -81,16 +82,14 @@ article {
       <div>MÄÄRÄNPÄÄ</div>
     </article>
 
-    <article
-      class="departure"
-      v-for="time in departures"
-      v-bind:key="time.scheduledArrival"
-    >
+    <article class="departure" v-for="time in departures" v-bind:key="time.scheduledArrival">
       <div v-bind:class="{ 'realtime-sign': time.realtime && realtime }"></div>
       <div class="time">
-        <span v-show="!realtime" data-hook="time-schedule">{{
+        <span v-show="!realtime" data-hook="time-schedule">
+          {{
           timeToString(toHourAndMinutes(time.scheduledDeparture))
-        }}</span>
+          }}
+        </span>
 
         <span v-show="realtime">
           <!--span>showEarlierTime</span>
@@ -98,13 +97,13 @@ article {
           <span>showLaterTime</span>
           <span v-if="!aheadShedule"></span-->
           {{
-            toRealtime(
-              new Date(),
-              time.scheduledDeparture,
-              time.departureDelay,
-              time.realtime,
-              time.serviceDay
-            )
+          toRealtime(
+          new Date(),
+          time.scheduledDeparture,
+          time.departureDelay,
+          time.realtime,
+          time.serviceDay
+          )
           }}
         </span>
       </div>

@@ -1,9 +1,11 @@
+<style scoped>
+.add-favorite {
+  margin: 2rem 0;
+  text-align: center;
+}
+</style>
 <template>
   <div>
-    <!--Data
-      :favoriteStops="favoriteStops"
-      v-on:nearest-stops="populateStops"
-    ></Data-->
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
@@ -18,11 +20,11 @@
         ></Departures>
       </section>
     </div>
+    <div class="add-favorite">Lisää suosikkisi lähellä näkymässä</div>
   </div>
 </template>
 
 <script>
-/*import Data from "./Data.vue";*/
 import Departures from "./Departures.vue";
 import Stop from "./Stop.vue";
 
@@ -34,22 +36,13 @@ export default {
     stops: Array
   },
   components: {
-    /*Data,*/
     Departures,
     Stop
-  },
-  data() {
-    return {
-      /*stops: []*/
-    };
   },
   methods: {
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
     },
-    /*populateStops(result) {
-      this.stops = result;
-    },*/
     toggleFavorite(details) {
       this.$emit("toggle-favorite", details);
     }

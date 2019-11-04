@@ -117,8 +117,10 @@ export default {
         let position = document.querySelector(".swipe").scrollLeft;
         if (position < 200 && this.favoriteTab === true) {
           this.nearbyClicked();
+          this.$refs.navigation.setSelectedTab("nearby");
         } else if (position >= 200 && this.favoriteTab === false) {
           this.favoriteClicked();
+          this.$refs.navigation.setSelectedTab("favorite");
         }
       }, 800);
     },

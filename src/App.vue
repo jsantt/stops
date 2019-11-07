@@ -24,6 +24,9 @@
       v-on:location-error="onLocationError"
       v-on:nearest-stops="populateStops"
       v-on:favorite-stops="populateFavorites"
+      v-on:finding-location="updateStatus('paikannetaan')"
+      v-on:fetching-favorites="updateStatus('haetaan *')"
+      v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
     <div ref="swipe" class="swipe">
       <Nearest
@@ -48,10 +51,7 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification
-        v-if="locationError !== undefined"
-        v-on:open-locate-prompt="openLocatePrompt"
-      >
+      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
         <div slot="button">{{ locationError.button }}</div>
@@ -89,6 +89,7 @@ export default {
       favoriteStops: [],
       favoriteTab: false,
       locationError: undefined,
+      previousScrollPosition: 0,
       realtime: true,
       nearestData: [],
       favoriteData: []
@@ -99,6 +100,11 @@ export default {
     if (favoritesString === null) {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
       this.setAllowLocationNotification();
+
+      this.$refs.data.startPollingDefault({
+        lat: 60.16704004097834,
+        lon: 24.946832000000086
+      });
     } else {
       this.favoriteStops = JSON.parse(favoritesString);
       this.openLocatePrompt();
@@ -113,19 +119,24 @@ export default {
      * Listen until swipe ends and select nearest / favorite tab
      */
     swipeListener: function() {
-      setTimeout(() => {
+      setTimeout(async () => {
         let position = document.querySelector(".swipe").scrollLeft;
         if (position < 200 && this.favoriteTab === true) {
+          //await this.waitScrollingEnd();
+
           this.nearbyClicked();
           this.$refs.navigation.setSelectedTab("nearby");
         } else if (position >= 200 && this.favoriteTab === false) {
+          //await this.waitScrollingEnd();
+
           this.favoriteClicked();
           this.$refs.navigation.setSelectedTab("favorite");
         }
-      }, 800);
+      }, 500);
     },
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
+      this.locationError = undefined;
     },
     toggleFavorite: function(details) {
       details.selected === true
@@ -162,14 +173,14 @@ export default {
     },
     populateStops: function(result) {
       this.nearestData = result;
-      this.locationError = undefined;
+    },
+    updateStatus: function(text) {
+      this.$refs.navigation.dataUpdated(text);
     },
     populateFavorites: function(result) {
-      this.$refs.navigation.dataUpdated();
+      this.updateStatus("päivitetty");
       this.favoriteData = result;
-      this.locationError = undefined;
     },
-
     onLocationError: function(error) {
       this.locationError = error;
     },
@@ -183,6 +194,18 @@ export default {
           "Jotta voimme näyttää lähimmät pysäkit. Sijaintiasi ei tallenneta mihinkään",
         button: "salli sijainti"
       };
+    },
+    waitScrollingEnd() {
+      const promise = new Promise();
+      setTimeout(function() {
+        const scrollPosition = document.querySelector(".swipe").scrollWidth;
+        if (this.previousScrollPosition !== scrollPosition) {
+          this.waitScrollingEnd();
+        } else {
+          promise.resolve();
+        }
+      }, 10);
+      return promise;
     }
   }
 };

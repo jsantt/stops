@@ -47,24 +47,16 @@ nav {
 <template>
   <div class="bottom-sheet">
     <div
-      v-bind:class="{ 'above-notification--hidden': !showUpdatedText }"
+      v-bind:class="{ 'above-notification--hidden': statusText === undefined }"
       class="above-notification"
-    >
-      päivitetty
-    </div>
+    >{{statusText}}</div>
     <slot></slot>
     <nav>
       <div class="tab">
-        <TimeSwitch
-          v-on:time-switch-clicked="$emit('time-switch-clicked')"
-        ></TimeSwitch>
+        <TimeSwitch v-on:time-switch-clicked="$emit('time-switch-clicked')"></TimeSwitch>
         <Clock></Clock>
       </div>
-      <div
-        class="tab"
-        :selected="selectedTab === 'nearby'"
-        v-on:click="clickNearby"
-      >
+      <div class="tab" :selected="selectedTab === 'nearby'" v-on:click="clickNearby">
         <svg
           class="icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -78,17 +70,8 @@ nav {
         </svg>
         <div>lähellä</div>
       </div>
-      <div
-        class="tab"
-        :selected="selectedTab === 'favorite'"
-        v-on:click="clickFavorite"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
+      <div class="tab" :selected="selectedTab === 'favorite'" v-on:click="clickFavorite">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
           />
@@ -118,15 +101,13 @@ export default {
         STORAGE_NAME: "selectedTab"
       },
       selectedTab: "nearby",
-      showUpdatedText: false
+      statusText: undefined
     };
   },
   mounted: function() {
     const tab = this.getSelectedTab();
     if (tab === this.TAB.FAVORITE) {
       this.clickFavorite();
-    } else {
-      this.clickNearby();
     }
   },
   methods: {
@@ -138,10 +119,10 @@ export default {
       this.$emit(this.TAB.FAVORITE);
       this.setSelectedTab(this.TAB.FAVORITE);
     },
-    dataUpdated: function() {
-      this.showUpdatedText = true;
+    dataUpdated: function(text) {
+      this.statusText = text;
       setTimeout(() => {
-        this.showUpdatedText = false;
+        this.statusText = undefined;
       }, 3000);
     },
     getSelectedTab: function() {

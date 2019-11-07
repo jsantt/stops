@@ -18,14 +18,29 @@ export default {
     };
   },
   methods: {
-    startPolling: function() {
+    startPollingDefault: function(coordinates) {
+      this.fetch(coordinates);
+
+      this.pollingHandle = setInterval(() => {
+        this.fetch(coordinates);
+      }, 15 * 1000);
+    },
+    startPolling: async function() {
       this.stopPolling();
 
       document.addEventListener("visibilitychange", this.visibilityChange);
 
-      this.locateAndfetch();
+      const coordinates = await this.locate();
+      if (coordinates !== undefined) {
+        this.fetch(coordinates);
+      }
 
-      this.pollingHandle = setInterval(this.locateAndfetch, 15 * 1000);
+      this.pollingHandle = setInterval(async () => {
+        const coordinates = await this.locate();
+        if (coordinates !== undefined) {
+          this.fetch(coordinates);
+        }
+      }, 15 * 1000);
     },
     stopPolling: function() {
       if (this.pollingHandle !== undefined) {
@@ -35,20 +50,44 @@ export default {
     },
     visibilityChange: function() {
       if (document.visibilityState === "visible") {
-        this.locateAndfetch();
+        this.startPolling();
       }
     },
-    locateAndfetch: async function() {
+    locate: async function() {
+      this.$emit("finding-location");
       try {
-        const location = await geolocate();
+        const coordinates = await geolocate();
+        return coordinates;
+      } catch (exception) {
+        this.$emit("location-error", exception);
+        return undefined;
+      }
+    },
+    fetch: async function(coordinates) {
+      this.$emit("fetching-nearest");
+      const nearestData = await fetchNearest(coordinates.lat, coordinates.lon);
+      this.$emit("nearest-stops", nearestData);
 
-        const nearestData = await fetchNearest(location.lat, location.lon);
+      this.$emit("fetching-favorites");
+      const favoriteData = await fetchFavorites(
+        this.favoriteStops,
+        coordinates.lat,
+        coordinates.lon
+      );
+      this.$emit("favorite-stops", favoriteData);
+    },
+    locateAndfetch: async function(location) {
+      try {
+        const coordinate =
+          location !== undefined ? location : await geolocate();
+
+        const nearestData = await fetchNearest(coordinate.lat, coordinate.lon);
         this.$emit("nearest-stops", nearestData);
 
         const favoriteData = await fetchFavorites(
           this.favoriteStops,
-          location.lat,
-          location.lon
+          coordinate.lat,
+          coordinate.lon
         );
         this.$emit("favorite-stops", favoriteData);
       } catch (exception) {

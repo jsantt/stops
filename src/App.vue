@@ -51,7 +51,10 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
+      <Notification
+        v-if="locationError !== undefined"
+        v-on:open-locate-prompt="openLocatePrompt"
+      >
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
         <div slot="button">{{ locationError.button }}</div>

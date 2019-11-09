@@ -1,6 +1,6 @@
 <style scoped>
 .add-favorite {
-  margin: 2rem 0;
+  margin: 6rem 0;
   text-align: center;
 }
 </style>
@@ -21,11 +21,13 @@
       </section>
     </div>
     <div class="add-favorite">Lisää suosikkisi lähellä näkymässä</div>
+    <Install></Install>
   </div>
 </template>
 
 <script>
 import Departures from "./Departures.vue";
+import Install from "./Install.vue";
 import Stop from "./Stop.vue";
 
 export default {
@@ -37,6 +39,7 @@ export default {
   },
   components: {
     Departures,
+    Install,
     Stop
   },
   methods: {

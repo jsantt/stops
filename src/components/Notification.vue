@@ -7,33 +7,14 @@
   padding: 0rem 1rem 1rem 1rem;
   max-width: var(--main-width);
 }
-h2 {
-  margin: 1rem 0;
-  text-align: center;
-  font-size: 28px;
-}
+
 main {
-  padding: 0.5rem 0 1.5rem 0;
+  padding: 0.5rem 0;
+  text-align: center;
 }
 
 footer {
   padding: 0;
-}
-
-button {
-  all: unset;
-  box-sizing: border-box;
-
-  text-align: center;
-  text-transform: uppercase;
-
-  background-color: #008b8b;
-  border-radius: 4px;
-
-  color: #fff;
-  font-weight: 700;
-  padding: 1rem;
-  width: 100%;
 }
 </style>
 

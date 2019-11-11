@@ -47,7 +47,7 @@ ol li::before {
 }
 </style>
 <template>
-  <section v-if="!showPrompt()">
+  <section v-if="showPrompt()">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions">
       <div class="body">Aloitusnäytöltä näet lähtöajat kolmessa sekunnissa</div>

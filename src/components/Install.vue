@@ -16,15 +16,38 @@ svg {
 }
 .body {
   color: #002424;
-  font-size: 24px;
   padding: 0.5rem 0;
 }
 .body--instructions {
   text-align: left;
 }
+
+ol {
+  counter-reset: my-awesome-counter;
+  list-style: none;
+  padding-left: 1rem;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+}
+ol li::before {
+  content: counter(my-awesome-counter);
+  background-color: lightgray;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: inline-block;
+
+  line-height: 1.5;
+  color: #000;
+  text-align: center;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 3px;
+}
 </style>
 <template>
-  <section v-if="showPrompt">
+  <section v-if="!showPrompt()">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions">
       <div class="body">Aloitusnäytöltä näet lähtöajat kolmessa sekunnissa</div>
@@ -37,20 +60,8 @@ svg {
             Valitse
             <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
               <g id="iosShare">
-                <polyline
-                  class="arrow"
-                  stroke-width="3"
-                  points="40,12 50,2 60,12"
-                  fill="none"
-                />
-                <line
-                  class="arrow-line"
-                  stroke-width="3"
-                  x1="50"
-                  y1="2"
-                  x2="50"
-                  y2="45"
-                />
+                <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
+                <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
                 <polyline
                   class="rectangle"
                   stroke-width="3"

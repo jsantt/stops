@@ -22,9 +22,9 @@
   bottom: 0;
   right: 0;
   background-color: #fff;
-
-  max-width: var(--main-width);
+  z-index: 1;
 }
+
 nav {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -61,7 +61,7 @@ nav {
         <Clock></Clock>
       </div>
       <div
-        class="tab"
+        class="tab nearby"
         :selected="selectedTab === 'nearby'"
         v-on:click="clickNearby"
       >
@@ -79,7 +79,7 @@ nav {
         <div>lähellä</div>
       </div>
       <div
-        class="tab"
+        class="tab favorite"
         :selected="selectedTab === 'favorite'"
         v-on:click="clickFavorite"
       >

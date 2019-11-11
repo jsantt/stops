@@ -1,4 +1,10 @@
 <style scoped>
+@media screen and (min-width: 600px) {
+  .navigation {
+    display: none;
+  }
+}
+
 .swipe {
   display: grid;
   grid-template-columns: repeat(2, 100%);
@@ -11,12 +17,33 @@
   -webkit-overflow-scrolling: touch;
   overflow-y: hidden;
 }
+
+@media screen and (min-width: 600px) {
+  .swipe {
+    grid-template-columns: repeat(2, 49%);
+    grid-gap: 1rem;
+    margin: 1rem;
+  }
+}
 .swipe-page {
   scroll-snap-align: start;
 }
 </style>
 <template>
   <div id="app">
+    <Navigation
+      class="navigation"
+      ref="navigation"
+      v-on:time-switch-clicked="showRealtime"
+      v-on:nearby="nearbyClicked"
+      v-on:favorite="favoriteClicked"
+    >
+      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
+        <div slot="header">{{ locationError.header }}</div>
+        <div slot="body">{{ locationError.body }}</div>
+        <div slot="button">{{ locationError.button }}</div>
+      </Notification>
+    </Navigation>
     <Data
       ref="data"
       :fetchFavorites="favoriteTab"
@@ -45,23 +72,8 @@
       ></Favorite>
     </div>
 
-    <Navigation
-      ref="navigation"
-      v-on:time-switch-clicked="showRealtime"
-      v-on:nearby="nearbyClicked"
-      v-on:favorite="favoriteClicked"
-    >
-      <Notification
-        v-if="locationError !== undefined"
-        v-on:open-locate-prompt="openLocatePrompt"
-      >
-        <div slot="header">{{ locationError.header }}</div>
-        <div slot="body">{{ locationError.body }}</div>
-        <div slot="button">{{ locationError.button }}</div>
-      </Notification>
-    </Navigation>
     <footer>
-      *=GPS-signaaliin perusteella laskettu arvio
+      <div v-if="nearestData !== undefined">*=GPS-signaaliin perusteella laskettu arvio</div>
       <div class="version">
         <Version></Version>
       </div>
@@ -125,18 +137,18 @@ export default {
       setTimeout(async () => {
         let position = document.querySelector(".swipe").scrollLeft;
         if (position < 200 && this.favoriteTab === true) {
-          //await this.waitScrollingEnd();
-
+          await this.scrollEnded();
           this.nearbyClicked();
           this.$refs.navigation.setSelectedTab("nearby");
         } else if (position >= 200 && this.favoriteTab === false) {
-          //await this.waitScrollingEnd();
+          await this.scrollEnded();
 
           this.favoriteClicked();
           this.$refs.navigation.setSelectedTab("favorite");
         }
       }, 500);
     },
+
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
       this.locationError = undefined;
@@ -145,6 +157,8 @@ export default {
       details.selected === true
         ? this.addFavorite(details.stopId)
         : this.removeFavorite(details.stopId);
+
+      this.$refs.data.startPolling();
     },
     addFavorite: function(stopId) {
       this.favoriteStops.push(stopId);
@@ -200,17 +214,21 @@ export default {
         button: "salli sijainti"
       };
     },
-    waitScrollingEnd() {
-      const promise = new Promise();
-      setTimeout(function() {
-        const scrollPosition = document.querySelector(".swipe").scrollWidth;
-        if (this.previousScrollPosition !== scrollPosition) {
-          this.waitScrollingEnd();
-        } else {
-          promise.resolve();
-        }
-      }, 10);
-      return promise;
+    /**
+     * @returns Promise - Promise is resolved when scrolling stops
+     */
+    scrollEnded: function() {
+      return new Promise(resolve => {
+        let previousPosition = -99;
+        const interval = setInterval(() => {
+          let currentPosition = document.querySelector(".swipe").scrollLeft;
+          if (previousPosition === currentPosition) {
+            clearInterval(interval);
+            resolve();
+          }
+          previousPosition = currentPosition;
+        }, 10);
+      });
     }
   }
 };

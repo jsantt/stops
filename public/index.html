@@ -24,13 +24,13 @@
       html {
         --color-main: #faebd7;
         --color-secondary: #696969;
-        --main-width: 550px;
+
+        --breakpoint-main: 600px;
 
         scroll-behavior: smooth;
       }
       body {
         margin: 0;
-        max-width: var(--main-width);
         font-family: "Open Sans Condensed", sans-serif;
         font-size: 20px;
         line-height: 0.98;
@@ -62,10 +62,15 @@
         font-size: 16px;
       }
 
-      h1,
-      h2 {
+      h1 {
         font-size: 24px;
-        margin: 0.5rem 0;
+        margin: 1.5rem 0;
+        text-align: center;
+      }
+      h2,
+      h3 {
+        font-size: 20px;
+        margin: 1rem 0;
         text-align: center;
       }
 
@@ -73,14 +78,15 @@
         all: unset;
         box-sizing: border-box;
 
-        text-align: center;
-        text-transform: uppercase;
-
         background-color: #008b8b;
         border-radius: 4px;
 
         color: #fff;
         font-weight: 700;
+        font-size: 18px;
+
+        text-align: center;
+        text-transform: uppercase;
 
         margin: 0.5rem 0;
         padding: 1rem;

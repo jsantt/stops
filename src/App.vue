@@ -38,7 +38,10 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
+      <Notification
+        v-if="locationError !== undefined"
+        v-on:open-locate-prompt="openLocatePrompt"
+      >
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
         <div slot="button">{{ locationError.button }}</div>
@@ -55,6 +58,7 @@
       v-on:fetching-favorites="updateStatus('haetaan *')"
       v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
+
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"
@@ -73,7 +77,9 @@
     </div>
 
     <footer>
-      <div v-if="nearestData !== undefined">*=GPS-signaaliin perusteella laskettu arvio</div>
+      <div v-if="nearestData !== undefined">
+        *=GPS-signaaliin perusteella laskettu arvio
+      </div>
       <div class="version">
         <Version></Version>
       </div>

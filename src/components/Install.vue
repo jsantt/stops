@@ -23,24 +23,28 @@ svg {
 }
 
 ol {
-  counter-reset: my-awesome-counter;
+  counter-reset: counter;
   list-style: none;
   padding-left: 1rem;
 }
 ol li {
-  counter-increment: my-awesome-counter;
+  counter-increment: counter;
 }
 ol li::before {
-  content: counter(my-awesome-counter);
+  content: counter(counter);
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   background-color: lightgray;
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  display: inline-block;
 
   line-height: 1.5;
   color: #000;
-  text-align: center;
+
   margin-right: 0.5rem;
   position: relative;
   top: 3px;
@@ -57,11 +61,24 @@ ol li::before {
       <div class="body--instructions">
         <ol>
           <li>
-            Valitse
+            <!-- -->
+            valitse
             <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
               <g id="iosShare">
-                <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
-                <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
+                <polyline
+                  class="arrow"
+                  stroke-width="3"
+                  points="40,12 50,2 60,12"
+                  fill="none"
+                />
+                <line
+                  class="arrow-line"
+                  stroke-width="3"
+                  x1="50"
+                  y1="2"
+                  x2="50"
+                  y2="45"
+                />
                 <polyline
                   class="rectangle"
                   stroke-width="3"
@@ -97,7 +114,7 @@ export default {
       }
 
       const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
-      const show = localStorage.getItem("prompt-install") !== null;
+      const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);
 

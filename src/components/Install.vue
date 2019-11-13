@@ -51,7 +51,7 @@ ol li::before {
 }
 </style>
 <template>
-  <section v-if="showPrompt()">
+  <section v-if="showPrompt()" id="install-prompt">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions">
       <div class="body">Aloitusnäytöltä näet lähtöajat kolmessa sekunnissa</div>
@@ -65,20 +65,8 @@ ol li::before {
             valitse
             <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
               <g id="iosShare">
-                <polyline
-                  class="arrow"
-                  stroke-width="3"
-                  points="40,12 50,2 60,12"
-                  fill="none"
-                />
-                <line
-                  class="arrow-line"
-                  stroke-width="3"
-                  x1="50"
-                  y1="2"
-                  x2="50"
-                  y2="45"
-                />
+                <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
+                <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
                 <polyline
                   class="rectangle"
                   stroke-width="3"
@@ -113,7 +101,7 @@ export default {
         return false;
       }
 
-      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = true; //["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);
@@ -122,10 +110,7 @@ export default {
     },
     onInstructionClick: function() {
       this.showInstructions = true;
-      const element = document.querySelector("html");
-      const scrolledFromTop = element.scrollTop;
-
-      element.scrollTop = scrolledFromTop - 20;
+      window.location.href = "#install-prompt";
     }
   }
 };

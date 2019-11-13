@@ -101,7 +101,7 @@ export default {
         return false;
       }
 
-      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = true; //["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);

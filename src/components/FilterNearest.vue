@@ -13,12 +13,26 @@ input {
   padding: 0.5rem;
   width: 5rem;
   border-radius: 0.5rem;
+
+  -moz-appearance: textfield; /* Firefox */
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 </style>
 <template>
   <div>
     <label>
-      <input v-model="filterValue" placeholder=" etsi linja" v-on:keyup="filter" type="text" />
+      <input
+        v-model="filterValue"
+        placeholder=" etsi linja"
+        v-on:keyup="filter"
+        type="number"
+        min="0"
+        inputmode="numeric"
+        pattern="[0-9]*"
+      />
     </label>
   </div>
 </template>
@@ -33,8 +47,10 @@ export default {
   },
   methods: {
     filter: function(event) {
-      //this.$forceUpdate();
       this.$emit("filter-changed", this.filterValue);
+    },
+    reset: function() {
+      this.filterValue = undefined;
     }
   }
 };

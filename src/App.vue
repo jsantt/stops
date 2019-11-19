@@ -55,7 +55,7 @@
       v-on:fetching-favorites="updateStatus('haetaan *')"
       v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
-    <Filter-nearest v-on:filter-changed="filterByLine"></Filter-nearest>
+    <Filter-nearest v-show="!favoriteTab" v-on:filter-changed="filterByLine"></Filter-nearest>
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"

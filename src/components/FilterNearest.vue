@@ -9,8 +9,9 @@ div {
 input {
   border: none;
   box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
   padding: 0.5rem;
-  width: 4.5rem;
+  width: 5rem;
   border-radius: 0.5rem;
 }
 </style>

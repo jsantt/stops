@@ -38,7 +38,6 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Filter-nearest v-on:filter-changed="filterByLine"></Filter-nearest>
       <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
@@ -56,6 +55,7 @@
       v-on:fetching-favorites="updateStatus('haetaan *')"
       v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
+    <Filter-nearest v-on:filter-changed="filterByLine"></Filter-nearest>
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"

@@ -1,10 +1,10 @@
 <style scoped>
 div {
-  text-align: center;
+  /* text-align: center;
   position: fixed;
   bottom: 3.4rem;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0);*/
 }
 input {
   border: none;

@@ -38,10 +38,8 @@
       v-on:nearby="nearbyClicked"
       v-on:favorite="favoriteClicked"
     >
-      <Notification
-        v-if="locationError !== undefined"
-        v-on:open-locate-prompt="openLocatePrompt"
-      >
+      <Filter-nearest v-on:filter-changed="filterByLine"></Filter-nearest>
+      <Notification v-if="locationError !== undefined" v-on:open-locate-prompt="openLocatePrompt">
         <div slot="header">{{ locationError.header }}</div>
         <div slot="body">{{ locationError.body }}</div>
         <div slot="button">{{ locationError.button }}</div>
@@ -58,7 +56,6 @@
       v-on:fetching-favorites="updateStatus('haetaan *')"
       v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
-
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"
@@ -66,20 +63,21 @@
         :realtime="realtime"
         :stops="nearestData"
         v-on:toggle-favorite="toggleFavorite"
+        v-on:add-favorite-line="addFavoriteLine"
       ></Nearest>
+
       <Favorite
         class="swipe-page"
         :favoriteStops="favoriteStops"
         :realtime="realtime"
         :stops="favoriteData"
         v-on:toggle-favorite="toggleFavorite"
+        v-on:add-favorite-line="addFavoriteLine"
       ></Favorite>
     </div>
 
     <footer>
-      <div v-if="nearestData !== undefined">
-        *=GPS-signaaliin perusteella laskettu arvio
-      </div>
+      <div v-if="nearestData !== undefined">*=GPS-signaaliin perusteella laskettu arvio</div>
       <div class="version">
         <Version></Version>
       </div>
@@ -88,8 +86,10 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Data from "./components/Data.vue";
 import Favorite from "./components/Favorite.vue";
+import FilterNearest from "./components/FilterNearest.vue";
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
@@ -100,6 +100,7 @@ export default {
   components: {
     Data,
     Favorite,
+    FilterNearest,
     Navigation,
     Nearest,
     Notification,
@@ -109,6 +110,7 @@ export default {
     return {
       favoriteStops: [],
       favoriteTab: false,
+      filter: undefined,
       locationError: undefined,
       previousScrollPosition: 0,
       realtime: true,
@@ -154,7 +156,36 @@ export default {
         }
       }, 500);
     },
+    addFavoriteLine() {
+      const favoriteLinesString = localStorage.getItem("favoriteLines");
+      const favoriteLines = JSON.parse(favoriteLinesString);
 
+      this.markAsFavorite(this.nearestData, favoriteLines);
+      this.markAsFavorite(this.favoriteData, favoriteLines);
+    },
+    /**
+     * data: [{stoptimesWithoutPatterns: [{headsign: 'Kivenlahti', trip: {routeShortName: '147'}}]}]
+     */
+    markAsFavorite(data, favoriteLines) {
+      if (data === undefined) {
+        return;
+      }
+
+      //const copy = { ...data };
+
+      data.forEach(item => {
+        if (item.stoptimesWithoutPatterns !== undefined) {
+          item.stoptimesWithoutPatterns.forEach(departure => {
+            if (favoriteLines.includes(departure.trip.routeShortName)) {
+              // use Vue.set to let Vue know the change and re-render departures
+              Vue.set(departure, "favorite", true);
+            } else {
+              Vue.set(departure, "favorite", false);
+            }
+          });
+        }
+      });
+    },
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
       this.locationError = undefined;
@@ -187,6 +218,36 @@ export default {
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
+    filterByLine: function(filter) {
+      this.filter = filter;
+      this.filterData(this.nearestData, filter);
+    },
+    filterData(data, lineNumber) {
+      if (lineNumber === undefined) {
+        return;
+      }
+      const lineLowerCase = lineNumber.toLowerCase();
+      let departuresVisible;
+
+      data.forEach(item => {
+        departuresVisible = false;
+
+        if (item.stoptimesWithoutPatterns !== undefined) {
+          item.stoptimesWithoutPatterns.forEach(departure => {
+            const routeLowerCase = departure.trip.routeShortName.toLowerCase();
+            if (routeLowerCase.includes(lineLowerCase)) {
+              // use Vue.set to let Vue know the change and re-render departures
+              Vue.set(departure, "hidden", false);
+              departuresVisible = true;
+            } else {
+              Vue.set(departure, "hidden", true);
+            }
+          });
+
+          Vue.set(item, "hidden", !departuresVisible);
+        }
+      });
+    },
     removeFavorite: function(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
         return item !== stopId;
@@ -198,6 +259,8 @@ export default {
     },
     populateStops: function(result) {
       this.nearestData = result;
+      this.addFavoriteLine();
+      this.filterData(this.nearestData, this.filter);
     },
     updateStatus: function(text) {
       this.$refs.navigation.dataUpdated(text);
@@ -205,6 +268,7 @@ export default {
     populateFavorites: function(result) {
       this.updateStatus("päivitetty");
       this.favoriteData = result;
+      this.addFavoriteLine();
     },
     onLocationError: function(error) {
       this.locationError = error;

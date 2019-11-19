@@ -41,7 +41,7 @@
 .onoffswitch-inner:before {
   content: "";
   padding-left: 10px;
-  background-color: #000;
+  background-color: var(--color-tertiary);
   color: #ffffff;
 }
 .onoffswitch-inner:after {

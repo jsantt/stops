@@ -37,6 +37,7 @@
         <Departures
           :departures="stop.stoptimesWithoutPatterns"
           :realtime="realtime"
+          v-on:add-favorite-line="addFavoriteLine"
         ></Departures>
       </section>
     </div>
@@ -68,6 +69,9 @@ export default {
     Stop
   },
   methods: {
+    addFavoriteLine(details) {
+      this.$emit("add-favorite-line", details);
+    },
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
     },

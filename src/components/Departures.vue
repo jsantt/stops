@@ -15,7 +15,8 @@ article {
   font-size: 18px;
 }
 
-.departure:nth-child(even) {
+/*.departure:nth-child(even) {*/
+.departure--favorite {
   background-color: #f0f8ff;
 }
 .no-departures {
@@ -28,12 +29,12 @@ article {
 
 .realtime-sign {
   margin: auto;
-  color: green;
+  color: var(--color-tertiary);
   display: inline-block;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: green;
+  background: var(--color-tertiary);
   cursor: pointer;
   box-shadow: 0 0 0 lightgreen;
   animation: pulse 2s infinite;
@@ -84,13 +85,17 @@ article {
 
     <article
       class="departure"
-      v-for="time in departures"
-      v-bind:key="time.scheduledArrival"
+      v-bind:class="{ 'departure--favorite': departure.favorite === true }"
+      v-for="departure in departures"
+      v-on:click="addLine(departure)"
+      v-show="!departure.hidden === true"
     >
-      <div v-bind:class="{ 'realtime-sign': time.realtime && realtime }"></div>
+      <div
+        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
+      ></div>
       <div class="time">
         <span v-show="!realtime" data-hook="time-schedule">{{
-          timeToString(toHourAndMinutes(time.scheduledDeparture))
+          timeToString(toHourAndMinutes(departure.scheduledDeparture))
         }}</span>
 
         <span v-show="realtime">
@@ -101,16 +106,16 @@ article {
           {{
             toRealtime(
               new Date(),
-              time.scheduledDeparture,
-              time.departureDelay,
-              time.realtime,
-              time.serviceDay
+              departure.scheduledDeparture,
+              departure.departureDelay,
+              departure.realtime,
+              departure.serviceDay
             )
           }}
         </span>
       </div>
-      <div class="line">{{ time.trip.routeShortName }}</div>
-      <div>{{ time.headsign }}</div>
+      <div class="line">{{ departure.trip.routeShortName }}</div>
+      <div>{{ departure.headsign }}</div>
       <div></div>
     </article>
   </div>
@@ -125,6 +130,41 @@ export default {
   },
 
   methods: {
+    addLine(departure) {
+      const route = departure.trip.routeShortName;
+      let favoritesString = window.localStorage.getItem("favoriteLines");
+
+      if (favoritesString == null) {
+        favoritesString = "[]";
+      }
+
+      let favoriteLines = JSON.parse(favoritesString);
+
+      if (favoriteLines.includes(route)) {
+        favoriteLines = favoriteLines.filter(line => line !== route);
+      } else {
+        favoriteLines.push(route);
+      }
+      window.localStorage.setItem(
+        "favoriteLines",
+        JSON.stringify(favoriteLines)
+      );
+
+      this.$emit("add-favorite-line", {
+        routeShortName: departure.trip.routeShortName,
+        headsign: departure.headsign
+      });
+    },
+    isFavorite(departure) {
+      const route = departure.trip.routeShortName;
+      let favoritesString = window.localStorage.getItem("favoriteLines");
+      if (favoritesString == null) {
+        return false;
+      }
+
+      let favoriteLines = JSON.parse(favoritesString);
+      return favoriteLines.includes(route);
+    },
     dayNumber(unixTime) {
       return new Date(unixTime * 1000).getDate();
     },
@@ -146,7 +186,7 @@ export default {
     toRealtime: function(timeNow, departure, delay) {
       const secondsNow = this.getSecondsSinceMidnight(timeNow);
 
-      const scheduledDeparture = Math.floor((departure - secondsNow) / 60);
+      const scheduledDeparture = Math.round((departure - secondsNow) / 60);
 
       if (scheduledDeparture > 59 || scheduledDeparture < -30) {
         return this.timeToString(this.toHourAndMinutes(departure));

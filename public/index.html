@@ -24,6 +24,7 @@
       html {
         --color-main: #faebd7;
         --color-secondary: #696969;
+        --color-tertiary: #008b8b; /* #00ab31;*/
 
         --breakpoint-main: 600px;
 
@@ -78,7 +79,7 @@
         all: unset;
         box-sizing: border-box;
 
-        background-color: #008b8b;
+        background-color: var(--color-tertiary);
         border-radius: 4px;
 
         color: #fff;
@@ -91,6 +92,9 @@
         margin: 0.5rem 0;
         padding: 1rem;
         width: 100%;
+      }
+      button > div {
+        color: #fff;
       }
     </style>
     <!-- Loading web fonts asynchronoysly-->

@@ -65,8 +65,20 @@ ol li::before {
             valitse
             <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
               <g id="iosShare">
-                <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
-                <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
+                <polyline
+                  class="arrow"
+                  stroke-width="3"
+                  points="40,12 50,2 60,12"
+                  fill="none"
+                />
+                <line
+                  class="arrow-line"
+                  stroke-width="3"
+                  x1="50"
+                  y1="2"
+                  x2="50"
+                  y2="45"
+                />
                 <polyline
                   class="rectangle"
                   stroke-width="3"

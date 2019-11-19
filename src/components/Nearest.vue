@@ -24,6 +24,7 @@
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
+          v-if="stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true"
           :stop="stop"
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
@@ -31,6 +32,7 @@
         <Departures
           :departures="stop.stoptimesWithoutPatterns"
           :realtime="realtime"
+          v-on:add-favorite-line="addFavoriteLine"
         ></Departures>
       </section>
     </div>
@@ -53,6 +55,9 @@ export default {
     Stop
   },
   methods: {
+    addFavoriteLine(details) {
+      this.$emit("add-favorite-line", details);
+    },
     toggleFavorite: function(details) {
       this.$emit("toggle-favorite", details);
     },

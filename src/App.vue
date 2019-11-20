@@ -55,7 +55,11 @@
       v-on:fetching-favorites="updateStatus('haetaan *')"
       v-on:fetching-nearest="updateStatus('haetaan')"
     ></Data>
-    <Filter-nearest v-show="!favoriteTab" v-on:filter-changed="filterByLine"></Filter-nearest>
+    <Filter-nearest
+      v-if="!favoriteTab"
+      :nearestLines="nearestLines"
+      v-on:filter-changed="filterByLine"
+    ></Filter-nearest>
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"
@@ -86,7 +90,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Data from "./components/Data.vue";
 import Favorite from "./components/Favorite.vue";
 import FilterNearest from "./components/FilterNearest.vue";
@@ -94,6 +97,11 @@ import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
 import Version from "./components/Version.vue";
+import {
+  filterData,
+  markFavoriteLines,
+  parseLines
+} from "./components/parseData.js";
 
 export default {
   name: "app",
@@ -115,7 +123,8 @@ export default {
       previousScrollPosition: 0,
       realtime: true,
       nearestData: [],
-      favoriteData: []
+      favoriteData: [],
+      nearestLines: []
     };
   },
   mounted: function() {
@@ -160,32 +169,10 @@ export default {
       const favoriteLinesString = localStorage.getItem("favoriteLines");
       const favoriteLines = JSON.parse(favoriteLinesString);
 
-      this.markAsFavorite(this.nearestData, favoriteLines);
-      this.markAsFavorite(this.favoriteData, favoriteLines);
+      //markFavoriteLines(this.nearestData, favoriteLines);
+      //markFavoriteLines(this.favoriteData, favoriteLines);
     },
-    /**
-     * data: [{stoptimesWithoutPatterns: [{headsign: 'Kivenlahti', trip: {routeShortName: '147'}}]}]
-     */
-    markAsFavorite(data, favoriteLines) {
-      if (data === undefined) {
-        return;
-      }
 
-      //const copy = { ...data };
-
-      data.forEach(item => {
-        if (item.stoptimesWithoutPatterns !== undefined) {
-          item.stoptimesWithoutPatterns.forEach(departure => {
-            if (favoriteLines.includes(departure.trip.routeShortName)) {
-              // use Vue.set to let Vue know the change and re-render departures
-              Vue.set(departure, "favorite", true);
-            } else {
-              Vue.set(departure, "favorite", false);
-            }
-          });
-        }
-      });
-    },
     openLocatePrompt: function() {
       this.$refs.data.startPolling();
       this.locationError = undefined;
@@ -220,33 +207,7 @@ export default {
     },
     filterByLine: function(filter) {
       this.filter = filter;
-      this.filterData(this.nearestData, filter);
-    },
-    filterData(data, lineNumber) {
-      if (lineNumber === undefined) {
-        return;
-      }
-      const lineLowerCase = lineNumber.toLowerCase();
-      let departuresVisible;
-
-      data.forEach(item => {
-        departuresVisible = false;
-
-        if (item.stoptimesWithoutPatterns !== undefined) {
-          item.stoptimesWithoutPatterns.forEach(departure => {
-            const routeLowerCase = departure.trip.routeShortName.toLowerCase();
-            if (routeLowerCase.includes(lineLowerCase)) {
-              // use Vue.set to let Vue know the change and re-render departures
-              Vue.set(departure, "hidden", false);
-              departuresVisible = true;
-            } else {
-              Vue.set(departure, "hidden", true);
-            }
-          });
-
-          Vue.set(item, "hidden", !departuresVisible);
-        }
-      });
+      filterData(this.nearestData, filter);
     },
     removeFavorite: function(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
@@ -258,9 +219,10 @@ export default {
       );
     },
     populateStops: function(result) {
-      this.nearestData = result;
-      this.addFavoriteLine();
-      this.filterData(this.nearestData, this.filter);
+      this.nearestLines = parseLines(result);
+
+      // this.addFavoriteLine();
+      this.nearestData = filterData(result, this.filter);
     },
     updateStatus: function(text) {
       this.$refs.navigation.dataUpdated(text);

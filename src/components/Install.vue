@@ -5,7 +5,7 @@ section {
 
   margin: 8rem 1rem 1rem 1rem;
   padding: 0.5rem;
-  background-color: #d7fae1;
+
   text-align: center;
 }
 svg {
@@ -113,7 +113,8 @@ export default {
         return false;
       }
 
-      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = true;
+      ["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);

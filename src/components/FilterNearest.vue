@@ -20,9 +20,16 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+a {
+  padding: 0.25rem;
+  /*border: 1px solid lightgray;*/
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+}
 </style>
 <template>
   <div>
+    <!--div>
     <label>
       <input
         v-model="filterValue"
@@ -34,20 +41,40 @@ input::-webkit-inner-spin-button {
         pattern="[0-9]*"
       />
     </label>
+    <div-->
+
+    <div>
+      <a
+        href="#"
+        v-for="line in nearestLines"
+        v-bind:key="line"
+        v-on:click="populateSearchField(line)"
+        >{{ line }}</a
+      >
+
+      <a v-on:click="populateSearchField('')">X</a>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Filter-nearest",
+  props: {
+    nearestLines: Array
+  },
   data() {
     return {
       filterValue: undefined
     };
   },
   methods: {
-    filter: function(event) {
+    filter: function() {
       this.$emit("filter-changed", this.filterValue);
+    },
+    populateSearchField: function(lineNumber) {
+      this.filterValue = lineNumber;
+      this.filter();
     },
     reset: function() {
       this.filterValue = undefined;

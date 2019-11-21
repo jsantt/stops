@@ -67,9 +67,9 @@ export default {
     filterChanged: function(lineNumber) {
       if (this.filterValue === lineNumber) {
         this.filterValue = undefined;
-        return;
+      } else {
+        this.filterValue = lineNumber;
       }
-      this.filterValue = lineNumber;
       this.$emit("filter-changed", this.filterValue);
     },
     reset: function() {

@@ -73,15 +73,6 @@ article {
 <template>
   <div>
     <div v-if="departures.length < 1" class="no-departures">&mdash;</div>
-    <!--article v-if="departures.length > 0" class="secondary header">
-      <div></div>
-      <div>
-        <span v-show="realtime">MIN</span>
-        <span v-show="!realtime">KLO</span>
-      </div>
-      <div>LINJA</div>
-      <div>MÄÄRÄNPÄÄ</div>
-    </article-->
 
     <article
       class="departure"

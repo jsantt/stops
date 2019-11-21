@@ -65,7 +65,7 @@
         v-on:toggle-favorite="toggleFavorite"
         v-on:add-favorite-line="addFavoriteLine"
       >
-        <Filter-nearest :nearestLines="nearestLines" v-on:filter-changed="filterNearest"></Filter-nearest>
+        <Filter-lines :allLines="nearestLines" v-on:filter-changed="filterNearest"></Filter-lines>
       </Nearest>
 
       <Favorite
@@ -76,7 +76,7 @@
         v-on:toggle-favorite="toggleFavorite"
         v-on:add-favorite-line="addFavoriteLine"
       >
-        <Filter-nearest :nearestLines="favoriteLines" v-on:filter-changed="filterFavorite"></Filter-nearest>
+        <Filter-lines :allLines="favoriteLines" v-on:filter-changed="filterFavorite"></Filter-lines>
       </Favorite>
     </div>
 
@@ -92,7 +92,7 @@
 <script>
 import Data from "./components/Data.vue";
 import Favorite from "./components/Favorite.vue";
-import FilterNearest from "./components/FilterNearest.vue";
+import FilterLines from "./components/FilterLines.vue";
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
@@ -108,7 +108,7 @@ export default {
   components: {
     Data,
     Favorite,
-    FilterNearest,
+    FilterLines,
     Navigation,
     Nearest,
     Notification,

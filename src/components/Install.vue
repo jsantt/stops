@@ -54,7 +54,7 @@ ol li::before {
   <section v-if="showPrompt()" id="install-prompt">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions">
-      <div class="body">Aloitusnäytöltä näet lähtöajat kolmessa sekunnissa</div>
+      <div class="body">Niin näet pysäkkiaikataulut ja viivästymiset entistä nopeammin</div>
       <button v-on:click="onInstructionClick">Asenna nyt</button>
     </div>
     <div v-if="showInstructions">
@@ -101,8 +101,7 @@ export default {
         return false;
       }
 
-      const isApple = true;
-      ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);

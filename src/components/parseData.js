@@ -16,7 +16,7 @@ function parseLines(data) {
     });
   });
 
-  return lines;
+  return lines.sort();
 }
 
 function filterData(data, lineNumber) {
@@ -25,7 +25,6 @@ function filterData(data, lineNumber) {
   if (lineNumber === undefined) {
     return copy;
   }
-  const lineLowerCase = lineNumber.toLowerCase();
   let departuresVisible;
 
   copy.forEach(item => {
@@ -33,8 +32,7 @@ function filterData(data, lineNumber) {
 
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
-        const routeLowerCase = departure.trip.routeShortName.toLowerCase();
-        if (routeLowerCase.includes(lineLowerCase)) {
+        if (lineNumber === departure.trip.routeShortName) {
           // use Vue.set to let Vue know the change and re-render departures
           Vue.set(departure, "hidden", false);
           departuresVisible = true;

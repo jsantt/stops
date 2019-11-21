@@ -5,6 +5,8 @@ div {
   bottom: 3.4rem;
   left: 50%;
   transform: translate(-50%, 0);*/
+  display: flex;
+  flex-wrap: wrap;
 }
 input {
   border: none;
@@ -21,10 +23,17 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 a {
-  padding: 0.25rem;
-  /*border: 1px solid lightgray;*/
+  display: inline-block;
+  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
+  border: 1px solid lightgray;
+
   margin: 0.25rem;
   border-radius: 0.25rem;
+  padding: 0.25rem;
+  text-decoration: none;
+}
+.selected {
+  font-weight: 800;
 }
 </style>
 <template>
@@ -46,13 +55,16 @@ a {
     <div>
       <a
         href="#"
+        v-on:click="populateSearchField(undefined)"
+        v-bind:class="{ 'selected': filterValue === undefined}"
+      >kaikki</a>
+      <a
+        href="#"
         v-for="line in nearestLines"
         v-bind:key="line"
+        v-bind:class="{ 'selected': line === filterValue}"
         v-on:click="populateSearchField(line)"
-        >{{ line }}</a
-      >
-
-      <a v-on:click="populateSearchField('')">X</a>
+      >{{ line }}</a>
     </div>
   </div>
 </template>
@@ -73,6 +85,10 @@ export default {
       this.$emit("filter-changed", this.filterValue);
     },
     populateSearchField: function(lineNumber) {
+      if (this.filterValue === lineNumber) {
+        this.filterValue = undefined;
+        return;
+      }
       this.filterValue = lineNumber;
       this.filter();
     },

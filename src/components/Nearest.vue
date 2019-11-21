@@ -21,6 +21,7 @@
       </svg>
       <div>Lähimmät</div>
     </h2>
+    <slot></slot>
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop

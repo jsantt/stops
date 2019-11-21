@@ -22,9 +22,6 @@ function parseLines(data) {
 function filterData(data, lineNumber) {
   const copy = [...data];
 
-  if (lineNumber === undefined) {
-    return copy;
-  }
   let departuresVisible;
 
   copy.forEach(item => {
@@ -32,7 +29,10 @@ function filterData(data, lineNumber) {
 
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
-        if (lineNumber === departure.trip.routeShortName) {
+        if (
+          lineNumber === undefined ||
+          lineNumber === departure.trip.routeShortName
+        ) {
           // use Vue.set to let Vue know the change and re-render departures
           Vue.set(departure, "hidden", false);
           departuresVisible = true;

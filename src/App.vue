@@ -177,11 +177,11 @@ export default {
     },
     filterFavorite: function(filter) {
       this.favoriteFilter = filter;
-      filterData(this.favoriteData, filter);
+      this.favoriteData = filterData(this.favoriteData, filter);
     },
     filterNearest: function(filter) {
       this.nearestFilter = filter;
-      filterData(this.nearestData, filter);
+      this.nearestData = filterData(this.nearestData, filter);
     },
     nearbyClicked: function() {
       this.$refs.swipe.scrollTo(0, 0);

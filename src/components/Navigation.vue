@@ -1,9 +1,6 @@
 <style scoped>
 .above-notification {
   position: fixed;
-  /*top: -1.5rem;
-  left: 50%;
-  transform: translate(-50%, 0);*/
   top: 0;
   right: 0;
   background-color: #eee;

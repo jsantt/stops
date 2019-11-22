@@ -76,7 +76,7 @@
         v-on:toggle-favorite="toggleFavorite"
         v-on:add-favorite-line="addFavoriteLine"
       >
-        <Filter-lines :allLines="favoriteLines" v-on:filter-changed="filterFavorite"></Filter-lines>
+        <Filter-lines :allLines="favoriteLines" :favorite="true" v-on:filter-changed="filterFavorite"></Filter-lines>
       </Favorite>
     </div>
 

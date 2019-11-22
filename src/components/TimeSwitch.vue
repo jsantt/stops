@@ -32,7 +32,7 @@
   height: 12px;
   padding: 0;
   line-height: 12px;
-  font-size: 12px;
+  font-size: var(--font-size-s);
   color: white;
   font-family: Trebuchet, Arial, sans-serif;
   font-weight: bold;

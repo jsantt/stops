@@ -12,7 +12,7 @@ header.favorite {
 }
 
 .name {
-  font-size: 24px;
+  font-size: var(--font-size-xl);
   padding-right: 0.5rem;
 }
 header > div {
@@ -22,14 +22,11 @@ header > div {
 
 .secondary {
   color: var(--color-secondary);
-  font-size: 20px;
+  font-size: var(--font-size-m);
 }
 .favorite,
 .distance {
   margin-left: auto;
-}
-.code {
-  font-size: 17px;
 }
 </style>
 <template>
@@ -44,7 +41,7 @@ header > div {
       </span>
     </div>
 
-    <div class="distance secondary">{{ formatDistance(stop.distance) }}</div>
+    <div class="distance">{{ formatDistance(stop.distance) }}</div>
     <div class="favorite">
       <Star :selected="favorite" v-on:toggle="toggleFavorite"></Star>
     </div>

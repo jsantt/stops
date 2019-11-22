@@ -3,36 +3,23 @@ div {
   display: flex;
   flex-wrap: wrap;
 }
-input {
-  border: none;
-  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
-  font-size: 16px;
-  padding: 0.5rem;
-  width: 5rem;
-  border-radius: 0.5rem;
-
-  -moz-appearance: textfield; /* Firefox */
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
 a {
   display: inline-block;
+  background-color: #fff;
   box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
-  border: 1px solid lightgray;
-
   color: #000;
   margin: 0.25rem;
-  border-radius: 0.25rem;
+  border-radius: 2.25rem;
   padding: 0.5rem 0;
   text-decoration: none;
   min-width: 2.8rem;
   text-align: center;
 }
-.selected {
-  background-color: #0e0e0e;
-  color: #fff;
+.selected--nearest {
+  background-color: var(--color-main);
+}
+.selected--favorite {
+  background-color: var(--color-main-favorite);
 }
 </style>
 <template>
@@ -40,13 +27,13 @@ a {
     <a
       href="#"
       v-on:click="filterChanged(undefined)"
-      v-bind:class="{ 'selected': filterValue === undefined}"
+      v-bind:class="{ 'selected--nearest': filterValue === undefined && favorite !== true,'selected--favorite': filterValue === undefined && favorite === true }"
     >kaikki</a>
     <a
       href="#"
       v-for="line in allLines"
       v-bind:key="line"
-      v-bind:class="{ 'selected': line === filterValue}"
+      v-bind:class="{ 'selected--nearest': line === filterValue && favorite !== true, 'selected--favorite': favorite === true && line === filterValue}"
       v-on:click="filterChanged(line)"
     >{{ line }}</a>
   </div>
@@ -56,7 +43,8 @@ a {
 export default {
   name: "Filter-lines",
   props: {
-    allLines: Array
+    allLines: Array,
+    favorite: Boolean
   },
   data() {
     return {

@@ -23,23 +23,30 @@
       }
       html {
         --color-main: #faebd7;
+        --color-main-favorite: #d7fae1;
         --color-secondary: #696969;
         --color-tertiary: #008b8b; /* #00ab31;*/
 
         --breakpoint-main: 600px;
 
+        /* modular scale 8/9, base 1rem */
+        --font-size-xxl: 1.424rem;
+        --font-size-xl: 1.266rem;
+        --font-size-l: 1.125rem;
+        --font-size-m: 1rem;
+        --font-size-s: 0.889rem;
+        --font-size-xs: 0.79rem;
+
+        font-size: 100%;
         scroll-behavior: smooth;
       }
       body {
         margin: 0;
         font-family: "Open Sans Condensed", sans-serif;
-        font-size: 20px;
+        font-size: 1rem;
         line-height: 0.98;
       }
-      h1 {
-        font-size: 18px;
-        text-align: center;
-      }
+
       .bus-icon {
         display: inline-block;
         transition: all ease-out 1.6s;
@@ -60,17 +67,16 @@
       .version {
         margin-top: 4rem;
         color: var(--color-secondary);
-        font-size: 16px;
       }
 
       h1 {
-        font-size: 24px;
+        font-size: var(--font-size-xl);
         margin: 1.5rem 0;
         text-align: center;
       }
       h2,
       h3 {
-        font-size: 20px;
+        font-size: var(--font-size-l);
         margin: 1rem 0;
         text-align: center;
       }
@@ -84,7 +90,7 @@
 
         color: #fff;
         font-weight: 700;
-        font-size: 18px;
+        font-size: var(--font-size-l);
 
         text-align: center;
         text-transform: uppercase;

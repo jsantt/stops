@@ -3,21 +3,17 @@ article {
   display: grid;
   grid-template-columns: 0.75rem 4rem 3.5rem auto 2rem;
 }
-.header {
-  font-size: 16px;
-}
+
 .header,
 .departure {
   padding: 0.45rem 0;
 }
 .secondary {
   color: var(--color-secondary);
-  font-size: 18px;
 }
 
-/*.departure:nth-child(even) {*/
 .departure--favorite {
-  background-color: #f0f8ff;
+  background-color: var(--color-main-favorite);
 }
 .departure--hidden {
   opacity: 0.3;
@@ -27,7 +23,7 @@ article {
 }
 .time,
 .line {
-  font-size: 20px;
+  
 }
 
 .realtime-sign {

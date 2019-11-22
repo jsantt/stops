@@ -12,7 +12,6 @@ header.favorite {
 }
 
 .name {
-  font-size: var(--font-size-xl);
   padding-right: 0.5rem;
 }
 header > div {
@@ -22,7 +21,8 @@ header > div {
 
 .secondary {
   color: var(--color-secondary);
-  font-size: var(--font-size-m);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
 }
 .favorite,
 .distance {

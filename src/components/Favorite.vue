@@ -25,6 +25,9 @@
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section>
         <Stop
+          v-if="
+            stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
+          "
           :isFavorite="true"
           :stop="stop"
           :favorite="isFavorite(stop.gtfsId)"

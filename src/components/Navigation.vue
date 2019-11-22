@@ -23,7 +23,7 @@
 }
 
 nav {
-  background-color: #f1f1f1;
+  background-color: var(--color-lightgray);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: end;

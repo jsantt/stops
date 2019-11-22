@@ -5,7 +5,7 @@ div {
 }
 a {
   display: inline-block;
-  background-color: #fff;
+  background-color: var(--color-lightgray);
   box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
   color: #000;
   margin: 0.25rem;

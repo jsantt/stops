@@ -23,11 +23,12 @@
     </h2>
     <slot></slot>
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
-      <section>
-        <Stop
-          v-if="
+      <section
+        v-if="
             stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
           "
+      >
+        <Stop
           :isFavorite="true"
           :stop="stop"
           :favorite="isFavorite(stop.gtfsId)"

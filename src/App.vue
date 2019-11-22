@@ -31,6 +31,7 @@
 </style>
 <template>
   <div id="app">
+    <Text-resizer></Text-resizer>
     <Navigation
       class="navigation"
       ref="navigation"
@@ -102,6 +103,7 @@ import FilterLines from "./components/FilterLines.vue";
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
+import TextResizer from "./components/TextResizer.vue";
 import Version from "./components/Version.vue";
 import {
   filterData,
@@ -118,6 +120,7 @@ export default {
     Navigation,
     Nearest,
     Notification,
+    TextResizer,
     Version
   },
   data: function() {

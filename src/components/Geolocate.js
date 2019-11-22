@@ -13,7 +13,8 @@ function geolocate() {
             case error.PERMISSION_DENIED:
               reject({
                 header: "Salli paikannus",
-                body: "Salli paikannus käyttääksesi palvelua",
+                body:
+                  "Sijaintiasi käytetään vain lähimpien pysäkkien löytämiseksi",
                 button: "ok"
               });
               break;

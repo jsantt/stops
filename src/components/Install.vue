@@ -1,21 +1,21 @@
 <style scoped>
 section {
-  border: 3px solid lightgray;
-  border-radius: 0.25rem;
+  --border: 1px solid lightgray;
+  border-top: var(--border);
+  border-bottom: var(--border);
 
   margin: 8rem 1rem 1rem 1rem;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
 
   text-align: center;
 }
-svg {
+.ios-share-icon {
   stroke: #000;
   width: 32px;
   height: 32px;
   margin-bottom: -0.6rem;
 }
 .body {
-  color: #002424;
   padding: 0.5rem 0;
 }
 .body--instructions {
@@ -49,13 +49,29 @@ ol li::before {
   position: relative;
   top: 3px;
 }
+.install-now-icon {
+  fill: #fff;
+  stroke-width: 0;
+  margin-bottom: -0.4rem;
+}
 </style>
 <template>
   <section v-if="showPrompt()" id="install-prompt">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions">
-      <div class="body">Niin näet pysäkkiaikataulut ja viivästymiset entistä nopeammin</div>
-      <button v-on:click="onInstructionClick">Asenna nyt</button>
+      <div class="body">Näet pysäkkiaikataulut ja reaaliaikaiset saapumisajat entistä nopeammin</div>
+      <button v-on:click="onInstructionClick">
+        <svg
+          class="install-now-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+        </svg>
+        Asenna nyt
+      </button>
     </div>
     <div v-if="showInstructions">
       <div class="body--instructions">
@@ -63,8 +79,8 @@ ol li::before {
           <li>
             <!-- -->
             valitse
-            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-              <g id="iosShare">
+            <svg class="ios-share-icon" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+              <g id="iosShare"
                 <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
                 <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
                 <polyline
@@ -101,7 +117,7 @@ export default {
         return false;
       }
 
-      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = true; //["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);

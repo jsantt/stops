@@ -23,7 +23,7 @@ a {
 }
 </style>
 <template>
-  <div>
+  <div v-if="allLines !== undefined && allLines.length > 0">
     <a
       href="#"
       v-on:click="filterChanged(undefined)"

@@ -76,12 +76,18 @@
         v-on:toggle-favorite="toggleFavorite"
         v-on:add-favorite-line="addFavoriteLine"
       >
-        <Filter-lines :allLines="favoriteLines" :favorite="true" v-on:filter-changed="filterFavorite"></Filter-lines>
+        <Filter-lines
+          :allLines="favoriteLines"
+          :favorite="true"
+          v-on:filter-changed="filterFavorite"
+        ></Filter-lines>
       </Favorite>
     </div>
 
     <footer>
-      <div v-if="nearestData !== undefined">*=GPS-signaaliin perusteella laskettu arvio</div>
+      <div
+        v-if="nearestData !== undefined && favoriteTab !== false"
+      >*=GPS-signaaliin perusteella laskettu arvio</div>
       <div class="version">
         <Version></Version>
       </div>

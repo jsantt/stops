@@ -12,6 +12,10 @@ main {
   padding: 0.5rem 0;
   text-align: center;
 }
+slot,
+button {
+  color: #fff;
+}
 
 footer {
   padding: 0;

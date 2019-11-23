@@ -2,7 +2,7 @@
 .above-notification {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   background-color: #eee;
   padding: 0.15rem 1rem;
   opacity: 1;

@@ -4,6 +4,8 @@ a {
   position: absolute;
   right: 0;
   top: 0;
+
+  fill: var(--color-black-80);
 }
 </style>
 <template>

@@ -13,11 +13,15 @@
 }
 
 .bottom-sheet {
-  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+
+  box-shadow: 0px -1px 10px 0px rgba(0, 0, 0, 0.15);
+
   position: fixed;
-  left: 0;
+  left: 0.5rem;
   bottom: 0;
-  right: 0;
+  right: 0.5rem;
   background-color: var(--color-lightgray);
   z-index: 1;
 }

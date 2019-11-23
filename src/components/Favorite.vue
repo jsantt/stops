@@ -53,7 +53,7 @@
       <h3>Suosikkilista on tyhjä</h3>
       <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
     </div>
-    <Install></Install>
+    <Install v-if="stops !== undefined && stops.length > 0"></Install>
   </div>
 </template>
 

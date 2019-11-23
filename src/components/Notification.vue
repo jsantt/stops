@@ -13,8 +13,9 @@ main {
   text-align: center;
 }
 slot,
-button {
-  color: #fff;
+button,
+button div {
+  color: #fff !important;
 }
 
 footer {

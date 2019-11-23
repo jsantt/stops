@@ -18,12 +18,11 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #fff;
+  background-color: var(--color-lightgray);
   z-index: 1;
 }
 
 nav {
-  background-color: var(--color-lightgray);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: end;

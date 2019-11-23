@@ -87,7 +87,7 @@
 
     <footer>
       <div
-        v-if="nearestData !== undefined && favoriteTab !== false"
+        v-if="nearestData !== undefined && favoriteTab !== true"
       >*=GPS-signaaliin perusteella laskettu arvio</div>
       <div class="version">
         <Version></Version>

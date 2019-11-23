@@ -40,7 +40,7 @@ export default {
       if (this.fontSize > 166) {
         this.fontSize = 100;
       }
-      document.body.style.fontSize = `${this.fontSize}%`;
+      document.querySelector("html").style.fontSize = `${this.fontSize}%`;
     }
   }
 };

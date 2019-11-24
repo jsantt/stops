@@ -63,6 +63,11 @@
         transform: translate(0, 0);
         -webkit-transform: translate(0, 0);
       }
+      .bus-img {
+        width: 1rem;
+        height: 1rem;
+        margin-bottom: -0.1rem;
+      }
 
       footer {
         height: 5rem;
@@ -125,7 +130,15 @@
     </script>
   </head>
   <body>
-    <h1><span class="bus-icon">🚌</span> HSL:n pysäkkiaikataulut</h1>
+    <h1>
+      <span class="bus-icon"
+        ><img
+          class="bus-img"
+          src="/img/icons/android-chrome-192x192.png"
+        /><!--🚌--></span
+      >
+      HSL:n pysäkkiaikataulut
+    </h1>
 
     <div id="app"></div>
     <!-- built files will be auto injected -->

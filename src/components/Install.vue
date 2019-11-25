@@ -58,9 +58,9 @@ ol li::before {
 <template>
   <section v-if="showPrompt()" id="install-prompt">
     <h2>Asenna sovellus</h2>
-    <div v-if="!showInstructions">
+    <div v-if="!showInstructions" v-on:click="onInstructionClick">
       <div class="body">Näet pysäkkiaikataulut ja reaaliaikaiset saapumisajat entistä nopeammin</div>
-      <button v-on:click="onInstructionClick">
+      <s-button>
         <svg
           class="install-now-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +70,8 @@ ol li::before {
         >
           <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
         </svg>
-        Asenna nyt
-      </button>
+        <span style="color: #fff">Asenna nyt</span>
+      </s-button>
     </div>
     <div v-if="showInstructions">
       <div class="body--instructions">
@@ -102,8 +102,13 @@ ol li::before {
 </template>
 
 <script>
+import SButton from "./SButton.vue";
+
 export default {
   name: "Install",
+  components: {
+    SButton
+  },
   mounted: function() {},
   data() {
     return {
@@ -117,7 +122,7 @@ export default {
         return false;
       }
 
-      const isApple = true; //["iPhone", "iPad", "iPod"].includes(navigator.platform);
+      const isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
       const show = localStorage.getItem("prompt-install") === null;
 
       //localStorage.setItem("prompt-install", true);

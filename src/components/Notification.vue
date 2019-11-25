@@ -39,22 +39,26 @@ footer {
           />
         </svg>
       </div>
-      <slot name="header"></slot>
+      {{texts.header}}
     </h2>
-    <main>
-      <slot name="body"></slot>
-    </main>
-    <footer>
-      <button v-on:click="$emit('open-locate-prompt')">
-        <slot name="button"></slot>
-      </button>
+    <main>{{texts.body}}</main>
+    <footer v-on:click="$emit('open-locate-prompt')">
+      <s-button>{{texts.button}}</s-button>
     </footer>
   </div>
 </template>
 
 <script>
+import SButton from "./SButton.vue";
+
 export default {
   name: "Notification",
+  props: {
+    texts: Object
+  },
+  components: {
+    SButton
+  },
   data: function() {
     return {
       showUpdatedText: false

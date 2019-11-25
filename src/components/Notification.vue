@@ -9,13 +9,8 @@
 }
 
 main {
-  padding: 0.5rem 0;
+  padding: var(--space-m) 0;
   text-align: center;
-}
-slot,
-button,
-button div {
-  color: #fff !important;
 }
 
 footer {

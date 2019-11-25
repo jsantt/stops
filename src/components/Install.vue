@@ -5,7 +5,7 @@ section {
   border-bottom: var(--border);
 
   margin: 8rem 1rem 1rem 1rem;
-  padding: 1rem 0.5rem;
+  padding: var(--space-l) var(--space-m);
 
   text-align: center;
 }
@@ -16,7 +16,7 @@ section {
   margin-bottom: -0.6rem;
 }
 .body {
-  padding: 0.5rem 0;
+  padding: var(--space-m) 0;
 }
 .body--instructions {
   text-align: left;
@@ -25,7 +25,7 @@ section {
 ol {
   counter-reset: counter;
   list-style: none;
-  padding-left: 1rem;
+  padding-left: var(--space-l);
 }
 ol li {
   counter-increment: counter;
@@ -45,12 +45,12 @@ ol li::before {
   line-height: 1.5;
   color: #000;
 
-  margin-right: 0.5rem;
+  margin-right: var(--space-m);;
   position: relative;
   top: 3px;
 }
 .install-now-icon {
-  fill: #fff;
+  fill: var(--color-white);
   stroke-width: 0;
   margin-bottom: -0.4rem;
 }

@@ -4,7 +4,7 @@ header {
   display: grid;
   grid-template-columns: auto 3rem 2rem;
   align-items: baseline;
-  padding: 0 0.25rem;
+  padding: 0 var(--space-s);
 }
 
 header.favorite {
@@ -12,11 +12,11 @@ header.favorite {
 }
 
 .name {
-  padding-right: 0.5rem;
+  padding-right: var(--space-m);
 }
 header > div {
   margin: auto 0;
-  padding: 0.25rem;
+  padding: var(--space-s);
 }
 
 .secondary {

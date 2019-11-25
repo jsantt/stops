@@ -42,12 +42,12 @@
   content: "";
   padding-left: 10px;
   background-color: var(--color-tertiary);
-  color: #ffffff;
+  color: var(--color-white);
 }
 .onoffswitch-inner:after {
   content: "";
   padding-right: 10px;
-  background-color: #fff;
+  background-color: var(--color-white);
   color: #000;
   text-align: right;
 }
@@ -55,12 +55,12 @@
   display: block;
   width: 17px;
   margin: -2.5px;
-  background: #ffffff;
+  background: var(--color-white);
   position: absolute;
   top: 0;
   bottom: 0;
   right: 27px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-black);
   border-radius: 20px;
   transition: all 0.3s ease-in 0s;
 }

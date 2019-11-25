@@ -1,9 +1,4 @@
 <style scoped>
-@media screen and (min-width: 600px) {
-  .navigation {
-    display: none;
-  }
-}
 
 .swipe {
   display: grid;

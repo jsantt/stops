@@ -13,16 +13,18 @@
 }
 
 .bottom-sheet {
+  background-color: var(--color-lightgray);
+  border: 1px solid #cccccc36;
+  box-shadow: var(--box-shadow-m);
+
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-
-  box-shadow: 0px -1px 10px 0px rgba(0, 0, 0, 0.15);
 
   position: fixed;
   left: 0.5rem;
   bottom: 0;
   right: 0.5rem;
-  background-color: var(--color-lightgray);
+
   z-index: 1;
 }
 
@@ -40,6 +42,14 @@ nav {
   height: 100%;
   padding: 4px 0 2px 0;
 }
+
+@media screen and (min-width: 600px) {
+  .favorite,
+  .nearby {
+    visibility: hidden;
+  }
+}
+
 [selected] {
   border-bottom: 3px solid black;
 }

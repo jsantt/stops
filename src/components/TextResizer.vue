@@ -1,6 +1,6 @@
 <style scoped>
 a {
-  padding: 0.5rem;
+  padding: var(--space-m);
   position: absolute;
   right: 0;
   top: 0;

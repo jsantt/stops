@@ -6,11 +6,11 @@ div {
 a {
   display: inline-block;
   background-color: var(--color-lightgray);
-  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--box-shadow-s);
   color: #000;
-  margin: 0.25rem;
+  margin: var(--space-s);
   border-radius: 2.25rem;
-  padding: 0.5rem 0;
+  padding: var(--space-m) 0;
   text-decoration: none;
   min-width: 2.8rem;
   text-align: center;

@@ -6,14 +6,14 @@ button {
   background-color: var(--color-tertiary);
   border-radius: 4px;
 
-  color: #fff !important;
+  color: var(--color-white);
   font-weight: 700;
   font-size: var(--font-size-m);
 
   text-align: center;
   text-transform: uppercase;
 
-  margin: 0.5rem 0;
+  margin: var(--space-m) 0;
   padding: 1rem;
   width: 100%;
 }

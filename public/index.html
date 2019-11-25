@@ -22,18 +22,22 @@
         box-sizing: border-box;
       }
       html {
+        /* COMMON VARIABLES */
+
+        --box-shadow-s: 0px -1px 4px 0px rgba(0, 0, 0, 0.05);
+        --box-shadow-m: 0px -1px 7px 0px rgba(0, 0, 0, 0.15);
+
+        --breakpoint-main: 600px;
+
         --color-main: #faebd7;
         --color-main-favorite: #d7fae1;
         --color-secondary: #696969;
         --color-tertiary: #008b8b; /* #00ab31;*/
-
         --color-lightgray: #f5f5f5;
-
         --color-black: #000;
         --color-black-90: #424242;
         --color-black-80: #545454;
-
-        --breakpoint-main: 600px;
+        --color-white: #fff;
 
         /* modular scale 8/9, base 1rem */
         --font-size-xl: 1.424rem;
@@ -41,6 +45,10 @@
         --font-size-m: 1.125rem;
         --font-size-s: 1rem;
         --font-size-xs: 0.889rem;
+
+        --space-s: 0.25rem;
+        --space-m: 0.5rem;
+        --space-l: 1rem;
 
         font-size: 100%;
         scroll-behavior: smooth;

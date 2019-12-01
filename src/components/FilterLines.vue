@@ -36,12 +36,18 @@ a {
       v-bind:class="{ 'selected--nearest': line === filterValue && favorite !== true, 'selected--favorite': favorite === true && line === filterValue}"
       v-on:click="filterChanged(line)"
     >{{ line }}</a>
+    <!--s-dropdown></s-dropdown-->
   </div>
 </template>
 
 <script>
+import SDropdown from "./SDropdown.vue";
+
 export default {
   name: "Filter-lines",
+  components: {
+    SDropdown
+  },
   props: {
     allLines: Array,
     favorite: Boolean

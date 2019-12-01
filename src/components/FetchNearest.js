@@ -66,6 +66,10 @@ function query(lat, lon, stops) {
                     serviceDay
                     trip {
                       routeShortName
+                       alerts {
+                        alertHeaderText
+                        alertDescriptionText
+                      }
                     }
                   }
                 }

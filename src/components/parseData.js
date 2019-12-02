@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { filter } from "minimatch";
 
 /**
  * Parse line numbers (route short name) from given data
@@ -19,7 +20,26 @@ function parseLines(data) {
   return lines.sort();
 }
 
-function filterData(data, lineNumber) {
+/**
+ * Parse line destinations (headsign) from given data
+ * @param {Array} data
+ * @returns {Array} of nearby line numbers
+ */
+function parseDestinations(data) {
+  let destinations = [];
+
+  data.forEach(item => {
+    item.stoptimesWithoutPatterns.forEach(departure => {
+      if (!destinations.includes(departure.headsign)) {
+        destinations.push(departure.headsign);
+      }
+    });
+  });
+
+  return destinations.sort();
+}
+
+function filterData(data, filterText) {
   const copy = [...data];
 
   let departuresVisible;
@@ -30,8 +50,9 @@ function filterData(data, lineNumber) {
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
         if (
-          lineNumber === undefined ||
-          lineNumber === departure.trip.routeShortName
+          filterText === undefined ||
+          filterText === departure.trip.routeShortName ||
+          filterText === departure.headsign
         ) {
           // use Vue.set to let Vue know the change and re-render departures
           Vue.set(departure, "hidden", false);
@@ -69,4 +90,4 @@ function markFavoriteLines(data, favoriteLines) {
   });
 }
 
-export { filterData, markFavoriteLines, parseLines };
+export { filterData, markFavoriteLines, parseDestinations, parseLines };

@@ -31,16 +31,36 @@ option {
 }
 </style>
 <template>
-  <select>
-    <option>Matinkylä (M)</option>
-    <option>Espoonlahti</option>
-    <option>Upinniemi via Kirkkonummi</option>
-    <option>Tapiola (M) via Niittykumpu (M)</option>
+  <!-- check https://github.com/shentao/vue-multiselect example https://vue-multiselect.js.org/ as alternative -->
+  <select
+    v-if="items !== undefined"
+    v-model="selected"
+    v-on:change="changed"
+    ref="selectDestination"
+  >
+    <option hidden>Päätepysäkki</option>
+    <option v-for="item in items" v-bind:key="item">{{item}}</option>
   </select>
 </template>
 
 <script>
 export default {
-  name: "s-dropdown"
+  name: "s-dropdown",
+  props: {
+    items: Array
+  },
+  data: function() {
+    return {
+      selected: "Päätepysäkki"
+    };
+  },
+  methods: {
+    changed: function() {
+      this.$emit("new-value", this.selected);
+    },
+    reset: function() {
+      this.$refs.selectDestination.selectedIndex = 0;
+    }
+  }
 };
 </script>

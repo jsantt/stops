@@ -1,5 +1,4 @@
 <style scoped>
-
 .swipe {
   display: grid;
   grid-template-columns: repeat(2, 100%);
@@ -61,7 +60,12 @@
         v-on:toggle-favorite="toggleFavorite"
         v-on:add-favorite-line="addFavoriteLine"
       >
-        <Filter-lines :allLines="nearestLines" v-on:filter-changed="filterNearest"></Filter-lines>
+        <Filter-lines
+          :allLines="nearestLines"
+          :destinations="nearestDestinations"
+          v-on:filter-changed="filterNearest"
+          v-on:filter-destination="filterNearest"
+        ></Filter-lines>
       </Nearest>
 
       <Favorite
@@ -74,16 +78,21 @@
       >
         <Filter-lines
           :allLines="favoriteLines"
+          :destinations="favoriteDestinations"
           :favorite="true"
           v-on:filter-changed="filterFavorite"
+          v-on:filter-destination="filterFavorite"
         ></Filter-lines>
       </Favorite>
     </div>
 
-    <footer>
-      <div
-        v-if="nearestData !== undefined && favoriteTab !== true"
-      >*=GPS-signaaliin perusteella laskettu arvio</div>
+    <footer v-if="nearestData !== undefined && nearestData.length > 0 && favoriteTab !== true">
+      <div>
+        <svg width="16" height="16" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
+        </svg> vuoro GPS-seurattu (näkyy kuljettajan kirjauduttua)
+        <br />* GPS-signaaliin perusteella laskettu arvio
+      </div>
       <div class="version">
         <Version></Version>
       </div>
@@ -103,6 +112,7 @@ import Version from "./components/Version.vue";
 import {
   filterData,
   markFavoriteLines,
+  parseDestinations,
   parseLines
 } from "./components/parseData.js";
 
@@ -122,12 +132,14 @@ export default {
     return {
       favoriteData: [],
       favoriteFilter: undefined,
+      favoriteDestinations: undefined,
       favoriteLines: [],
       favoriteStops: [],
       favoriteTab: false,
       locationError: undefined,
       nearestData: [],
       nearestFilter: undefined,
+      nearestDestinations: undefined,
       nearestLines: [],
       previousScrollPosition: 0,
       realtime: true
@@ -177,6 +189,7 @@ export default {
     favoriteDataReceived: function(result) {
       this.updateStatus("päivitetty");
       this.favoriteLines = parseLines(result);
+      this.favoriteDestinations = parseDestinations(result);
       this.favoriteData = filterData(result, this.favoriteFilter);
     },
     filterFavorite: function(filter) {
@@ -196,6 +209,7 @@ export default {
     },
     nearestDataReceived: function(result) {
       this.nearestLines = parseLines(result);
+      this.nearestDestinations = parseDestinations(result);
 
       // this.addFavoriteLine();
       this.nearestData = filterData(result, this.nearestFilter);

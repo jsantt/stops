@@ -3,6 +3,14 @@
   h2 {
     display: none;
   }
+  section {
+    transition: all 0.4s ease-in-out;
+    transform: scaleY(1);
+  }
+  .stop--hidden {
+    opacity: 0;
+    height: 0;
+  }
 }
 </style>
 <template>
@@ -25,8 +33,9 @@
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section
         v-if="
-            stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
+            stop.stoptimesWithoutPatterns !== undefined
           "
+        v-bind:class="{'stop--hidden': stop.hidden === true}"
       >
         <Stop
           :stop="stop"

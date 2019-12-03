@@ -22,6 +22,10 @@
 .swipe-page {
   scroll-snap-align: start;
 }
+footer {
+  margin-top: var(--space-l);
+  text-align: center;
+}
 </style>
 <template>
   <div id="app">
@@ -90,8 +94,7 @@
       <div>
         <svg width="16" height="16" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
-        </svg> vuoro GPS-seurattu (näkyy kuljettajan kirjauduttua)
-        <br />* GPS-signaaliin perusteella laskettu arvio
+        </svg> GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
       <div class="version">
         <Version></Version>

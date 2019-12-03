@@ -6,9 +6,10 @@
   section {
     transition: all 0.4s ease-in-out;
     transform: scaleY(1);
+    color: #000;
   }
   .stop--hidden {
-    opacity: 0;
+    color: #fff;
     height: 0;
   }
 }
@@ -48,6 +49,10 @@
           v-on:add-favorite-line="addFavoriteLine"
         ></Departures>
       </section>
+    </div>
+    <div v-if="stops == null || stops.length < 1">
+      <h3>Ei pysäkkejä</h3>
+      <div></div>
     </div>
   </div>
 </template>

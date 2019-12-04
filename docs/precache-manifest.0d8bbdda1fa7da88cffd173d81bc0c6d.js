@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/img/bus-192x192.png"
   },
   {
-    "revision": "b9c635d722bbb77c82c19e8dbc6c8a3c",
+    "revision": "6efcc11e754f068bf369decccabefc14",
     "url": "/favicon.png"
   },
   {

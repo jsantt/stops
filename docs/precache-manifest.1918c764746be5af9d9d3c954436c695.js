@@ -1,5 +1,9 @@
 self.__precacheManifest = [
   {
+    "revision": "69e4b9a88392039446cb7eaf8f6f0051",
+    "url": "/favicon-16X16.png"
+  },
+  {
     "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "/robots.txt"
   },
@@ -30,6 +34,10 @@ self.__precacheManifest = [
   {
     "revision": "6efcc11e754f068bf369decccabefc14",
     "url": "/favicon.png"
+  },
+  {
+    "revision": "6efcc11e754f068bf369decccabefc14",
+    "url": "/favicon-32X32.png"
   },
   {
     "revision": "ea319390ac609d95d4ec",

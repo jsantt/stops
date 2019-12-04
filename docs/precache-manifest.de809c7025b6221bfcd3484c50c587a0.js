@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "69e4b9a88392039446cb7eaf8f6f0051",
-    "url": "/favicon-16X16.png"
+    "revision": "8a6a8e4410b21162031e0d688b802f42",
+    "url": "/img/bus-512x512.png"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
@@ -24,10 +24,6 @@ self.__precacheManifest = [
     "url": "/img/logo-master.svg"
   },
   {
-    "revision": "8a6a8e4410b21162031e0d688b802f42",
-    "url": "/img/bus-512x512.png"
-  },
-  {
     "revision": "7245366af97e06704954c35909ca079f",
     "url": "/img/bus-192x192.png"
   },
@@ -38,6 +34,10 @@ self.__precacheManifest = [
   {
     "revision": "6efcc11e754f068bf369decccabefc14",
     "url": "/favicon-32X32.png"
+  },
+  {
+    "revision": "69e4b9a88392039446cb7eaf8f6f0051",
+    "url": "/favicon-16X16.png"
   },
   {
     "revision": "ea319390ac609d95d4ec",

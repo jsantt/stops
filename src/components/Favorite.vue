@@ -36,6 +36,7 @@
         ></Stop>
         <Departures
           :departures="stop.stoptimesWithoutPatterns"
+          :isFavorite="true"
           :realtime="realtime"
           v-on:add-favorite-line="addFavoriteLine"
         ></Departures>

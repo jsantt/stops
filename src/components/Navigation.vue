@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #eee;
+  background-color: #fff;
   padding: 0.15rem 1rem;
   opacity: 1;
   transition: opacity 0.6s ease-in-out;
@@ -14,16 +14,16 @@
 
 .bottom-sheet {
   background-color: var(--color-lightgray);
-  border: 1px solid #cccccc36;
+  border: 1px solid #fff;
   box-shadow: var(--box-shadow-m);
 
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 
   position: fixed;
-  left: 0.5rem;
+  left: var(--space-m);
   bottom: 0;
-  right: 0.5rem;
+  right: var(--space-m);
 
   z-index: 1;
 }

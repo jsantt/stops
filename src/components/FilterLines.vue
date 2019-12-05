@@ -14,12 +14,11 @@ a {
   min-width: 2.8rem;
   text-align: center;
 }
-.selected--nearest {
-  background-color: var(--color-main);
+.selected {
+  background-color: var(--color-black-80);
+  color: var(--color-white);
 }
-.selected--favorite {
-  background-color: var(--color-main-favorite);
-}
+
 .destination-dropdown {
   margin: var(--space-s);
 }
@@ -31,19 +30,19 @@ a {
       ref="dropdown"
       v-on:new-value="destinationChanged"
       class="destination-dropdown"
-      v-bind:class="{ 'selected--nearest': destinationFilterValue !== undefined && favorite !== true, 'selected--favorite': favorite === true && destinationFilterValue !== undefined }"
+      v-bind:class="{ 'selected': destinationFilterValue !== undefined }"
     ></s-dropdown>
     <a
       href="#"
       v-for="line in allLines"
       v-bind:key="line"
-      v-bind:class="{ 'selected--nearest': line === filterValue && favorite !== true, 'selected--favorite': favorite === true && line === filterValue}"
+      v-bind:class="{ 'selected': line === filterValue && favorite !== true, 'selected--favorite': favorite === true && line === filterValue}"
       v-on:click="filterChanged(line)"
     >{{ line }}</a>
     <a
       href="#"
       v-on:click="filterChanged(undefined)"
-      v-bind:class="{ 'selected--nearest': filterValue === undefined && destinationFilterValue === undefined && favorite !== true,'selected--favorite': filterValue === undefined && destinationFilterValue === undefined && favorite === true }"
+      v-bind:class="{ 'selected': filterValue === undefined && destinationFilterValue === undefined }"
     >kaikki</a>
   </div>
 </template>

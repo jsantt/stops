@@ -4,12 +4,16 @@
   grid-template-columns: repeat(2, 100%);
   will-change: transform;
   align-content: center;
+
   overflow-x: auto;
   scroll-snap-coordinate: 0 0;
   scroll-snap-points-x: repeat(100%);
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   overflow-y: hidden;
+}
+.filter {
+  margin-bottom: var(--space-l);
 }
 
 @media screen and (min-width: 600px) {
@@ -21,6 +25,7 @@
 }
 .swipe-page {
   scroll-snap-align: start;
+  margin: 0 var(--space-m);
 }
 footer {
   margin-top: var(--space-l);
@@ -65,6 +70,7 @@ footer {
         v-on:add-favorite-line="addFavoriteLine"
       >
         <Filter-lines
+          class="filter"
           :allLines="nearestLines"
           :destinations="nearestDestinations"
           v-on:filter-changed="filterNearest"

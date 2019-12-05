@@ -4,13 +4,13 @@
     display: none;
   }
   section {
-    transition: all 0.4s ease-in-out;
-    transform: scaleY(1);
+    /*transition: all 0.4s ease-in-out;
+    transform: scaleY(1);*/
     color: #000;
   }
   .stop--hidden {
-    color: #fff;
-    height: 0;
+    /*color: #fff;
+    */
   }
 }
 </style>
@@ -34,7 +34,7 @@
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section
         v-if="
-            stop.stoptimesWithoutPatterns !== undefined
+            stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
           "
         v-bind:class="{'stop--hidden': stop.hidden === true}"
       >

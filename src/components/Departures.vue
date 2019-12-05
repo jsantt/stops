@@ -1,7 +1,18 @@
 <style scoped>
+.departures {
+  background-color: var(--color-beige-500);
+  border-radius: 0.75rem;
+  margin: var(--space-s) 0;
+  padding: var(--space-m);
+}
+.favorite {
+  background-color: var(--color-green-500);
+}
+
 article {
   display: grid;
   grid-template-columns: 0.75rem 4rem 3.5rem auto 2rem;
+  grid-gap: var(--space-s);
 }
 
 .header,
@@ -23,7 +34,6 @@ article {
 }
 .time,
 .line {
-  
 }
 
 .realtime-sign {
@@ -70,7 +80,7 @@ article {
 </style>
 
 <template>
-  <div>
+  <div class="departures" v-bind:class="{ favorite: isFavorite }">
     <div v-if="departures.length < 1" class="no-departures">&mdash;</div>
 
     <article
@@ -115,6 +125,7 @@ export default {
   name: "Schedule",
   props: {
     departures: Array,
+    isFavorite: Boolean,
     realtime: Boolean
   },
 

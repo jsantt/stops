@@ -1,14 +1,15 @@
 <style scoped>
 header {
-  background-color: var(--color-main);
+  color: var(--color-beige-900);
   display: grid;
   grid-template-columns: auto 3rem 2rem;
   align-items: baseline;
+  font-weight: 600;
   padding: 0 var(--space-s);
 }
 
 header.favorite {
-  background-color: #d7fae1;
+  color: var(--color-green-900);
 }
 
 .name {

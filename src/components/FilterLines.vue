@@ -5,7 +5,8 @@ div {
 }
 a {
   display: inline-block;
-  background-color: var(--color-lightgray);
+  /*background-color: var(--color-lightgray);*/
+  background-color: var(--color-white);
   color: #000;
   margin: var(--space-s);
   border-radius: 2.25rem;

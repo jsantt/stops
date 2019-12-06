@@ -1,6 +1,6 @@
 <style scoped>
 header {
-  color: var(--color-beige-900);
+  color: var(--color-blue-800);
   display: grid;
   grid-template-columns: auto 3rem 2rem;
   align-items: baseline;
@@ -13,6 +13,7 @@ header.favorite {
 }
 
 .name {
+  font-family: sans-serif;
   padding-right: var(--space-m);
 }
 header > div {
@@ -23,7 +24,7 @@ header > div {
 .secondary {
   color: var(--color-secondary);
   font-size: var(--font-size-xs);
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .favorite,
 .distance {
@@ -34,7 +35,8 @@ header > div {
   <header v-bind:class="{ favorite: isFavorite }">
     <div>
       <span class="name">{{ stop.name }}</span>
-      <wbr />
+      <!--wbr /-->
+      <br />
 
       <span class="secondary">
         <span class="code">{{ stop.code }}</span>

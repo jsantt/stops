@@ -5,6 +5,8 @@
   will-change: transform;
   align-content: center;
 
+  margin: 0 var(--space-m);
+
   overflow-x: auto;
   scroll-snap-coordinate: 0 0;
   scroll-snap-points-x: repeat(100%);
@@ -20,12 +22,10 @@
   .swipe {
     grid-template-columns: repeat(2, 49%);
     grid-gap: 1rem;
-    margin: 1rem;
   }
 }
 .swipe-page {
   scroll-snap-align: start;
-  margin: 0 var(--space-m);
 }
 footer {
   margin-top: var(--space-l);

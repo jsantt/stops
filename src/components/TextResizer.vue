@@ -5,7 +5,7 @@ a {
   right: 0;
   top: 0;
 
-  fill: var(--color-black-80);
+  fill: var(--color-gray-800);
 }
 </style>
 <template>

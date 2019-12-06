@@ -5,7 +5,6 @@ div {
 }
 a {
   display: inline-block;
-  /*background-color: var(--color-lightgray);*/
   background-color: var(--color-white);
   color: #000;
   margin: var(--space-s);
@@ -16,7 +15,7 @@ a {
   text-align: center;
 }
 .selected {
-  background-color: var(--color-black-80);
+  background-color: var(--color-gray-800);
   color: var(--color-white);
 }
 

@@ -1,6 +1,6 @@
 <style scoped>
 .departures {
-  background-color: var(--color-beige-500);
+  background-color: var(--color-blue-500);
   border-radius: 0.75rem;
   margin: var(--space-s) 0;
   padding: var(--space-m);

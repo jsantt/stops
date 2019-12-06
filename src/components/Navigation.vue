@@ -13,7 +13,7 @@
 }
 
 .bottom-sheet {
-  background-color: var(--color-lightgray);
+  background-color: var(--color-white);
   border: 1px solid #fff;
   box-shadow: var(--box-shadow-m);
 

@@ -35,7 +35,7 @@ a {
 </style>
 <template>
   <div class="filterLines" v-if="allLines !== undefined && allLines.length > 0">
-    <s-accordion>
+    <s-accordion ref="lineAccordion">
       <template slot="header">
         <div>
           <span class="header">LINJA</span>
@@ -59,7 +59,7 @@ a {
         >{{ line }}</a>
       </template>
     </s-accordion>
-    <s-accordion :closedByDefault="true">
+    <s-accordion ref="directionAccordion" :closedByDefault="true">
       <template slot="header">
         <div>
           <span class="header">SUUNTA</span>
@@ -133,6 +133,9 @@ export default {
         this.filterValue = undefined;
       }
 
+      this.$refs.lineAccordion.close();
+      this.$refs.directionAccordion.close();
+
       this.$emit("filter-destination", newDestination);
     },
     filterChanged: function(lineNumber) {
@@ -143,6 +146,9 @@ export default {
         this.destinationFilterValue = undefined;
         // this.$refs.dropdown.reset();
       }
+
+      this.$refs.lineAccordion.close();
+      this.$refs.directionAccordion.close();
       this.$emit("filter-changed", this.filterValue);
     },
     reset: function() {

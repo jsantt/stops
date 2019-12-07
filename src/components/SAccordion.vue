@@ -67,6 +67,12 @@ export default {
     };
   },
   methods: {
+    close: function() {
+      this.isOpen = false;
+    },
+    open: function() {
+      this.isOpen = true;
+    },
     toggleAccordion: function() {
       this.isOpen = !this.isOpen;
     }

@@ -5,7 +5,7 @@
   margin: var(--space-s) 0;
   padding: var(--space-m);
 }
-.favorite {
+.departures--favorite {
   background-color: var(--color-green-500);
 }
 
@@ -24,7 +24,7 @@ article {
 }
 
 .departure--favorite {
-  background-color: var(--color-main-favorite);
+  background-color: var(--color-green-500);
 }
 .departure--hidden {
   opacity: 0.3;
@@ -80,7 +80,7 @@ article {
 </style>
 
 <template>
-  <div class="departures" v-bind:class="{ favorite: findIsFavorite }">
+  <div class="departures" v-bind:class="{ 'departures--favorite': isFavorite }">
     <div v-if="departures.length < 1" class="no-departures">&mdash;</div>
 
     <article
@@ -102,10 +102,6 @@ article {
         </span>
 
         <span v-show="realtime">
-          <!--span>showEarlierTime</span>
-          <span v-if="aheadschedule"></span>
-          <span>showLaterTime</span>
-          <span v-if="!aheadShedule"></span-->
           {{
           toRealtime(
           new Date(),

@@ -1,11 +1,10 @@
 <style scoped>
 svg {
   transition: all ease-out 0.1s;
-  fill: var(--color-blue-800);
+  fill: var(--color-red-300);
 }
 
 .star--selected {
-  fill: var(--color-green-900);
   animation: stretch-bounce 0.5s ease-in-out;
 }
 @keyframes stretch-bounce {

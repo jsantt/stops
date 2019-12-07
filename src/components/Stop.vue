@@ -8,7 +8,7 @@ header {
   padding: 0 var(--space-s);
 }
 
-header.favorite {
+.header--favorite {
   color: var(--color-green-900);
 }
 
@@ -32,7 +32,7 @@ header > div {
 }
 </style>
 <template>
-  <header v-bind:class="{ favorite: isFavorite }">
+  <header v-bind:class="{ 'header--favorite': isFavorite }">
     <div>
       <span class="name">{{ stop.name }}</span>
       <!--wbr /-->

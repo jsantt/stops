@@ -35,7 +35,7 @@ a {
 </style>
 <template>
   <div class="filterLines" v-if="allLines !== undefined && allLines.length > 0">
-    <s-accordion ref="lineAccordion">
+    <s-accordion ref="lineAccordion" :closedByDefault="true">
       <template slot="header">
         <div>
           <span class="header">LINJA</span>
@@ -82,23 +82,6 @@ a {
         >{{ destination }}</a>
       </template>
     </s-accordion>
-
-    <!--s-dropdown
-      :items="destinations"
-      ref="dropdown"
-      v-on:new-value="destinationChanged"
-      class="destination-dropdown"
-      v-bind:class="{ selected: destinationFilterValue !== undefined }"
-    ></s-dropdown-->
-
-    <!--a
-      href="#"
-      v-on:click="filterChanged(undefined)"
-      v-bind:class="{
-        selected:
-          filterValue === undefined && destinationFilterValue === undefined
-      }"
-    >kaikki</a-->
   </div>
 </template>
 

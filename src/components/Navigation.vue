@@ -42,6 +42,12 @@ nav {
   height: 100%;
   padding: 4px 0 2px 0;
 }
+.nearby-svg {
+  fill: var(--color-blue-800);
+}
+.favorite-svg {
+  fill: var(--color-red-500);
+}
 
 @media screen and (min-width: 600px) {
   .favorite,
@@ -60,24 +66,16 @@ nav {
     <div
       v-bind:class="{ 'above-notification--hidden': statusText === undefined }"
       class="above-notification"
-    >
-      {{ statusText }}
-    </div>
+    >{{ statusText }}</div>
     <slot></slot>
     <nav>
       <div class="tab">
-        <TimeSwitch
-          v-on:time-switch-clicked="$emit('time-switch-clicked')"
-        ></TimeSwitch>
+        <TimeSwitch v-on:time-switch-clicked="$emit('time-switch-clicked')"></TimeSwitch>
         <Clock></Clock>
       </div>
-      <div
-        class="tab nearby"
-        :selected="selectedTab === 'nearby'"
-        v-on:click="clickNearby"
-      >
+      <div class="tab nearby" :selected="selectedTab === 'nearby'" v-on:click="clickNearby">
         <svg
-          class="icon"
+          class="nearby-svg"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -89,12 +87,9 @@ nav {
         </svg>
         <div>lähellä</div>
       </div>
-      <div
-        class="tab favorite"
-        :selected="selectedTab === 'favorite'"
-        v-on:click="clickFavorite"
-      >
+      <div class="tab favorite" :selected="selectedTab === 'favorite'" v-on:click="clickFavorite">
         <svg
+          class="favorite-svg"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"

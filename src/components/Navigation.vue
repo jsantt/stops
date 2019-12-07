@@ -43,18 +43,18 @@ nav {
   padding: 4px 0 2px 0;
 }
 .nearby-svg {
-  fill: var(--color-blue-800);
+  fill: var(--color-blue-700);
 }
 .favorite-svg {
   fill: var(--color-red-500);
 }
-
+/*
 @media screen and (min-width: 600px) {
   .favorite,
   .nearby {
     visibility: hidden;
   }
-}
+}*/
 
 [selected] {
   border-bottom: 3px solid black;

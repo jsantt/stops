@@ -3,22 +3,16 @@
   h2 {
     display: none;
   }
-  section {
-    /*transition: all 0.4s ease-in-out;
-    transform: scaleY(1);*/
-    color: #000;
-  }
-  .stop--hidden {
-    /*color: #fff;
-    */
-  }
+}
+.nearest-svg {
+  fill: var(--color-blue-700);
 }
 </style>
 <template>
   <div>
     <h2>
       <svg
-        class="icon"
+        class="nearest-svg"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"

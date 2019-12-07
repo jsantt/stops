@@ -9,11 +9,15 @@
   margin: 6rem 1rem;
   text-align: center;
 }
+.favorite-svg {
+  fill: var(--color-red-300);
+}
 </style>
 <template>
   <div>
     <h2>
       <svg
+        class="favorite-svg"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -50,6 +54,7 @@
     <div v-if="stops == null || stops.length < 1" class="empty-favorite">
       <div>
         <svg
+          class="favorite-svg"
           xmlns="http://www.w3.org/2000/svg"
           width="48"
           height="48"
@@ -62,9 +67,7 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>
-        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
-      </div>
+      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
     </div>
     <Install v-if="stops !== undefined && stops.length > 0"></Install>
   </div>

@@ -6,18 +6,23 @@
 }
 .message-header {
   cursor: pointer;
-  border-bottom: 1px solid var(--color-gray-500);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: var(--space-m) 0;
   width: 100%;
 }
+
+.message-header--underline {
+  border-bottom: 1px solid var(--color-gray-500);
+}
+
 .message-body {
   padding: var(--space-s) 0;
-  max-height: 20rem;
+  max-height: 40rem;
   overflow: hidden;
   transition: 0.4s ease all;
-  will-change:max-height;
+  will-change: height;
 }
 .is-closed .message-body {
   max-height: 0;
@@ -32,9 +37,14 @@ svg {
 <template>
   <section class="section container">
     <article class="message" :class="accordionClasses">
-      <div class="message-header" @click="toggleAccordion">
+      <div
+        class="message-header"
+        v-bind:class="{'message-header--underline': noHandle !== true }"
+        @click="toggleAccordion"
+      >
         <slot name="header"></slot>
         <svg
+          v-if="noHandle !== true"
           v-bind:class="{'svg--open': isOpen}"
           xmlns="http://www.w3.org/2000/svg"
           width="6"
@@ -60,11 +70,11 @@ svg {
 export default {
   name: "s-accordion",
   props: {
-    closedByDefault: Boolean
+    noHandle: Boolean
   },
   data: function() {
     return {
-      isOpen: this.closedByDefault !== true
+      isOpen: false
     };
   },
   methods: {

@@ -3,7 +3,7 @@
   margin: 0 var(--space-m) var(--space-l) var(--space-m);
 }
 
-.header {
+.header-text {
   color: var(--color-red-500);
   font-family: var(--font-family-secondary);
   font-size: var(--font-size-xs);
@@ -35,10 +35,10 @@ a {
 </style>
 <template>
   <div class="filterLines" v-if="allLines !== undefined && allLines.length > 0">
-    <s-accordion ref="lineAccordion" :closedByDefault="true">
+    <s-accordion ref="lineAccordion">
       <template slot="header">
         <div>
-          <span class="header">LINJA</span>
+          <span class="header-text">LINJA</span>
           <a
             v-if="filterValue !== undefined"
             v-on:click="filterChanged(undefined)"
@@ -59,10 +59,10 @@ a {
         >{{ line }}</a>
       </template>
     </s-accordion>
-    <s-accordion ref="directionAccordion" :closedByDefault="true">
+    <s-accordion ref="directionAccordion">
       <template slot="header">
-        <div>
-          <span class="header">SUUNTA</span>
+        <div class="header">
+          <span class="header-text">SUUNTA</span>
           <a
             v-if="destinationFilterValue !== undefined"
             v-on:click="destinationChanged(undefined)"

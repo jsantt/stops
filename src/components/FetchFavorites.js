@@ -56,6 +56,7 @@ function query(stops) {
           headsign
           serviceDay
           trip {
+            id
             routeShortName
           }
         }

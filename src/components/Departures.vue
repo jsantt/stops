@@ -90,16 +90,16 @@ article {
         'departure--hidden': departure.hidden === true
       }"
       v-for="departure in departures"
-      v-bind:key="departure.scheduledDeparture"
+      v-bind:key="departure.trip.id"
       v-on:click="addLine(departure)"
     >
-      <div
-        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
-      ></div>
+      <div v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"></div>
       <div class="time">
-        <span v-show="!realtime" data-hook="time-schedule">{{
+        <span v-show="!realtime" data-hook="time-schedule">
+          {{
           timeToString(toHourAndMinutes(departure.scheduledDeparture))
-        }}</span>
+          }}
+        </span>
 
         <span v-show="realtime">
           <!--span>showEarlierTime</span>
@@ -107,13 +107,13 @@ article {
           <span>showLaterTime</span>
           <span v-if="!aheadShedule"></span-->
           {{
-            toRealtime(
-              new Date(),
-              departure.scheduledDeparture,
-              departure.departureDelay,
-              departure.realtime,
-              departure.serviceDay
-            )
+          toRealtime(
+          new Date(),
+          departure.scheduledDeparture,
+          departure.departureDelay,
+          departure.realtime,
+          departure.serviceDay
+          )
           }}
         </span>
       </div>
@@ -159,7 +159,7 @@ export default {
         headsign: departure.headsign
       });
     },
-    findIsFavoriteisFavorite(departure) {
+    findIsFavorite(departure) {
       const route = departure.trip.routeShortName;
       let favoritesString = window.localStorage.getItem("favoriteLines");
       if (favoritesString == null) {

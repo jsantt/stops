@@ -65,6 +65,7 @@ function query(lat, lon, stops) {
                     headsign
                     serviceDay
                     trip {
+                      id
                       routeShortName
                        alerts {
                         alertHeaderText

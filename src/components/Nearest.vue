@@ -34,9 +34,9 @@
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section
         v-if="
-            stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
-          "
-        v-bind:class="{'stop--hidden': stop.hidden === true}"
+          stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
+        "
+        v-bind:class="{ 'stop--hidden': stop.hidden === true }"
       >
         <Stop
           :stop="stop"

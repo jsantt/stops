@@ -1,5 +1,4 @@
 import Vue from "vue";
-import { filter } from "minimatch";
 
 /**
  * Parse line numbers (route short name) from given data

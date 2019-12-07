@@ -14,9 +14,6 @@
   -webkit-overflow-scrolling: touch;
   overflow-y: hidden;
 }
-.filter {
-  margin-bottom: var(--space-l);
-}
 
 @media screen and (min-width: 600px) {
   .swipe {
@@ -53,8 +50,7 @@ footer {
       :fetchFavorites="favoriteTab"
       :favoriteStops="favoriteStops"
       v-on:location-error="onLocationError"
-      v-on:nearest-stops="nearestDataReceived
-"
+      v-on:nearest-stops="nearestDataReceived"
       v-on:favorite-stops="favoriteDataReceived"
       v-on:finding-location="updateStatus('paikannetaan')"
       v-on:fetching-favorites="updateStatus('haetaan *')"
@@ -96,11 +92,18 @@ footer {
       </Favorite>
     </div>
 
-    <footer v-if="nearestData !== undefined && nearestData.length > 0 && favoriteTab !== true">
+    <footer
+      v-if="
+        nearestData !== undefined &&
+          nearestData.length > 0 &&
+          favoriteTab !== true
+      "
+    >
       <div>
         <svg width="16" height="16" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
-        </svg> GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
+        </svg>
+        GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
       <div class="version">
         <Version></Version>
@@ -120,7 +123,6 @@ import TextResizer from "./components/TextResizer.vue";
 import Version from "./components/Version.vue";
 import {
   filterData,
-  markFavoriteLines,
   parseDestinations,
   parseLines
 } from "./components/parseData.js";
@@ -175,9 +177,8 @@ export default {
   },
   methods: {
     addFavoriteLine() {
-      const favoriteLinesString = localStorage.getItem("favoriteLines");
-      const favoriteLines = JSON.parse(favoriteLinesString);
-
+      //const favoriteLinesString = localStorage.getItem("favoriteLines");
+      //const favoriteLines = JSON.parse(favoriteLinesString);
       //markFavoriteLines(this.nearestData, favoriteLines);
       //markFavoriteLines(this.favoriteData, favoriteLines);
     },

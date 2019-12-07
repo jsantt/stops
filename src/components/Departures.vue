@@ -80,22 +80,26 @@ article {
 </style>
 
 <template>
-  <div class="departures" v-bind:class="{ favorite: isFavorite }">
+  <div class="departures" v-bind:class="{ favorite: findIsFavorite }">
     <div v-if="departures.length < 1" class="no-departures">&mdash;</div>
 
     <article
       class="departure"
-      v-bind:class="{ 'departure--favorite': departure.favorite === true, 'departure--hidden': departure.hidden === true }"
+      v-bind:class="{
+        'departure--favorite': departure.favorite === true,
+        'departure--hidden': departure.hidden === true
+      }"
       v-for="departure in departures"
+      v-bind:key="departure.scheduledDeparture"
       v-on:click="addLine(departure)"
     >
-      <div v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"></div>
+      <div
+        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
+      ></div>
       <div class="time">
-        <span v-show="!realtime" data-hook="time-schedule">
-          {{
+        <span v-show="!realtime" data-hook="time-schedule">{{
           timeToString(toHourAndMinutes(departure.scheduledDeparture))
-          }}
-        </span>
+        }}</span>
 
         <span v-show="realtime">
           <!--span>showEarlierTime</span>
@@ -103,13 +107,13 @@ article {
           <span>showLaterTime</span>
           <span v-if="!aheadShedule"></span-->
           {{
-          toRealtime(
-          new Date(),
-          departure.scheduledDeparture,
-          departure.departureDelay,
-          departure.realtime,
-          departure.serviceDay
-          )
+            toRealtime(
+              new Date(),
+              departure.scheduledDeparture,
+              departure.departureDelay,
+              departure.realtime,
+              departure.serviceDay
+            )
           }}
         </span>
       </div>
@@ -155,7 +159,7 @@ export default {
         headsign: departure.headsign
       });
     },
-    isFavorite(departure) {
+    findIsFavoriteisFavorite(departure) {
       const route = departure.trip.routeShortName;
       let favoritesString = window.localStorage.getItem("favoriteLines");
       if (favoritesString == null) {

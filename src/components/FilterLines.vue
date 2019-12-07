@@ -1,15 +1,25 @@
 <style scoped>
-div {
-  display: flex;
-  flex-wrap: wrap;
+.filterLines {
+  margin: 0 var(--space-m) var(--space-l) var(--space-m);
 }
+
+.header {
+  color: var(--color-red-500);
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.header-value {
+  margin: 0 var(--space-m);
+}
+
 a {
   display: inline-block;
-  background-color: var(--color-white);
+  background-color: var(--color-gray-300);
   color: #000;
   margin: var(--space-s);
   border-radius: 2.25rem;
-  padding: var(--space-m) 0;
+  padding: var(--space-m);
   text-decoration: none;
   min-width: 2.8rem;
   text-align: center;
@@ -24,35 +34,82 @@ a {
 }
 </style>
 <template>
-  <div v-if="allLines !== undefined && allLines.length > 0">
-    <s-dropdown
+  <div class="filterLines" v-if="allLines !== undefined && allLines.length > 0">
+    <s-accordion>
+      <template slot="header">
+        <div>
+          <span class="header">LINJA</span>
+          <a
+            v-if="filterValue !== undefined"
+            v-on:click="filterChanged(undefined)"
+            class="header-value"
+          >{{filterValue}} X</a>
+        </div>
+      </template>
+      <template slot="body">
+        <a
+          href="#"
+          v-for="line in allLines"
+          v-bind:key="line"
+          v-bind:class="{
+        selected: line === filterValue && favorite !== true,
+        'selected--favorite': favorite === true && line === filterValue
+      }"
+          v-on:click="filterChanged(line)"
+        >{{ line }}</a>
+      </template>
+    </s-accordion>
+    <s-accordion :closedByDefault="true">
+      <template slot="header">
+        <div>
+          <span class="header">SUUNTA</span>
+          <a
+            v-if="destinationFilterValue !== undefined"
+            v-on:click="destinationChanged(undefined)"
+            class="header-value"
+          >{{destinationFilterValue}} X</a>
+        </div>
+      </template>
+      <template slot="body">
+        <a
+          href="#"
+          ref="dropdown"
+          v-for="destination in destinations"
+          v-bind:key="destination"
+          class="destination-dropdown"
+          v-bind:class="{ selected: destinationFilterValue === destination }"
+          v-on:click="destinationChanged(destination)"
+        >{{ destination }}</a>
+      </template>
+    </s-accordion>
+
+    <!--s-dropdown
       :items="destinations"
       ref="dropdown"
       v-on:new-value="destinationChanged"
       class="destination-dropdown"
-      v-bind:class="{ 'selected': destinationFilterValue !== undefined }"
-    ></s-dropdown>
-    <a
-      href="#"
-      v-for="line in allLines"
-      v-bind:key="line"
-      v-bind:class="{ 'selected': line === filterValue && favorite !== true, 'selected--favorite': favorite === true && line === filterValue}"
-      v-on:click="filterChanged(line)"
-    >{{ line }}</a>
-    <a
+      v-bind:class="{ selected: destinationFilterValue !== undefined }"
+    ></s-dropdown-->
+
+    <!--a
       href="#"
       v-on:click="filterChanged(undefined)"
-      v-bind:class="{ 'selected': filterValue === undefined && destinationFilterValue === undefined }"
-    >kaikki</a>
+      v-bind:class="{
+        selected:
+          filterValue === undefined && destinationFilterValue === undefined
+      }"
+    >kaikki</a-->
   </div>
 </template>
 
 <script>
+import SAccordion from "./SAccordion.vue";
 import SDropdown from "./SDropdown.vue";
 
 export default {
   name: "Filter-lines",
   components: {
+    SAccordion,
     SDropdown
   },
   props: {
@@ -84,14 +141,14 @@ export default {
       } else {
         this.filterValue = lineNumber;
         this.destinationFilterValue = undefined;
-        this.$refs.dropdown.reset();
+        // this.$refs.dropdown.reset();
       }
       this.$emit("filter-changed", this.filterValue);
     },
     reset: function() {
       this.filterValue = undefined;
       this.destinationFilterValue = undefined;
-      this.$refs.dropdown.reset();
+      // this.$refs.dropdown.reset();
     }
   }
 };

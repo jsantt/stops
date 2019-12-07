@@ -36,8 +36,8 @@ option {
     v-on:change="changed"
     ref="selectDestination"
   >
-    <option hidden>Päätepysäkki</option>
-    <option v-for="item in items" v-bind:key="item">{{item}}</option>
+    <option hidden>Määränpää</option>
+    <option v-for="item in items" v-bind:key="item">{{ item }}</option>
   </select>
 </template>
 
@@ -49,7 +49,7 @@ export default {
   },
   data: function() {
     return {
-      selected: "Päätepysäkki"
+      selected: "Määränpää"
     };
   },
   methods: {

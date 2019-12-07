@@ -34,11 +34,11 @@ footer {
           />
         </svg>
       </div>
-      {{texts.header}}
+      {{ texts.header }}
     </h2>
-    <main>{{texts.body}}</main>
+    <main>{{ texts.body }}</main>
     <footer v-on:click="$emit('open-locate-prompt')">
-      <s-button>{{texts.button}}</s-button>
+      <s-button>{{ texts.button }}</s-button>
     </footer>
   </div>
 </template>

@@ -14,9 +14,10 @@
 }
 .message-body {
   padding: var(--space-s) 0;
-
+  max-height: 20rem;
   overflow: hidden;
-  transition: 0.3s ease all;
+  transition: 0.4s ease all;
+  will-change:max-height;
 }
 .is-closed .message-body {
   max-height: 0;

@@ -22,7 +22,7 @@ header > div {
 }
 
 .secondary {
-  color: var(--color-secondary);
+  color: var(--color-gray-600);
   font-size: var(--font-size-xs);
   /*text-transform: uppercase;*/
 }

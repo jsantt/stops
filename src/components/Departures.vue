@@ -19,9 +19,6 @@ article {
 .departure {
   padding: 0.45rem 0;
 }
-.secondary {
-  color: var(--color-secondary);
-}
 
 .departure--favorite {
   background-color: var(--color-green-500);
@@ -32,20 +29,17 @@ article {
 .no-departures {
   text-align: center;
 }
-.time,
-.line {
-}
 
 .realtime-sign {
   margin: auto;
-  color: var(--color-tertiary);
+  color: var(--color-green-900);
   display: inline-block;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--color-tertiary);
+  background: var(--color-green-700);
   cursor: pointer;
-  box-shadow: 0 0 0 lightgreen;
+  box-shadow: 0 0 0 var(--color-green-500);
   animation: pulse 2s infinite;
 }
 .realtime-sign:hover {
@@ -93,23 +87,23 @@ article {
       v-bind:key="departure.trip.id"
       v-on:click="addLine(departure)"
     >
-      <div v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"></div>
+      <div
+        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
+      ></div>
       <div class="time">
         <span v-show="!realtime" data-hook="time-schedule">
-          {{
-          timeToString(toHourAndMinutes(departure.scheduledDeparture))
-          }}
+          {{ timeToString(toHourAndMinutes(departure.scheduledDeparture)) }}
         </span>
 
         <span v-show="realtime">
           {{
-          toRealtime(
-          new Date(),
-          departure.scheduledDeparture,
-          departure.departureDelay,
-          departure.realtime,
-          departure.serviceDay
-          )
+            toRealtime(
+              new Date(),
+              departure.scheduledDeparture,
+              departure.departureDelay,
+              departure.realtime,
+              departure.serviceDay
+            )
           }}
         </span>
       </div>

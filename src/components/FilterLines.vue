@@ -13,6 +13,14 @@
   margin: 0 var(--space-m);
 }
 
+svg {
+  margin: 0.13rem 0 0 var(--space-l);
+  padding: 0;
+  vertical-align: middle;
+  stroke-width: 1.5;
+  stroke: var(--color-black);
+}
+
 a {
   display: inline-block;
   background-color: var(--color-gray-300);
@@ -43,7 +51,18 @@ a {
             v-if="filterValue !== undefined"
             v-on:click="filterChanged(undefined)"
             class="header-value"
-          >{{filterValue}} X</a>
+          >
+            {{ filterValue }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+            >
+              <line stroke-linecap="1" y2="15.24649" x2="15.28115" y1="0.68418" x1="0.65634" />
+              <line stroke-linecap="1" y2="0.68418" x2="15.34365" y1="15.24649" x1="0.59385" />
+            </svg>
+          </a>
         </div>
       </template>
       <template slot="body">
@@ -52,9 +71,9 @@ a {
           v-for="line in allLines"
           v-bind:key="line"
           v-bind:class="{
-        selected: line === filterValue && favorite !== true,
-        'selected--favorite': favorite === true && line === filterValue
-      }"
+            selected: line === filterValue && favorite !== true,
+            'selected--favorite': favorite === true && line === filterValue
+          }"
           v-on:click="filterChanged(line)"
         >{{ line }}</a>
       </template>
@@ -67,7 +86,18 @@ a {
             v-if="destinationFilterValue !== undefined"
             v-on:click="destinationChanged(undefined)"
             class="header-value"
-          >{{destinationFilterValue}} X</a>
+          >
+            {{ destinationFilterValue }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+            >
+              <line stroke-linecap="1" y2="15.24649" x2="15.28115" y1="0.68418" x1="0.65634" />
+              <line stroke-linecap="1" y2="0.68418" x2="15.34365" y1="15.24649" x1="0.59385" />
+            </svg>
+          </a>
         </div>
       </template>
       <template slot="body">
@@ -87,13 +117,11 @@ a {
 
 <script>
 import SAccordion from "./SAccordion.vue";
-import SDropdown from "./SDropdown.vue";
 
 export default {
   name: "Filter-lines",
   components: {
-    SAccordion,
-    SDropdown
+    SAccordion
   },
   props: {
     allLines: Array,

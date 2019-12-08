@@ -107,6 +107,12 @@ footer {
       </div>
       <div class="version">
         <Version></Version>
+        <div>
+          Katso myös
+          <a href="https://saaennuste.fi">päivän sää</a>
+          <br />
+          <br />
+        </div>
       </div>
     </footer>
   </div>

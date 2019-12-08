@@ -39,13 +39,13 @@ svg {
     <article class="message" :class="accordionClasses">
       <div
         class="message-header"
-        v-bind:class="{'message-header--underline': noHandle !== true }"
+        v-bind:class="{ 'message-header--underline': noHandle !== true }"
         @click="toggleAccordion"
       >
         <slot name="header"></slot>
         <svg
           v-if="noHandle !== true"
-          v-bind:class="{'svg--open': isOpen}"
+          v-bind:class="{ 'svg--open': isOpen }"
           xmlns="http://www.w3.org/2000/svg"
           width="6"
           height="6"

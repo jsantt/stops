@@ -21,14 +21,17 @@
     grid-gap: 1rem;
   }
 }
+
 .swipe-page {
   scroll-snap-align: start;
 }
+
 footer {
   margin-top: var(--space-l);
   text-align: center;
 }
 </style>
+
 <template>
   <div id="app">
     <Navigation

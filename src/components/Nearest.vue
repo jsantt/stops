@@ -44,15 +44,15 @@
         ></Departures>
       </section>
     </div>
-    <div v-if="stops == null || stops.length < 1">
-      <h3>Ei pysäkkejä</h3>
-      <div></div>
+    <div v-if="stops === undefined || stops.length < 1">
+      <loader-spinner class="spinner"></loader-spinner>
     </div>
   </div>
 </template>
 
 <script>
 import Departures from "./Departures.vue";
+import LoaderSpinner from "./LoaderSpinner.vue";
 import Stop from "./Stop.vue";
 
 export default {
@@ -64,6 +64,7 @@ export default {
   },
   components: {
     Departures,
+    LoaderSpinner,
     Stop
   },
   methods: {

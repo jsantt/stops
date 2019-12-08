@@ -1,4 +1,5 @@
 <style scoped>
+
 .notification {
   display: grid;
   grid-template-columns: 1fr;

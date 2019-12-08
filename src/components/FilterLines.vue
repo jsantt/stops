@@ -119,7 +119,7 @@ a {
 import SAccordion from "./SAccordion.vue";
 
 export default {
-  name: "Filter-lines",
+  name: "filter-lines",
   components: {
     SAccordion
   },

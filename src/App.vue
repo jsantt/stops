@@ -31,7 +31,6 @@ footer {
 </style>
 <template>
   <div id="app">
-    <Text-resizer></Text-resizer>
     <Navigation
       class="navigation"
       ref="navigation"
@@ -115,6 +114,7 @@ footer {
         </div>
       </div>
     </footer>
+    <Text-resizer></Text-resizer>
   </div>
 </template>
 

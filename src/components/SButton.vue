@@ -3,10 +3,10 @@ button {
   all: unset;
   box-sizing: border-box;
 
-  background-color: var(--color-tertiary);
+  background-color: var(--color-blue-700);
   border-radius: 4px;
 
-  color: var(--color-white);
+  color: var(--color-black) !important;
   font-weight: 700;
   font-size: var(--font-size-m);
 

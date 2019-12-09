@@ -9,17 +9,34 @@ async function fetchNearest(lat, lon, stops) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: query(lat, lon, stops)
+        query: _query(lat, lon, stops)
       })
     }
   );
-  return await flattenResult(response, lat, lon);
+  const flattenAndSorted = await _flattenResult(response, lat, lon);
+  console.log(flattenAndSorted);
+  return _removeEmptyDestinations(flattenAndSorted);
 }
 
-async function flattenResult(response, lat, lon) {
+/**
+ * Go through stops and departures. Remove the stop if all the departure headsign are empty.
+ * Empty headsign means that the departure is not real, but bus/metro/train has arrived into its last station/stop
+ *
+ * @param {Array} stops
+ */
+function _removeEmptyDestinations(stops) {
+  return stops.filter(stop => {
+    const nonEmptyHeadsign = stop.stoptimesWithoutPatterns.filter(departure => {
+      return departure.headsign !== undefined && departure.headsign != "";
+    });
+    return nonEmptyHeadsign !== undefined && nonEmptyHeadsign.length > 0;
+  });
+}
+
+async function _flattenResult(response, lat, lon) {
   const responseJson = await response.json();
   const edges = responseJson.data.nearest.edges;
-  const flatten = [];
+  const flattenStops = [];
 
   edges.forEach(stop => {
     const newStop = { ...stop.node.place };
@@ -28,15 +45,17 @@ async function flattenResult(response, lat, lon) {
       distance(lat, lon, stop.node.place.lat, stop.node.place.lon)
     );
 
-    flatten.push(newStop);
+    flattenStops.push(newStop);
   });
 
-  const sorted = flatten.sort((a, b) => (a.distance > b.distance ? 1 : -1));
+  const sorted = flattenStops.sort((a, b) =>
+    a.distance > b.distance ? 1 : -1
+  );
 
   return sorted;
 }
 
-function query(lat, lon, stops) {
+function _query(lat, lon, stops) {
   const stopsString = JSON.stringify(stops);
   return `
     {

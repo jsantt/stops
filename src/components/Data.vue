@@ -89,6 +89,7 @@ export default {
           coordinate.lat,
           coordinate.lon
         );
+
         this.$emit("favorite-stops", favoriteData);
       } catch (exception) {
         this.$emit("location-error", exception);

@@ -59,8 +59,20 @@ a {
               height="16"
               viewBox="0 0 24 24"
             >
-              <line stroke-linecap="1" y2="15.24649" x2="15.28115" y1="0.68418" x1="0.65634" />
-              <line stroke-linecap="1" y2="0.68418" x2="15.34365" y1="15.24649" x1="0.59385" />
+              <line
+                stroke-linecap="1"
+                y2="15.24649"
+                x2="15.28115"
+                y1="0.68418"
+                x1="0.65634"
+              />
+              <line
+                stroke-linecap="1"
+                y2="0.68418"
+                x2="15.34365"
+                y1="15.24649"
+                x1="0.59385"
+              />
             </svg>
           </a>
         </div>
@@ -75,7 +87,8 @@ a {
             'selected--favorite': favorite === true && line === filterValue
           }"
           v-on:click="filterChanged(line)"
-        >{{ line }}</a>
+          >{{ line }}</a
+        >
       </template>
     </s-accordion>
     <s-accordion ref="directionAccordion">
@@ -94,8 +107,20 @@ a {
               height="16"
               viewBox="0 0 24 24"
             >
-              <line stroke-linecap="1" y2="15.24649" x2="15.28115" y1="0.68418" x1="0.65634" />
-              <line stroke-linecap="1" y2="0.68418" x2="15.34365" y1="15.24649" x1="0.59385" />
+              <line
+                stroke-linecap="1"
+                y2="15.24649"
+                x2="15.28115"
+                y1="0.68418"
+                x1="0.65634"
+              />
+              <line
+                stroke-linecap="1"
+                y2="0.68418"
+                x2="15.34365"
+                y1="15.24649"
+                x1="0.59385"
+              />
             </svg>
           </a>
         </div>
@@ -109,7 +134,8 @@ a {
           class="destination-dropdown"
           v-bind:class="{ selected: destinationFilterValue === destination }"
           v-on:click="destinationChanged(destination)"
-        >{{ destination }}</a>
+          >{{ destination }}</a
+        >
       </template>
     </s-accordion>
   </div>

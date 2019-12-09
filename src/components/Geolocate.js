@@ -4,6 +4,7 @@ function geolocate() {
       navigator.geolocation.getCurrentPosition(
         position => {
           resolve({
+            accuracy: position.coords.accuracy,
             lat: position.coords.latitude,
             lon: position.coords.longitude
           });

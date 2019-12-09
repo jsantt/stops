@@ -14,7 +14,6 @@ async function fetchNearest(lat, lon, stops) {
     }
   );
   const flattenAndSorted = await _flattenResult(response, lat, lon);
-  console.log(flattenAndSorted);
   return _removeEmptyDestinations(flattenAndSorted);
 }
 

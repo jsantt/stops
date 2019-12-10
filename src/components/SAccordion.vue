@@ -18,7 +18,6 @@
 }
 
 .message-body {
-  padding: var(--space-s) 0;
   max-height: 40rem;
   overflow: hidden;
   transition: 0.4s ease all;

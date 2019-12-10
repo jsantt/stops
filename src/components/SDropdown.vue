@@ -1,7 +1,7 @@
 <style scoped>
 select {
   display: block;
-  border: 0 solid #fff;
+  border: 0 solid var(--color-white);
 
   font-family: var(--font-family);
   font-size: var(--font-size-m);

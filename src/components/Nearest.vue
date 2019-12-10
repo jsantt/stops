@@ -4,6 +4,14 @@
     display: none;
   }
 }
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  h2 {
+    color: var(--color-white);
+  }
+}
+
 .nearest-svg {
   fill: var(--color-blue-700);
 }

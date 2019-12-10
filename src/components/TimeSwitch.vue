@@ -33,7 +33,7 @@
   padding: 0;
   line-height: 12px;
   font-size: var(--font-size-s);
-  color: white;
+  color: var(--color-white);
   font-family: Trebuchet, Arial, sans-serif;
   font-weight: bold;
   box-sizing: border-box;
@@ -55,7 +55,7 @@
   display: block;
   width: 17px;
   margin: -2.5px;
-  background: var(--color-white);
+  background-color: var(--color-white);
   position: absolute;
   top: 0;
   bottom: 0;

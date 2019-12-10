@@ -8,11 +8,11 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.ec12355f.js"
   },
   {
-    "revision": "6d16bbdf13d7ca5c3a2b",
-    "url": "/js/app.49b24509.js"
+    "revision": "db14e2bb5e2e408468b2",
+    "url": "/js/app.5c13e315.js"
   },
   {
-    "revision": "c8733784778f50a2ff18b76931ef403f",
+    "revision": "958d362b661a6b2b63a35492e06cc38e",
     "url": "/index.html"
   },
   {
@@ -20,11 +20,11 @@ self.__precacheManifest = [
     "url": "/img/logo-master.svg"
   },
   {
-    "revision": "8a6a8e4410b21162031e0d688b802f42",
+    "revision": "9dcd63016bd7cde30cb8907bdfe54aee",
     "url": "/img/bus-512x512.png"
   },
   {
-    "revision": "7245366af97e06704954c35909ca079f",
+    "revision": "41b6ae399a0cd3261f96c25e1b1a4d8c",
     "url": "/img/bus-192x192.png"
   },
   {
@@ -32,8 +32,8 @@ self.__precacheManifest = [
     "url": "/favicon.png"
   },
   {
-    "revision": "6d16bbdf13d7ca5c3a2b",
-    "url": "/css/app.8956e7c5.css"
+    "revision": "db14e2bb5e2e408468b2",
+    "url": "/css/app.e6e036d5.css"
   },
   {
     "revision": "bb44d38bd690831ccae6b3d8e8edf7ae",

@@ -30,6 +30,13 @@ footer {
   margin-top: var(--space-l);
   text-align: center;
 }
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .instructions {
+    color: var(--color-white);
+  }
+}
 </style>
 
 <template>
@@ -101,16 +108,9 @@ footer {
           favoriteTab !== true
       "
     >
-      <div>
+      <div class="instructions">
         <svg width="16" height="16" viewBox="0 0 100 100">
-          <circle
-            cx="50"
-            cy="50"
-            r="30"
-            stroke="#d7fae1"
-            stroke-width="25"
-            fill="#94e0a9"
-          />
+          <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
         </svg>
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>

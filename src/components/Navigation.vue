@@ -3,18 +3,27 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #fff;
+  background-color: var(--color-white);
   padding: 0.15rem 1rem;
   opacity: 1;
   transition: opacity 0.6s ease-in-out;
 }
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .above-notification {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+}
+
 .above-notification--hidden {
   opacity: 0;
 }
 
 .bottom-sheet {
   background-color: var(--color-white);
-  border: 1px solid #fff;
+  border: 1px solid var(--color-white);
   box-shadow: var(--box-shadow-m);
 
   border-top-left-radius: 0.5rem;
@@ -26,6 +35,14 @@
   right: var(--space-m);
 
   z-index: 1;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .bottom-sheet {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
 }
 
 nav {
@@ -57,7 +74,14 @@ nav {
 }*/
 
 [selected] {
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid var(--color-black);
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  [selected] {
+    border-bottom: 3px solid var(--color-white);
+  }
 }
 </style>
 
@@ -66,22 +90,14 @@ nav {
     <div
       v-bind:class="{ 'above-notification--hidden': statusText === undefined }"
       class="above-notification"
-    >
-      {{ statusText }}
-    </div>
+    >{{ statusText }}</div>
     <slot></slot>
     <nav>
       <div class="tab">
-        <TimeSwitch
-          v-on:time-switch-clicked="$emit('time-switch-clicked')"
-        ></TimeSwitch>
+        <TimeSwitch v-on:time-switch-clicked="$emit('time-switch-clicked')"></TimeSwitch>
         <Clock></Clock>
       </div>
-      <div
-        class="tab nearby"
-        :selected="selectedTab === 'nearby'"
-        v-on:click="clickNearby"
-      >
+      <div class="tab nearby" :selected="selectedTab === 'nearby'" v-on:click="clickNearby">
         <svg
           class="nearby-svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -95,11 +111,7 @@ nav {
         </svg>
         <div>lähellä</div>
       </div>
-      <div
-        class="tab favorite"
-        :selected="selectedTab === 'favorite'"
-        v-on:click="clickFavorite"
-      >
+      <div class="tab favorite" :selected="selectedTab === 'favorite'" v-on:click="clickFavorite">
         <svg
           class="favorite-svg"
           xmlns="http://www.w3.org/2000/svg"

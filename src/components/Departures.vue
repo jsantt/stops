@@ -2,6 +2,7 @@
 .departures {
   background-color: var(--color-blue-500);
   border-radius: 0.75rem;
+  color: #000;
   margin: var(--space-s) 0;
   padding: var(--space-m);
 }
@@ -87,23 +88,22 @@ article {
       v-bind:key="departure.trip.id"
       v-on:click="addLine(departure)"
     >
-      <div
-        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
-      ></div>
+      <div v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"></div>
       <div class="time">
-        <span v-show="!realtime" data-hook="time-schedule">
-          {{ timeToString(toHourAndMinutes(departure.scheduledDeparture)) }}
-        </span>
+        <span
+          v-show="!realtime"
+          data-hook="time-schedule"
+        >{{ timeToString(toHourAndMinutes(departure.scheduledDeparture)) }}</span>
 
         <span v-show="realtime">
           {{
-            toRealtime(
-              new Date(),
-              departure.scheduledDeparture,
-              departure.departureDelay,
-              departure.realtime,
-              departure.serviceDay
-            )
+          toRealtime(
+          new Date(),
+          departure.scheduledDeparture,
+          departure.departureDelay,
+          departure.realtime,
+          departure.serviceDay
+          )
           }}
         </span>
       </div>

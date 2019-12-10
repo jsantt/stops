@@ -5,6 +5,13 @@
   }
 }
 
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+h2 {
+  color: var(--color-white);
+}
+}
+
 .empty-favorite {
   margin: 6rem 1rem;
   text-align: center;
@@ -67,9 +74,7 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>
-        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
-      </div>
+      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
     </div>
     <Install v-if="stops !== undefined && stops.length > 0"></Install>
   </div>

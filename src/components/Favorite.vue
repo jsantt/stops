@@ -7,15 +7,23 @@
 
 /* DARK MODE */
 @media (prefers-color-scheme: dark) {
-h2 {
-  color: var(--color-white);
-}
+  h2 {
+    color: var(--color-white);
+  }
 }
 
 .empty-favorite {
   margin: 6rem 1rem;
   text-align: center;
 }
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .empty-favorite {
+    color: var(--color-white);
+  }
+}
+
 .favorite-svg {
   fill: var(--color-red-300);
 }

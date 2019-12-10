@@ -1,5 +1,5 @@
 <template>
-  <div>versio 0.3</div>
+  <div>versio 0.4</div>
 </template>
 
 <script>

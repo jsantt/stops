@@ -121,6 +121,8 @@ footer {
           <a href="https://saaennuste.fi">päivän sää</a>
           <br />
           <br />
+          <br />
+          <br />
         </div>
       </div>
     </footer>

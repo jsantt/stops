@@ -7,13 +7,10 @@
 
     <meta
       name="keywords"
-      content="hsl, pysäkit, hsl pysäkit, lähin pysäkki, pysäkkiaikataulu, lähdöt, lähimmät pysäkit, espoo, helsinki, vantaa"
+      content="HSL, pysäkit, pysäkkiaikataulu, lähimmät pysäkit, espoo, helsinki, vantaa"
     />
     <meta name="author" content="Jani Säntti" />
-    <meta
-      name="description"
-      content="Näe lähimmät pysäkkisi ja niiden aikataulut"
-    />
+    <meta name="description" content="HSL pysäkkiaikataulut taskussasi" />
 
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title>Pysäkit - HSL pysäkkiaikataulut</title>
@@ -170,6 +167,30 @@
           document.querySelector(".bus-icon").classList.add("bus-icon--loaded");
         }, 1500);
       });
+    </script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
+
+    <script>
+      // Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCKNgU35V5ZlOELm4xkcndBL-e12KCjW5g",
+        authDomain: "hsl-stops.firebaseapp.com",
+        databaseURL: "https://hsl-stops.firebaseio.com",
+        projectId: "hsl-stops",
+        storageBucket: "hsl-stops.appspot.com",
+        messagingSenderId: "6972602481",
+        appId: "1:6972602481:web:ac452bb567d03b2780c3d0",
+        measurementId: "G-1C4JJNZ2SB"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+      firebase.analytics().logEvent("page-loaded");
     </script>
     <noscript>
       <strong

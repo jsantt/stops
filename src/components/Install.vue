@@ -131,6 +131,7 @@ export default {
     showPrompt: function() {
       // if launched as app
       if (navigator.standalone) {
+        firebase.analytics().setUserProperties({ "standalone-app": "true" });
         return false;
       }
 

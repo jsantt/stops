@@ -161,10 +161,12 @@ export default {
     clickNearby: function() {
       this.$emit(this.TAB.NEARBY);
       this.setSelectedTab(this.TAB.NEARBY);
+      firebase.analytics().logEvent("navigation-nearby-click");
     },
     clickFavorite: function() {
       this.$emit(this.TAB.FAVORITE);
       this.setSelectedTab(this.TAB.FAVORITE);
+      firebase.analytics().logEvent("navigation-favorite-click");
     },
     dataUpdated: function(text) {
       this.statusText = text;

@@ -14,21 +14,28 @@ async function fetchNearest(lat, lon, stops) {
     }
   );
   const flattenAndSorted = await _flattenResult(response, lat, lon);
+
   return _removeEmptyDestinations(flattenAndSorted);
 }
 
 /**
- * Go through stops and departures. Remove the stop if all the departure headsign are empty.
+ * Go through stops and departures. Remove departures with empty headsign. If all the departures
+ * are without headsign, remove whole stop.
+ *
  * Empty headsign means that the departure is not real, but bus/metro/train has arrived into its last station/stop
  *
  * @param {Array} stops
  */
 function _removeEmptyDestinations(stops) {
   return stops.filter(stop => {
-    const nonEmptyHeadsign = stop.stoptimesWithoutPatterns.filter(departure => {
-      return departure.headsign !== undefined && departure.headsign != "";
-    });
-    return nonEmptyHeadsign !== undefined && nonEmptyHeadsign.length > 0;
+    const stopTimesWithHeadsign = stop.stoptimesWithoutPatterns.filter(
+      departure => {
+        return departure.headsign !== null;
+      }
+    );
+    stop.stoptimesWithoutPatterns = stopTimesWithHeadsign;
+
+    return stopTimesWithHeadsign.length !== 0;
   });
 }
 

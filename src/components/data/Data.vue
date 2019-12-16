@@ -9,8 +9,10 @@ import { geolocate } from "./Geolocate.js";
 export default {
   name: "Data",
   props: {
+    favoriteFilter: Array,
     favoriteStops: Array,
-    fetchFavorites: Boolean
+    fetchFavorites: Boolean,
+    nearestFilter: Array
   },
   data: function() {
     return {
@@ -18,6 +20,10 @@ export default {
     };
   },
   methods: {
+    /**
+     * start polling with default coordinates (before geolocation permissions)
+     * @public
+     */
     startPollingDefault: function(coordinates) {
       this.fetch(coordinates);
 
@@ -25,6 +31,10 @@ export default {
         this.fetch(coordinates);
       }, 15 * 1000);
     },
+    /**
+     * start polling and continue it every 15 seconds
+     * @public
+     */
     startPolling: async function() {
       this.stopPolling();
 

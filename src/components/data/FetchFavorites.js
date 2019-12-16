@@ -1,4 +1,8 @@
-import { distance, formatDistance } from "./calculateDistance.js";
+import {
+  addDistance,
+  flattenFavorite,
+  sortByDistance
+} from "./FilterFavorite.js";
 
 async function fetchFavorites(stops, lat, lon) {
   const response = await window.fetch(
@@ -13,26 +17,11 @@ async function fetchFavorites(stops, lat, lon) {
       })
     }
   );
-  const flatten = await flattenResult(response);
+  const flatten = await flattenFavorite(response);
+  const distanceAdded = addDistance(flatten, lat, lon);
+  const sortedByDistance = sortByDistance(distanceAdded);
 
-  let distanceAdded = [];
-
-  flatten.forEach(stop => {
-    const newStop = { ...stop };
-    newStop.distance = formatDistance(distance(lat, lon, stop.lat, stop.lon));
-    distanceAdded.push(newStop);
-  });
-
-  const sorted = distanceAdded.sort((a, b) =>
-    a.distance > b.distance ? 1 : -1
-  );
-
-  return sorted;
-}
-
-async function flattenResult(response) {
-  const responseJson = await response.json();
-  return responseJson.data.stops;
+  return sortedByDistance;
 }
 
 function query(stops) {

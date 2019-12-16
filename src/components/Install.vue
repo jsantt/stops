@@ -67,7 +67,9 @@ ol li::before {
   <section v-if="showPrompt()" id="install-prompt">
     <h2>Asenna sovellus</h2>
     <div v-if="!showInstructions" v-on:click="onInstructionClick">
-      <div class="body">Näet pysäkkiaikataulut ja reaaliaikaiset saapumisajat entistä nopeammin</div>
+      <div class="body">
+        Näet pysäkkiaikataulut ja reaaliaikaiset saapumisajat entistä nopeammin
+      </div>
       <s-button>
         <svg
           class="install-now-icon"
@@ -93,8 +95,20 @@ ol li::before {
               preserveAspectRatio="xMidYMid meet"
             >
               <g id="iosShare">
-                <polyline class="arrow" stroke-width="3" points="40,12 50,2 60,12" fill="none" />
-                <line class="arrow-line" stroke-width="3" x1="50" y1="2" x2="50" y2="45" />
+                <polyline
+                  class="arrow"
+                  stroke-width="3"
+                  points="40,12 50,2 60,12"
+                  fill="none"
+                />
+                <line
+                  class="arrow-line"
+                  stroke-width="3"
+                  x1="50"
+                  y1="2"
+                  x2="50"
+                  y2="45"
+                />
                 <polyline
                   class="rectangle"
                   stroke-width="3"
@@ -131,6 +145,7 @@ export default {
     showPrompt: function() {
       // if launched as app
       if (navigator.standalone) {
+        // eslint-disable-next-line no-undef
         firebase.analytics().setUserProperties({ "standalone-app": "true" });
         return false;
       }

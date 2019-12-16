@@ -41,6 +41,18 @@ footer {
 
 <template>
   <div id="app">
+    <Data
+      ref="data"
+      :favoriteStops="favoriteStops"
+      :favoriteFilter="this.favoriteFilter"
+      :nearestFilter="this.nearestFilter"
+      v-on:location-error="onLocationError"
+      v-on:nearest-stops="nearestDataReceived"
+      v-on:favorite-stops="favoriteDataReceived"
+      v-on:finding-location="updateStatus('paikannetaan')"
+      v-on:fetching-favorites="updateStatus('haetaan *')"
+      v-on:fetching-nearest="updateStatus('haetaan')"
+    ></Data>
     <Navigation
       class="navigation"
       ref="navigation"
@@ -54,17 +66,6 @@ footer {
         v-on:open-locate-prompt="openLocatePrompt"
       ></Notification>
     </Navigation>
-    <Data
-      ref="data"
-      :fetchFavorites="favoriteTab"
-      :favoriteStops="favoriteStops"
-      v-on:location-error="onLocationError"
-      v-on:nearest-stops="nearestDataReceived"
-      v-on:favorite-stops="favoriteDataReceived"
-      v-on:finding-location="updateStatus('paikannetaan')"
-      v-on:fetching-favorites="updateStatus('haetaan *')"
-      v-on:fetching-nearest="updateStatus('haetaan')"
-    ></Data>
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"
@@ -72,7 +73,6 @@ footer {
         :realtime="realtime"
         :stops="nearestData"
         v-on:toggle-favorite="toggleFavorite"
-        v-on:add-favorite-line="addFavoriteLine"
       >
         <Filter-lines
           class="filter"
@@ -89,7 +89,6 @@ footer {
         :realtime="realtime"
         :stops="favoriteData"
         v-on:toggle-favorite="toggleFavorite"
-        v-on:add-favorite-line="addFavoriteLine"
       >
         <Filter-lines
           :allLines="favoriteLines"
@@ -131,7 +130,7 @@ footer {
 </template>
 
 <script>
-import Data from "./components/Data.vue";
+import Data from "./components/data/Data.vue";
 import Favorite from "./components/Favorite.vue";
 import FilterLines from "./components/FilterLines.vue";
 import Navigation from "./components/Navigation.vue";
@@ -143,7 +142,7 @@ import {
   filterData,
   parseDestinations,
   parseLines
-} from "./components/parseData.js";
+} from "./components/data/parseData.js";
 
 export default {
   name: "app",
@@ -194,12 +193,6 @@ export default {
       .addEventListener("touchend", this.swipeListener);
   },
   methods: {
-    addFavoriteLine() {
-      //const favoriteLinesString = localStorage.getItem("favoriteLines");
-      //const favoriteLines = JSON.parse(favoriteLinesString);
-      //markFavoriteLines(this.nearestData, favoriteLines);
-      //markFavoriteLines(this.favoriteData, favoriteLines);
-    },
     addFavorite: function(stopId) {
       this.favoriteStops.push(stopId);
       window.localStorage.setItem(
@@ -239,7 +232,6 @@ export default {
       this.nearestLines = parseLines(result);
       this.nearestDestinations = parseDestinations(result);
 
-      // this.addFavoriteLine();
       this.nearestData = filterData(result, this.nearestFilter);
     },
     onLocationError: function(error) {

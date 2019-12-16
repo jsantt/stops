@@ -60,6 +60,7 @@ export default {
   methods: {
     toggle: function() {
       this.$emit("toggle", !this.selected);
+      // eslint-disable-next-line no-undef
       firebase.analytics().logEvent("favorite-stop-added-or-removed");
     }
   }

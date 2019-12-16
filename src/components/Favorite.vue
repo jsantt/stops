@@ -62,7 +62,6 @@
           :departures="stop.stoptimesWithoutPatterns"
           :isFavorite="true"
           :realtime="realtime"
-          v-on:add-favorite-line="addFavoriteLine"
         ></Departures>
       </section>
     </div>
@@ -82,7 +81,9 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
+      <div>
+        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
+      </div>
     </div>
     <Install v-if="stops !== undefined && stops.length > 0"></Install>
   </div>
@@ -106,9 +107,6 @@ export default {
     Stop
   },
   methods: {
-    addFavoriteLine(details) {
-      this.$emit("add-favorite-line", details);
-    },
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
     },

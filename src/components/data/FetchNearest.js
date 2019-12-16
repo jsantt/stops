@@ -1,4 +1,8 @@
-import { distance, formatDistance } from "./calculateDistance.js";
+import {
+  flattenNearest,
+  removeEmptyDestinations,
+  sortNearest
+} from "./FilterNearest.js";
 
 async function fetchNearest(lat, lon, stops) {
   const response = await window.fetch(
@@ -9,59 +13,16 @@ async function fetchNearest(lat, lon, stops) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: _query(lat, lon, stops)
+        query: _queryBody(lat, lon, stops)
       })
     }
   );
-  const flattenAndSorted = await _flattenResult(response, lat, lon);
-
-  return _removeEmptyDestinations(flattenAndSorted);
+  const flatten = await flattenNearest(response, lat, lon);
+  const sorted = await sortNearest(flatten);
+  return removeEmptyDestinations(sorted);
 }
 
-/**
- * Go through stops and departures. Remove departures with empty headsign. If all the departures
- * are without headsign, remove whole stop.
- *
- * Empty headsign means that the departure is not real, but bus/metro/train has arrived into its last station/stop
- *
- * @param {Array} stops
- */
-function _removeEmptyDestinations(stops) {
-  return stops.filter(stop => {
-    const stopTimesWithHeadsign = stop.stoptimesWithoutPatterns.filter(
-      departure => {
-        return departure.headsign !== null;
-      }
-    );
-    stop.stoptimesWithoutPatterns = stopTimesWithHeadsign;
-
-    return stopTimesWithHeadsign.length !== 0;
-  });
-}
-
-async function _flattenResult(response, lat, lon) {
-  const responseJson = await response.json();
-  const edges = responseJson.data.nearest.edges;
-  const flattenStops = [];
-
-  edges.forEach(stop => {
-    const newStop = { ...stop.node.place };
-
-    newStop.distance = formatDistance(
-      distance(lat, lon, stop.node.place.lat, stop.node.place.lon)
-    );
-
-    flattenStops.push(newStop);
-  });
-
-  const sorted = flattenStops.sort((a, b) =>
-    a.distance > b.distance ? 1 : -1
-  );
-
-  return sorted;
-}
-
-function _query(lat, lon, stops) {
+function _queryBody(lat, lon, stops) {
   const stopsString = JSON.stringify(stops);
   return `
     {

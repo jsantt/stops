@@ -1,8 +1,4 @@
-import {
-  flattenNearest,
-  removeEmptyDestinations,
-  sortNearest
-} from "./FilterNearest.js";
+import { flattenNearest, sortNearest } from "./FilterNearest.js";
 
 async function fetchNearest(lat, lon, stops) {
   const response = await window.fetch(
@@ -19,7 +15,7 @@ async function fetchNearest(lat, lon, stops) {
   );
   const flatten = await flattenNearest(response, lat, lon);
   const sorted = await sortNearest(flatten);
-  return removeEmptyDestinations(sorted);
+  return sorted;
 }
 
 function _queryBody(lat, lon, stops) {
@@ -37,21 +33,23 @@ function _queryBody(lat, lon, stops) {
                 lat
                 lon
                 ... on Stop {
+                  lat
+                  lon
                   name
                   gtfsId
                   code
                   desc
                   locationType
                   vehicleType
-                  stoptimesWithoutPatterns {
+                  stoptimesWithoutPatterns(numberOfDepartures:5,omitNonPickups:true, omitCanceled:true) {
                     scheduledDeparture
                     departureDelay
                     realtime
                     realtimeState
                     headsign
-                    serviceDay
                     trip {
                       id
+                      directionId
                       routeShortName
                        alerts {
                         alertHeaderText

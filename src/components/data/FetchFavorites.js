@@ -37,7 +37,7 @@ function query(stops) {
         desc
         locationType
         vehicleType
-        stoptimesWithoutPatterns {
+        stoptimesWithoutPatterns(numberOfDepartures:6,omitNonPickups:true, omitCanceled:true) {
           scheduledDeparture
           departureDelay
           realtime
@@ -46,6 +46,7 @@ function query(stops) {
           serviceDay
           trip {
             id
+            directionId
             routeShortName
           }
         }

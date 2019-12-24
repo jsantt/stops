@@ -44,8 +44,6 @@ footer {
     <Data
       ref="data"
       :favoriteStops="favoriteStops"
-      :favoriteFilter="this.favoriteFilter"
-      :nearestFilter="this.nearestFilter"
       v-on:location-error="onLocationError"
       v-on:nearest-stops="nearestDataReceived"
       v-on:favorite-stops="favoriteDataReceived"
@@ -79,7 +77,7 @@ footer {
           :allLines="nearestLines"
           :destinations="nearestDestinations"
           v-on:filter-changed="filterNearest"
-          v-on:filter-destination="filterNearest"
+          v-on:new-filter-value="filterNearest"
         ></Filter-lines>
       </Nearest>
 
@@ -95,7 +93,7 @@ footer {
           :destinations="favoriteDestinations"
           :favorite="true"
           v-on:filter-changed="filterFavorite"
-          v-on:filter-destination="filterFavorite"
+          v-on:new-filter-value="filterFavorite"
         ></Filter-lines>
       </Favorite>
     </div>
@@ -166,7 +164,7 @@ export default {
       favoriteTab: false,
       locationError: undefined,
       nearestData: [],
-      nearestFilter: undefined,
+      nearestFilter: [],
       nearestDestinations: undefined,
       nearestLines: [],
       previousScrollPosition: 0,
@@ -210,7 +208,7 @@ export default {
     favoriteDataReceived: function(result) {
       this.updateStatus("päivitetty");
       this.favoriteLines = parseLines(result);
-      this.favoriteDestinations = parseDestinations(result);
+      this.favoriteDestinations = parseDestinations(result, this.nearestFilter);
       this.favoriteData = filterData(result, this.favoriteFilter);
     },
     filterFavorite: function(filter) {
@@ -219,6 +217,8 @@ export default {
     },
     filterNearest: function(filter) {
       this.nearestFilter = filter;
+      this.nearestDestinations = parseDestinations(this.nearestData, filter);
+
       this.nearestData = filterData(this.nearestData, filter);
     },
     nearbyClicked: function() {
@@ -230,7 +230,7 @@ export default {
     },
     nearestDataReceived: function(result) {
       this.nearestLines = parseLines(result);
-      this.nearestDestinations = parseDestinations(result);
+      this.nearestDestinations = parseDestinations(result, this.nearestFilter);
 
       this.nearestData = filterData(result, this.nearestFilter);
     },

@@ -1,153 +1,124 @@
 <style scoped>
-.filterLines {
-  margin: 0 var(--space-m) var(--space-l) var(--space-m);
+.filter-lines {
+  margin-bottom: var(--space-l);
 }
 
-.header-text {
-  color: var(--color-red-500);
-  font-family: var(--font-family-secondary);
-  font-size: var(--font-size-xs);
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.header-value {
-  margin: 0 var(--space-m);
-}
-
-svg {
-  margin: 0.13rem 0 0 var(--space-l);
-  padding: 0;
-  vertical-align: middle;
-  stroke-width: 1.5;
-  stroke: var(--color-black);
-}
-
-a {
-  display: inline-block;
+.tag {
   background-color: var(--color-gray-300);
-  color: #000;
-  margin: var(--space-s);
+  /*border: 0.14rem dashed var(--color-gray-500);*/
   border-radius: 2.25rem;
+  cursor: pointer;
+
+  color: var(--color-black);
+  margin: var(--space-s);
   padding: var(--space-m);
+
   text-decoration: none;
-  min-width: 2.8rem;
-  text-align: center;
-}
-.selected {
-  background-color: var(--color-gray-800);
-  color: var(--color-white);
 }
 
-.destination-dropdown {
-  margin: var(--space-s);
+.tag--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--color-white);
+  border: 0.14rem dashed var(--color-red-500);
+  font-family: var(--font-secondary);
+}
+
+.tag--selected {
+  border: 0.14rem solid var(--color-blue-700);
+  background-color: var(--color-white);
 }
 </style>
 <template>
-  <div class="filterLines" v-if="allLines !== undefined && allLines.length > 0">
-    <s-accordion ref="lineAccordion">
-      <template slot="header">
-        <div>
-          <span class="header-text">LINJA</span>
-          <a
-            v-if="filterValue !== undefined"
-            v-on:click="filterChanged(undefined)"
-            class="header-value"
-          >
-            {{ filterValue }}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-            >
-              <line
-                stroke-linecap="1"
-                y2="15.24649"
-                x2="15.28115"
-                y1="0.68418"
-                x1="0.65634"
-              />
-              <line
-                stroke-linecap="1"
-                y2="0.68418"
-                x2="15.34365"
-                y1="15.24649"
-                x1="0.59385"
-              />
-            </svg>
-          </a>
-        </div>
-      </template>
-      <template slot="body">
-        <a
-          href="#"
-          v-for="line in allLines"
-          v-bind:key="line"
-          v-bind:class="{
-            selected: line === filterValue && favorite !== true,
-            'selected--favorite': favorite === true && line === filterValue
-          }"
-          v-on:click="filterChanged(line)"
-          >{{ line }}</a
-        >
-      </template>
-    </s-accordion>
-    <s-accordion ref="directionAccordion">
-      <template slot="header">
-        <div class="header">
-          <span class="header-text">SUUNTA</span>
-          <a
-            v-if="destinationFilterValue !== undefined"
-            v-on:click="destinationChanged(undefined)"
-            class="header-value"
-          >
-            {{ destinationFilterValue }}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-            >
-              <line
-                stroke-linecap="1"
-                y2="15.24649"
-                x2="15.28115"
-                y1="0.68418"
-                x1="0.65634"
-              />
-              <line
-                stroke-linecap="1"
-                y2="0.68418"
-                x2="15.34365"
-                y1="15.24649"
-                x1="0.59385"
-              />
-            </svg>
-          </a>
-        </div>
-      </template>
-      <template slot="body">
-        <a
-          href="#"
-          ref="dropdown"
-          v-for="destination in destinations"
-          v-bind:key="destination"
-          class="destination-dropdown"
-          v-bind:class="{ selected: destinationFilterValue === destination }"
-          v-on:click="destinationChanged(destination)"
-          >{{ destination }}</a
-        >
-      </template>
-    </s-accordion>
+  <div class="filter-lines">
+    <div class="filter-tag">
+      <s-tag ref="lineAccordion">
+        <template slot="header">
+          <div class="tag tag--header">
+            <div>LINJA</div>
+            <div>
+              <b>+</b>&nbsp;
+            </div>
+          </div>
+        </template>
+        <template slot="body">
+          <div>
+            <div v-if="lineFilterValue !== undefined" class="tag-container">
+              <div class="tag tag--selected">{{lineFilterValue.routeShortName}}</div>
+              <a
+                class="tag"
+                href="#"
+                ref="dropdown"
+                v-for="destination in destinations"
+                v-bind:key="destination.routeShortName + destination.headsign"
+                v-on:click="destinationChanged(destination)"
+              >{{ destination.headsign }}</a>
+            </div>
+            <div v-if="lineFilterValue === undefined" class="tag-container">
+              <a
+                class="tag"
+                href="#"
+                v-for="line in allLines"
+                v-bind:key="line.routeShortName + line.headsign"
+                v-on:click="lineFilterChanged(line)"
+              >{{ line.routeShortName }}</a>
+            </div>
+          </div>
+        </template>
+      </s-tag>
+    </div>
+    <!--div class="filter-tag">
+      <s-tag ref="directionAccordion">
+        <template slot="header">
+          <div class="tag tag--header">
+            <div>SUUNTA</div>
+            <div>
+              <b>+</b>&nbsp;
+            </div>
+          </div>
+        </template>
+        <template slot="body"></template>
+      </s-tag>
+    </div-->
+    <div v-if="lineFilterValue === undefined" class="tag-container">
+      <a
+        class="tag"
+        v-bind:class="{ 'tag--selected': filter.active }"
+        href="#"
+        v-for="filter in allFilters"
+        v-bind:key="filter.routeShortName + filter.headsign"
+        v-on:click="toggleFilter(filter)"
+      >
+        {{filter.routeShortName}}
+        {{filter.headsign}}
+      </a>
+    </div>
+    <!--{{lineFilterValue}}
+    <br />
+    <br />
+    {{destinationFilterValue}}
+    <br />
+    <br />
+    {{allFilters}}-->
   </div>
 </template>
 
 <script>
 import SAccordion from "./SAccordion.vue";
+import STag from "./STag.vue";
 
 export default {
   name: "filter-lines",
   components: {
-    SAccordion
+    SAccordion,
+    STag
   },
   props: {
     allLines: Array,
@@ -156,42 +127,65 @@ export default {
   },
   data() {
     return {
-      filterValue: undefined,
-      destinationFilterValue: undefined
+      lineFilterValue: undefined,
+      destinationFilterValue: undefined,
+      /**
+       * [
+       *  {
+       *    headsign: destination.headsign,
+       *    lat: line.lat,
+       *    lon: line.lot,
+       *    routeShortName: line.routeShortName,
+       *    active: true
+       *  },
+       *  {
+       *    ...
+       *  }
+       * ]
+       */
+      allFilters: []
     };
   },
   methods: {
-    destinationChanged(newDestination) {
-      if (this.destinationFilterValue === newDestination) {
-        this.destinationFilterValue = undefined;
-        this.$refs.dropdown.reset();
-      } else {
-        this.destinationFilterValue = newDestination;
-        this.filterValue = undefined;
-      }
-
-      this.$refs.lineAccordion.close();
-      this.$refs.directionAccordion.close();
-
-      this.$emit("filter-destination", newDestination);
+    addFilter(line, destination) {
+      const copy = [...this.allFilters];
+      copy.push({
+        headsign: destination.headsign,
+        lat: line.lat,
+        lon: line.lot,
+        routeShortName: line.routeShortName,
+        active: true
+      });
+      return copy;
     },
-    filterChanged: function(lineNumber) {
-      if (this.filterValue === lineNumber) {
-        this.reset();
+    destinationChanged(newDestination) {
+      // this.destinationFilterValue = newDestination;
+      this.$refs.lineAccordion.close();
+      //this.$refs.directionAccordion.close();
+
+      this.allFilters = this.addFilter(this.lineFilterValue, newDestination);
+      this.$emit("new-filter-value", this.allFilters);
+      this.reset();
+    },
+    lineFilterChanged: function(line) {
+      if (this.lineFilterValue === line) {
       } else {
-        this.filterValue = lineNumber;
-        this.destinationFilterValue = undefined;
-        // this.$refs.dropdown.reset();
+        this.lineFilterValue = line;
+        //this.destinationFilterValue = undefined;
+        this.destinationFilterValue = line.headsign;
       }
 
-      this.$refs.lineAccordion.close();
-      this.$refs.directionAccordion.close();
-      this.$emit("filter-changed", this.filterValue);
+      //this.$refs.lineAccordion.close();
+      //this.$refs.directionAccordion.close();
+      this.$emit("filter-changed", this.lineFilterValue.routeShortName);
     },
     reset: function() {
-      this.filterValue = undefined;
+      this.lineFilterValue = undefined;
       this.destinationFilterValue = undefined;
-      // this.$refs.dropdown.reset();
+    },
+    toggleFilter(line) {
+      line.active = !line.active;
+      this.$emit("new-filter-value", this.allFilters);
     }
   }
 };

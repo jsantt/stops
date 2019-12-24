@@ -10,8 +10,16 @@ function parseLines(data) {
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
-      if (!lines.includes(departure.trip.routeShortName)) {
-        lines.push(departure.trip.routeShortName);
+      if (
+        !lines.some(line => {
+          return line.routeShortName === departure.trip.routeShortName;
+        })
+      ) {
+        lines.push({
+          routeShortName: departure.trip.routeShortName,
+          lat: item.lat,
+          lon: item.lon
+        });
       }
     });
   });
@@ -24,21 +32,39 @@ function parseLines(data) {
  * @param {Array} data
  * @returns {Array} of nearby line numbers
  */
-function parseDestinations(data) {
+function parseDestinations(data, routeShortName) {
   let destinations = [];
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
-      if (!destinations.includes(departure.headsign)) {
-        destinations.push(departure.headsign);
+      if (
+        !destinations.some(destination => {
+          return departure.headsign === destination.headsign;
+        })
+      ) {
+        if (
+          routeShortName === undefined ||
+          routeShortName === departure.trip.routeShortName
+        ) {
+          destinations.push({
+            headsign: departure.headsign,
+            routeShortName: departure.trip.routeShortName
+          });
+        }
       }
     });
   });
 
   return destinations.sort();
 }
+// TODO: vaihda String --> Array, filterText is array
+function filterData(data, allFilters) {
+  const noFilters =
+    allFilters === undefined ||
+    !allFilters.some(filter => {
+      return filter.active === true;
+    });
 
-function filterData(data, filterText) {
   const copy = [...data];
 
   let departuresVisible;
@@ -49,9 +75,14 @@ function filterData(data, filterText) {
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
         if (
-          filterText === undefined ||
-          filterText === departure.trip.routeShortName ||
-          filterText === departure.headsign
+          noFilters ||
+          allFilters.some(filter => {
+            return (
+              filter.routeShortName === departure.trip.routeShortName &&
+              filter.headsign === departure.headsign &&
+              filter.active === true
+            );
+          })
         ) {
           // use Vue.set to let Vue know the change and re-render departures
           Vue.set(departure, "hidden", false);

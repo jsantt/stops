@@ -1,5 +1,13 @@
 import Vue from "vue";
 
+const sortByRouteShortName = (previous, current) => {
+  return previous.routeShortName < current.routeShortName ? -1 : 1;
+};
+
+const sortByHeadsign = (previous, current) => {
+  return previous.headsign < current.headsign ? -1 : 1;
+};
+
 /**
  * Parse line numbers (route short name) from given data
  * @param {Array} data
@@ -18,35 +26,36 @@ function parseLines(data) {
         lines.push({
           routeShortName: departure.trip.routeShortName,
           lat: item.lat,
-          lon: item.lon
+          lon: item.lons
         });
       }
     });
   });
 
-  return lines.sort();
+  return lines.sort(sortByRouteShortName);
 }
 
 /**
- * Parse line destinations (headsign) from given data
+ * Parse line direction (headsign) from given data
  * @param {Array} data
  * @returns {Array} of nearby line numbers
  */
-function parseDestinations(data, routeShortName) {
-  let destinations = [];
+function parseDirections(data, routeShortName) {
+  let directions = [];
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
       if (
-        !destinations.some(destination => {
+        !directions.some(destination => {
           return departure.headsign === destination.headsign;
         })
       ) {
         if (
           routeShortName === undefined ||
+          routeShortName.length < 1 ||
           routeShortName === departure.trip.routeShortName
         ) {
-          destinations.push({
+          directions.push({
             headsign: departure.headsign,
             routeShortName: departure.trip.routeShortName
           });
@@ -55,8 +64,9 @@ function parseDestinations(data, routeShortName) {
     });
   });
 
-  return destinations.sort();
+  return directions.sort(sortByHeadsign);
 }
+
 // TODO: vaihda String --> Array, filterText is array
 function filterData(data, allFilters) {
   const noFilters =
@@ -78,9 +88,10 @@ function filterData(data, allFilters) {
           noFilters ||
           allFilters.some(filter => {
             return (
-              filter.routeShortName === departure.trip.routeShortName &&
               filter.headsign === departure.headsign &&
-              filter.active === true
+              filter.active === true &&
+              (filter.routeShortName === departure.trip.routeShortName ||
+                filter.type === "direction")
             );
           })
         ) {
@@ -120,4 +131,4 @@ function markFavoriteLines(data, favoriteLines) {
   });
 }
 
-export { filterData, markFavoriteLines, parseDestinations, parseLines };
+export { filterData, markFavoriteLines, parseDirections, parseLines };

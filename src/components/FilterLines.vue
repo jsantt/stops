@@ -86,14 +86,17 @@
   animation-duration: 0.5s;
 }
 
-.tag--action {
-  margin-left: auto;
+.tag--right {
   color: var(--color-blue-800);
   fill: var(--color-blue-800);
   border: none;
+  margin-left: auto;
 }
 
 .tag--wide {
+  color: var(--color-blue-800);
+  fill: var(--color-blue-800);
+  border: none;
   width: 100%;
 }
 
@@ -124,7 +127,7 @@
     <div class="filter-tag">
       <s-tag v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
         <template slot="header">
-          <div class="add-filter">LINJA / SUUNTA</div>
+          <div class="add-filter">LINJA</div>
         </template>
         <template slot="body">
           <div class="all-filters--removing">
@@ -145,14 +148,14 @@
                 class="tag"
                 href="#"
                 ref="dropdown"
-                v-for="destination in filteredDirections(lineFilterValue)"
+                v-for="destination in filteredDirections(lineFilterValue, this.destinations)"
                 v-bind:key="destination.routeShortName + destination.headsign"
                 v-on:click="directionChanged(destination)"
               >{{ destination.headsign }}</a>
             </div>
             <div class="tag-container">
               <div
-                class="tag tag--action tag--wide"
+                class="tag tag--wide"
                 v-bind:class="{'tag--wide': lineFilterValue !== undefined}"
                 @click="toggleLine()"
               >SULJE</div>
@@ -177,7 +180,7 @@
               >{{ destination.headsign }}</a>
             </div>
             <div class="tag-container">
-              <div class="tag tag--action tag--wide" @click="toggleDirection()">SULJE</div>
+              <div class="tag tag--wide" @click="toggleDirection()">SULJE</div>
             </div>
           </div>
         </template>
@@ -214,14 +217,14 @@
       </a>
 
       <a
-        v-if="allFilters.length > 0"
+        v-if="allFilters.length > 0 && editingFilters === false"
         @click="showAll()"
         class="tag tag--filter"
         v-bind:class="{ 'tag--selected': !hasActiveFilters()}"
         href="#"
       >Näytä kaikki</a>
 
-      <div v-if="allFilters.length > 0 && editingFilters === false" class="tag tag--action">
+      <div v-if="allFilters.length > 0 && editingFilters === false" class="tag tag--right">
         <div class="removal" @click="removeFilters()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path
@@ -232,7 +235,7 @@
           MUOKKAA
         </div>
       </div>
-      <div v-if="editingFilters === true" class="tag tag--action tag--wide" @click="reset()">
+      <div v-if="editingFilters === true" class="tag tag--wide" @click="reset()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
           <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
         </svg>
@@ -290,11 +293,7 @@ export default {
     };
   },
   mounted() {
-    let allFiltersString = window.localStorage.getItem("allFilters");
-    if (allFiltersString == null) {
-      allFiltersString = "[]";
-    }
-    this.allFilters = JSON.parse(allFiltersString);
+    this.allFilters = this.restoreFilters();
   },
   methods: {
     addFilter(line, direction) {
@@ -346,26 +345,21 @@ export default {
       this.lineAccordionOpen = false;
       this.allFilters = this.addFilter(this.lineFilterValue, newDestination);
 
-      window.localStorage.setItem(
-        "allFilters",
-        JSON.stringify(this.allFilters)
-      );
-      this.$emit("new-filter-value", this.allFilters);
-
+      this.storeFiltersAndNotify();
       this.reset();
     },
-    filteredDirections(line) {
+    filteredDirections(line, destinations) {
       let directions = [];
 
       if (
         line === undefined ||
-        this.destinations === undefined ||
-        this.destinations.length < 1
+        destinations === undefined ||
+        destinations.length < 1
       ) {
         return;
       }
 
-      this.destinations.forEach(item => {
+      destinations.forEach(item => {
         if (line.routeShortName === item.routeShortName) {
           directions.push({
             headsign: item.headsign
@@ -406,7 +400,7 @@ export default {
         copy.active = false;
         return copy;
       });
-      this.$emit("new-filter-value", this.allFilters);
+      this.storeFiltersAndNotify();
     },
     toggleFilter(filter) {
       if (this.editingFilters === true) {
@@ -414,20 +408,26 @@ export default {
         if (this.allFilters.length < 1) {
           this.editingFilters = false;
         }
-        window.localStorage.setItem(
-          "allFilters",
-          JSON.stringify(this.allFilters)
-        );
-        this.$emit("new-filter-value", this.allFilters);
+        this.storeFiltersAndNotify();
         return;
       }
 
       filter.active = !filter.active;
+      this.storeFiltersAndNotify();
+    },
+    restoreFilters() {
+      const key = this.favorite === true ? "favoriteFilters" : "nearestFilters";
 
-      window.localStorage.setItem(
-        "allFilters",
-        JSON.stringify(this.allFilters)
-      );
+      let allFiltersString = window.localStorage.getItem(key);
+      if (allFiltersString == null) {
+        allFiltersString = "[]";
+      }
+      return JSON.parse(allFiltersString);
+    },
+    storeFiltersAndNotify() {
+      const key = this.favorite === true ? "favoriteFilters" : "nearestFilters";
+      window.localStorage.setItem(key, JSON.stringify(this.allFilters));
+
       this.$emit("new-filter-value", this.allFilters);
     }
   }

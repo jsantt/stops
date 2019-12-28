@@ -40,26 +40,23 @@ function parseLines(data) {
  * @param {Array} data
  * @returns {Array} of nearby line numbers
  */
-function parseDirections(data, routeShortName) {
+function parseDirections(data) {
   let directions = [];
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
       if (
         !directions.some(destination => {
-          return departure.headsign === destination.headsign;
+          return (
+            departure.headsign === destination.headsign &&
+            departure.trip.routeShortName === destination.routeShortName
+          );
         })
       ) {
-        if (
-          routeShortName === undefined ||
-          routeShortName.length < 1 ||
-          routeShortName === departure.trip.routeShortName
-        ) {
-          directions.push({
-            headsign: departure.headsign,
-            routeShortName: departure.trip.routeShortName
-          });
-        }
+        directions.push({
+          headsign: departure.headsign,
+          routeShortName: departure.trip.routeShortName
+        });
       }
     });
   });

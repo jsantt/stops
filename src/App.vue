@@ -205,7 +205,7 @@ export default {
     favoriteDataReceived(result) {
       this.updateStatus("päivitetty");
       this.favoriteLines = parseLines(result);
-      this.favoriteDestinations = parseDirections(result, undefined);
+      this.favoriteDestinations = parseDirections(result);
       this.favoriteData = filterData(result, this.favoriteFilter);
     },
     filterFavorite(filter) {
@@ -225,7 +225,7 @@ export default {
     },
     nearestDataReceived(result) {
       this.nearestLines = parseLines(result);
-      this.nearestDestinations = parseDirections(result, undefined);
+      this.nearestDestinations = parseDirections(result);
 
       this.nearestData = filterData(result, this.nearestFilter);
     },

@@ -50,7 +50,7 @@
 }
 
 .tag--selected {
-  border: 0.14rem solid var(--color-red-300);
+  border: 0.14rem solid var(--color-blue-700);
   background-color: var(--color-white);
 }
 
@@ -63,7 +63,10 @@
   opacity: 0;
 }
 .all-filters {
-  margin: var(--space-m) 0;
+  margin: var(--space-l) 0 var(--space-m) 0;
+}
+.all-filters--removing {
+  background-color: var(--color-gray-300);
 }
 
 .all-filters .remove-icon:nth-child(2n) {
@@ -83,11 +86,15 @@
   animation-duration: 0.5s;
 }
 
-.tag--removal {
+.tag--action {
   margin-left: auto;
   color: var(--color-blue-800);
   fill: var(--color-blue-800);
   border: none;
+}
+
+.tag--wide {
+  width: 100%;
 }
 
 @keyframes wobble1 {
@@ -115,12 +122,12 @@
 <template>
   <div class="filter-lines">
     <div class="filter-tag">
-      <s-tag v-on:opened="addLine()" :open="lineAccordionOpen" ref="lineAccordion">
+      <s-tag v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
         <template slot="header">
           <div class="add-filter">LINJA / SUUNTA</div>
         </template>
         <template slot="body">
-          <div>
+          <div class="all-filters--removing">
             <!-- PHASE 1 of select line + direction -->
             <div v-if="lineFilterValue === undefined" class="tag-container">
               <a
@@ -143,15 +150,22 @@
                 v-on:click="directionChanged(destination)"
               >{{ destination.headsign }}</a>
             </div>
+            <div class="tag-container">
+              <div
+                class="tag tag--action tag--wide"
+                v-bind:class="{'tag--wide': lineFilterValue !== undefined}"
+                @click="toggleLine()"
+              >SULJE</div>
+            </div>
           </div>
         </template>
       </s-tag>
-      <s-tag v-on:opened="addDirection()" :open="directionAccordionOpen" ref="lineAccordion">
+      <s-tag v-on:opened="toggleDirection()" :open="directionAccordionOpen" ref="lineAccordion">
         <template slot="header">
           <div class="add-filter">SUUNTA</div>
         </template>
         <template slot="body">
-          <div>
+          <div class="all-filters--removing">
             <div class="tag-container">
               <a
                 class="tag"
@@ -162,20 +176,28 @@
                 v-on:click="directionChanged(destination)"
               >{{ destination.headsign }}</a>
             </div>
+            <div class="tag-container">
+              <div class="tag tag--action tag--wide" @click="toggleDirection()">SULJE</div>
+            </div>
           </div>
         </template>
       </s-tag>
     </div>
-    <div class="tag-container all-filters">
+    <div
+      class="tag-container all-filters"
+      v-bind:class="{ 'all-filters--removing': editingFilters === true}"
+    >
       <a
         class="tag tag--filter"
-        v-bind:class="{ 'tag--selected': filter.active, 'tag--removable': removingFilters === true }"
+        v-bind:class="{ 'tag--selected': filter.active, 'tag--removable': editingFilters === true }"
         href="#"
         v-for="filter in allFilters"
         v-bind:key="filter.routeShortName + filter.headsign"
         v-on:click="toggleFilter(filter)"
       >
-        <span v-if="removingFilters">
+        {{filter.routeShortName}}
+        {{filter.headsign}}
+        <span v-if="editingFilters === true">
           <svg
             class="remove-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -189,12 +211,18 @@
             <path fill="none" d="M0 0h24v24H0z" />
           </svg>
         </span>
-        {{filter.routeShortName}}
-        {{filter.headsign}}
       </a>
 
-      <div v-if="allFilters.length > 0" class="tag tag--removal">
-        <div v-if="removingFilters === false" class="removal" @click="removeFilters()">
+      <a
+        v-if="allFilters.length > 0"
+        @click="showAll()"
+        class="tag tag--filter"
+        v-bind:class="{ 'tag--selected': !hasActiveFilters()}"
+        href="#"
+      >Näytä kaikki</a>
+
+      <div v-if="allFilters.length > 0 && editingFilters === false" class="tag tag--action">
+        <div class="removal" @click="removeFilters()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path
               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
@@ -203,12 +231,12 @@
           </svg>
           MUOKKAA
         </div>
-        <div v-if="removingFilters === true" class="removal removal-ready" @click="removeFilters()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-          </svg>
-          VALMIS
-        </div>
+      </div>
+      <div v-if="editingFilters === true" class="tag tag--action tag--wide" @click="reset()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+        </svg>
+        VALMIS
       </div>
     </div>
   </div>
@@ -235,7 +263,6 @@ export default {
       directionAccordionOpen: false,
       lineAccordionOpen: false,
       lineFilterValue: undefined,
-      directionFilterValue: undefined,
       /**
        * [
        *  {
@@ -251,7 +278,7 @@ export default {
        * ]
        */
       allFilters: [],
-      //TODO: FIX filter
+      //TODO: FIX sorting
       sortByRouteShortName: (previous, current) => {
         if (previous.routeShortName !== current.routeShortName) {
           return previous.routeShortName < current.routeShortName ? -1 : 1;
@@ -259,7 +286,7 @@ export default {
 
         return previous.headsign < current.headsign ? -1 : 1;
       },
-      removingFilters: false
+      editingFilters: false
     };
   },
   mounted() {
@@ -292,16 +319,30 @@ export default {
       copy.push(item);
       return copy.sort(this.sortByRouteShortName);
     },
-    addLine() {
-      this.lineAccordionOpen = !this.lineAccordionOpen;
-      this.directionAccordionOpen = false;
+    hasActiveFilters() {
+      return this.allFilters.some(filter => {
+        return filter.active === true;
+      });
     },
-    addDirection() {
-      this.directionAccordionOpen = !this.directionAccordionOpen;
-      this.lineAccordionOpen = false;
+    toggleLine() {
+      if (this.lineAccordionOpen === false) {
+        this.lineAccordionOpen = true;
+        this.directionAccordionOpen = false;
+        this.editingFilters = false;
+      } else {
+        this.reset();
+      }
+    },
+    toggleDirection() {
+      if (this.directionAccordionOpen === false) {
+        this.directionAccordionOpen = true;
+        this.lineAccordionOpen = false;
+        this.editingFilters = false;
+      } else {
+        this.reset();
+      }
     },
     directionChanged(newDestination) {
-      // this.directionFilterValue = newDestination;
       this.lineAccordionOpen = false;
       this.allFilters = this.addFilter(this.lineFilterValue, newDestination);
 
@@ -310,11 +351,10 @@ export default {
         JSON.stringify(this.allFilters)
       );
       this.$emit("new-filter-value", this.allFilters);
-      this.directionAccordionOpen = false;
+
       this.reset();
     },
     filteredDirections(line) {
-      console.log(line);
       let directions = [];
 
       if (
@@ -336,14 +376,10 @@ export default {
       return directions;
     },
     lineFilterChanged: function(line) {
-      if (this.lineFilterValue === line) {
-      } else {
-        this.lineFilterValue = line;
-        this.directionFilterValue = line.headsign;
-      }
+      this.lineFilterValue = line;
     },
     removeFilters() {
-      this.removingFilters = !this.removingFilters;
+      this.editingFilters = true;
     },
     removeFilter(filter) {
       const copy = [...this.allFilters];
@@ -356,15 +392,27 @@ export default {
         );
       });
     },
-    reset: function() {
+    reset() {
       this.lineFilterValue = undefined;
-      this.directionFilterValue = undefined;
+      this.editingFilters = false;
+
+      this.lineAccordionOpen = false;
+      this.directionAccordionOpen = false;
+    },
+    showAll() {
+      this.reset();
+      this.allFilters = this.allFilters.map(filter => {
+        let copy = { ...filter };
+        copy.active = false;
+        return copy;
+      });
+      this.$emit("new-filter-value", this.allFilters);
     },
     toggleFilter(filter) {
-      if (this.removingFilters === true) {
+      if (this.editingFilters === true) {
         this.allFilters = this.removeFilter(filter);
         if (this.allFilters.length < 1) {
-          this.removingFilters = false;
+          this.editingFilters = false;
         }
         window.localStorage.setItem(
           "allFilters",

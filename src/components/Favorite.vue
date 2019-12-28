@@ -27,6 +27,11 @@
 .favorite-svg {
   fill: var(--color-red-300);
 }
+
+.no-results {
+  text-align: center;
+  margin-top: var(--space-xl);
+}
 </style>
 <template>
   <div>
@@ -81,10 +86,11 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>
-        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
-      </div>
+      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
     </div>
+
+    <div class="no-results" v-if="noResults(stops)">Ei tuloksia</div>
+
     <Install v-if="stops !== undefined && stops.length > 0"></Install>
   </div>
 </template>
@@ -109,6 +115,15 @@ export default {
   methods: {
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
+    },
+    noResults(stops) {
+      return (
+        stops !== undefined &&
+        stops.length > 0 &&
+        stops.every(stop => {
+          return stop.hidden === true;
+        })
+      );
     },
     toggleFavorite(details) {
       this.$emit("toggle-favorite", details);

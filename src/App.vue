@@ -73,7 +73,6 @@ footer {
         v-on:toggle-favorite="toggleFavorite"
       >
         <Filter-lines
-          class="filter"
           :allLines="nearestLines"
           :destinations="nearestDestinations"
           v-on:new-filter-value="filterNearest"
@@ -189,55 +188,55 @@ export default {
       .addEventListener("touchend", this.swipeListener);
   },
   methods: {
-    addFavorite: function(stopId) {
+    addFavorite(stopId) {
       this.favoriteStops.push(stopId);
       window.localStorage.setItem(
         "favoriteStops",
         JSON.stringify(this.favoriteStops)
       );
     },
-    favoriteClicked: function() {
+    favoriteClicked() {
       this.$refs.swipe.scrollTo(this.$refs.swipe.scrollWidth, 0);
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = true;
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
-    favoriteDataReceived: function(result) {
+    favoriteDataReceived(result) {
       this.updateStatus("päivitetty");
       this.favoriteLines = parseLines(result);
       this.favoriteDestinations = parseDirections(result, undefined);
       this.favoriteData = filterData(result, this.favoriteFilter);
     },
-    filterFavorite: function(filter) {
+    filterFavorite(filter) {
       this.favoriteFilter = filter;
       this.favoriteData = filterData(this.favoriteData, filter);
     },
-    filterNearest: function(filter) {
+    filterNearest(filter) {
       this.nearestFilter = filter;
       this.nearestData = filterData(this.nearestData, filter);
     },
-    nearbyClicked: function() {
+    nearbyClicked() {
       this.$refs.swipe.scrollTo(0, 0);
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = false;
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
-    nearestDataReceived: function(result) {
+    nearestDataReceived(result) {
       this.nearestLines = parseLines(result);
       this.nearestDestinations = parseDirections(result, undefined);
 
       this.nearestData = filterData(result, this.nearestFilter);
     },
-    onLocationError: function(error) {
+    onLocationError(error) {
       this.locationError = error;
     },
-    openLocatePrompt: function() {
+    openLocatePrompt() {
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
-    removeFavorite: function(stopId) {
+    removeFavorite(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
         return item !== stopId;
       });
@@ -250,7 +249,7 @@ export default {
     /**
      * @returns Promise - Promise is resolved when scrolling stops
      */
-    scrollEnded: function() {
+    scrollEnded() {
       return new Promise(resolve => {
         let previousPosition = -99;
         const interval = setInterval(() => {
@@ -263,7 +262,7 @@ export default {
         }, 10);
       });
     },
-    setAllowLocationNotification: function() {
+    setAllowLocationNotification() {
       this.locationError = {
         header: "Tarvitsemme sijaintisi",
         body:
@@ -271,13 +270,13 @@ export default {
         button: "salli sijainti"
       };
     },
-    showRealtime: function() {
+    showRealtime() {
       this.realtime = !this.realtime;
     },
     /**
      * Listen until swipe ends and select nearest / favorite tab
      */
-    swipeListener: function() {
+    swipeListener() {
       setTimeout(async () => {
         let position = document.querySelector(".swipe").scrollLeft;
         if (position < 200 && this.favoriteTab === true) {
@@ -292,13 +291,13 @@ export default {
         }
       }, 500);
     },
-    toggleFavorite: function(details) {
+    toggleFavorite(details) {
       details.selected === true
         ? this.addFavorite(details.stopId)
         : this.removeFavorite(details.stopId);
       this.$refs.data.startPolling();
     },
-    updateStatus: function(text) {
+    updateStatus(text) {
       this.$refs.navigation.dataUpdated(text);
     }
   }

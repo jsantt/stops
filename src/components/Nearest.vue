@@ -15,6 +15,11 @@
 .nearest-svg {
   fill: var(--color-blue-700);
 }
+
+.no-results {
+  text-align: center;
+  margin-top: var(--space-xl);
+}
 </style>
 <template>
   <div>
@@ -45,15 +50,13 @@
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures
-          :departures="stop.stoptimesWithoutPatterns"
-          :realtime="realtime"
-        ></Departures>
+        <Departures :departures="stop.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
       </section>
     </div>
     <div v-if="stops === undefined || stops.length < 1">
       <loader-spinner class="spinner"></loader-spinner>
     </div>
+    <div class="no-results" v-if="noResults(stops)">Ei tuloksia</div>
   </div>
 </template>
 
@@ -75,11 +78,20 @@ export default {
     Stop
   },
   methods: {
-    toggleFavorite: function(details) {
-      this.$emit("toggle-favorite", details);
-    },
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
+    },
+    noResults(stops) {
+      return (
+        stops !== undefined &&
+        stops.length > 0 &&
+        stops.every(stop => {
+          return stop.hidden === true;
+        })
+      );
+    },
+    toggleFavorite: function(details) {
+      this.$emit("toggle-favorite", details);
     }
   }
 };

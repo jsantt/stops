@@ -174,7 +174,7 @@
                 class="tag"
                 href="#"
                 ref="dropdown"
-                v-for="destination in destinations"
+                v-for="destination in removeDirectionDuplicates(destinations)"
                 v-bind:key="destination.routeShortName + destination.headsign"
                 v-on:click="directionChanged(destination)"
               >{{ destination.headsign }}</a>
@@ -347,6 +347,23 @@ export default {
 
       this.storeFiltersAndNotify();
       this.reset();
+    },
+    removeDirectionDuplicates(destinations) {
+      let directions = [];
+
+      destinations.forEach(item => {
+        if (
+          !directions.some(direction => {
+            return direction.headsign === item.headsign;
+          })
+        ) {
+          directions.push({
+            headsign: item.headsign
+          });
+        }
+      });
+
+      return directions;
     },
     filteredDirections(line, destinations) {
       let directions = [];

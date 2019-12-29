@@ -9,10 +9,8 @@ import { geolocate } from "./Geolocate.js";
 export default {
   name: "Data",
   props: {
-    favoriteFilter: Array,
     favoriteStops: Array,
-    fetchFavorites: Boolean,
-    nearestFilter: Array
+    fetchFavorites: Boolean
   },
   data: function() {
     return {
@@ -37,7 +35,6 @@ export default {
      */
     startPolling: async function() {
       this.stopPolling();
-
       document.addEventListener("visibilitychange", this.visibilityChange);
 
       const coordinates = await this.locate();
@@ -85,25 +82,6 @@ export default {
         coordinates.lon
       );
       this.$emit("favorite-stops", favoriteData);
-    },
-    locateAndfetch: async function(location) {
-      try {
-        const coordinate =
-          location !== undefined ? location : await geolocate();
-
-        const nearestData = await fetchNearest(coordinate.lat, coordinate.lon);
-        this.$emit("nearest-stops", nearestData);
-
-        const favoriteData = await fetchFavorites(
-          this.favoriteStops,
-          coordinate.lat,
-          coordinate.lon
-        );
-
-        this.$emit("favorite-stops", favoriteData);
-      } catch (exception) {
-        this.$emit("location-error", exception);
-      }
     }
   }
 };

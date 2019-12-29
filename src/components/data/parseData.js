@@ -1,5 +1,13 @@
 import Vue from "vue";
 
+const sortByRouteShortName = (previous, current) => {
+  return previous.routeShortName < current.routeShortName ? -1 : 1;
+};
+
+const sortByHeadsign = (previous, current) => {
+  return previous.headsign < current.headsign ? -1 : 1;
+};
+
 /**
  * Parse line numbers (route short name) from given data
  * @param {Array} data
@@ -10,35 +18,60 @@ function parseLines(data) {
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
-      if (!lines.includes(departure.trip.routeShortName)) {
-        lines.push(departure.trip.routeShortName);
+      if (
+        !lines.some(line => {
+          return line.routeShortName === departure.trip.routeShortName;
+        })
+      ) {
+        lines.push({
+          routeShortName: departure.trip.routeShortName,
+          lat: item.lat,
+          lon: item.lons
+        });
       }
     });
   });
 
-  return lines.sort();
+  return lines.sort(sortByRouteShortName);
 }
 
 /**
- * Parse line destinations (headsign) from given data
+ * Parse line direction (headsign) from given data
  * @param {Array} data
  * @returns {Array} of nearby line numbers
  */
-function parseDestinations(data) {
-  let destinations = [];
+function parseDirections(data) {
+  let directions = [];
 
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
-      if (!destinations.includes(departure.headsign)) {
-        destinations.push(departure.headsign);
+      if (
+        !directions.some(destination => {
+          return (
+            departure.headsign === destination.headsign &&
+            departure.trip.routeShortName === destination.routeShortName
+          );
+        })
+      ) {
+        directions.push({
+          headsign: departure.headsign,
+          routeShortName: departure.trip.routeShortName
+        });
       }
     });
   });
 
-  return destinations.sort();
+  return directions.sort(sortByHeadsign);
 }
 
-function filterData(data, filterText) {
+// TODO: vaihda String --> Array, filterText is array
+function filterData(data, allFilters) {
+  const noFilters =
+    allFilters === undefined ||
+    !allFilters.some(filter => {
+      return filter.active === true;
+    });
+
   const copy = [...data];
 
   let departuresVisible;
@@ -49,9 +82,15 @@ function filterData(data, filterText) {
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
         if (
-          filterText === undefined ||
-          filterText === departure.trip.routeShortName ||
-          filterText === departure.headsign
+          noFilters ||
+          allFilters.some(filter => {
+            return (
+              filter.headsign === departure.headsign &&
+              filter.active === true &&
+              (filter.routeShortName === departure.trip.routeShortName ||
+                filter.type === "direction")
+            );
+          })
         ) {
           // use Vue.set to let Vue know the change and re-render departures
           Vue.set(departure, "hidden", false);
@@ -89,4 +128,4 @@ function markFavoriteLines(data, favoriteLines) {
   });
 }
 
-export { filterData, markFavoriteLines, parseDestinations, parseLines };
+export { filterData, markFavoriteLines, parseDirections, parseLines };

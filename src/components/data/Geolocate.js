@@ -15,7 +15,7 @@ function geolocate() {
               reject({
                 header: "Salli paikannus",
                 body:
-                  "Sijaintiasi käytetään vain lähimpien pysäkkien löytämiseksi",
+                  "Olethan sallinut paikannuksen selaimesi asetuksista. Sijaintiasi käytetään vain lähimpien pysäkkien löytämiseen",
                 button: "ok"
               });
               break;

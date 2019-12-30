@@ -46,10 +46,10 @@ function parseDirections(data) {
   data.forEach(item => {
     item.stoptimesWithoutPatterns.forEach(departure => {
       if (
-        !directions.some(destination => {
+        !directions.some(direction => {
           return (
-            departure.headsign === destination.headsign &&
-            departure.trip.routeShortName === destination.routeShortName
+            departure.headsign === direction.headsign &&
+            departure.trip.routeShortName === direction.routeShortName
           );
         })
       ) {

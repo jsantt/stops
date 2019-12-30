@@ -74,7 +74,7 @@ footer {
       >
         <Filter-lines
           :lines="nearestLines"
-          :directions="nearestDestinations"
+          :directions="nearestDirections"
           v-on:new-filter-value="filterNearest"
         ></Filter-lines>
       </Nearest>
@@ -88,7 +88,7 @@ footer {
       >
         <Filter-lines
           :lines="favoriteLines"
-          :directions="favoriteDestinations"
+          :directions="favoriteDirections"
           :favorite="true"
           v-on:new-filter-value="filterFavorite"
         ></Filter-lines>
@@ -155,14 +155,14 @@ export default {
     return {
       favoriteData: [],
       favoriteFilter: undefined,
-      favoriteDestinations: undefined,
+      favoriteDirections: undefined,
       favoriteLines: [],
       favoriteStops: [],
       favoriteTab: false,
       locationError: undefined,
       nearestData: [],
       nearestFilter: [],
-      nearestDestinations: undefined,
+      nearestDirections: undefined,
       nearestLines: [],
       previousScrollPosition: 0,
       realtime: true
@@ -205,7 +205,7 @@ export default {
     favoriteDataReceived(result) {
       this.updateStatus("päivitetty");
       this.favoriteLines = parseLines(result);
-      this.favoriteDestinations = parseDirections(result);
+      this.favoriteDirections = parseDirections(result);
       this.favoriteData = filterData(result, this.favoriteFilter);
     },
     filterFavorite(filter) {
@@ -225,7 +225,7 @@ export default {
     },
     nearestDataReceived(result) {
       this.nearestLines = parseLines(result);
-      this.nearestDestinations = parseDirections(result);
+      this.nearestDirections = parseDirections(result);
 
       this.nearestData = filterData(result, this.nearestFilter);
     },

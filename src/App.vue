@@ -74,7 +74,7 @@ footer {
       >
         <Filter-lines
           :lines="nearestLines"
-          :destinations="nearestDestinations"
+          :directions="nearestDestinations"
           v-on:new-filter-value="filterNearest"
         ></Filter-lines>
       </Nearest>
@@ -88,7 +88,7 @@ footer {
       >
         <Filter-lines
           :lines="favoriteLines"
-          :destinations="favoriteDestinations"
+          :directions="favoriteDestinations"
           :favorite="true"
           v-on:new-filter-value="filterFavorite"
         ></Filter-lines>

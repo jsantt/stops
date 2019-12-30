@@ -148,10 +148,10 @@
                 class="tag"
                 href="#"
                 ref="dropdown"
-                v-for="destination in filteredDirections(lineFilterValue, this.destinations)"
-                v-bind:key="destination.routeShortName + destination.headsign"
-                v-on:click="directionChanged(destination)"
-              >{{ destination.headsign }}</a>
+                v-for="direction in filteredDirections(lineFilterValue, this.directions)"
+                v-bind:key="direction.routeShortName + direction.headsign"
+                v-on:click="directionChanged(direction)"
+              >{{ direction.headsign }}</a>
             </div>
             <div class="tag-container">
               <div
@@ -174,10 +174,10 @@
                 class="tag"
                 href="#"
                 ref="dropdown"
-                v-for="destination in removeDirectionDuplicates(destinations)"
-                v-bind:key="destination.routeShortName + destination.headsign"
-                v-on:click="directionChanged(destination)"
-              >{{ destination.headsign }}</a>
+                v-for="direction in removeDirectionDuplicates(directions)"
+                v-bind:key="direction.routeShortName + direction.headsign"
+                v-on:click="directionChanged(direction)"
+              >{{ direction.headsign }}</a>
             </div>
             <div class="tag-container">
               <div class="tag tag--wide" @click="toggleDirection()">SULJE</div>
@@ -258,7 +258,7 @@ export default {
   },
   props: {
     lines: Array,
-    destinations: Array,
+    directions: Array,
     favorite: Boolean
   },
   data() {
@@ -269,7 +269,7 @@ export default {
       /**
        * [
        *  {
-       *    headsign: destination.headsign,
+       *    headsign: direction.headsign,
        *    lat: line.lat,
        *    lon: line.lot,
        *    routeShortName: line.routeShortName,
@@ -341,17 +341,17 @@ export default {
         this.reset();
       }
     },
-    directionChanged(newDestination) {
+    directionChanged(newDirection) {
       this.lineAccordionOpen = false;
-      this.allFilters = this.addFilter(this.lineFilterValue, newDestination);
+      this.allFilters = this.addFilter(this.lineFilterValue, newDirection);
 
       this.storeFiltersAndNotify();
       this.reset();
     },
-    removeDirectionDuplicates(destinations) {
+    removeDirectionDuplicates(directions) {
       let newDirections = [];
 
-      destinations.forEach(item => {
+      directions.forEach(item => {
         if (
           !newDirections.some(direction => {
             return direction.headsign === item.headsign;
@@ -365,18 +365,18 @@ export default {
 
       return newDirections;
     },
-    filteredDirections(line, destinations) {
+    filteredDirections(line, directions) {
       let newDirections = [];
 
       if (
         line === undefined ||
-        destinations === undefined ||
-        destinations.length < 1
+        directions === undefined ||
+        directions.length < 1
       ) {
         return;
       }
 
-      destinations.forEach(item => {
+      directions.forEach(item => {
         if (line.routeShortName === item.routeShortName) {
           newDirections.push({
             headsign: item.headsign

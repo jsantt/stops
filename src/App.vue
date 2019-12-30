@@ -73,7 +73,7 @@ footer {
         v-on:toggle-favorite="toggleFavorite"
       >
         <Filter-lines
-          :allLines="nearestLines"
+          :lines="nearestLines"
           :destinations="nearestDestinations"
           v-on:new-filter-value="filterNearest"
         ></Filter-lines>
@@ -87,7 +87,7 @@ footer {
         v-on:toggle-favorite="toggleFavorite"
       >
         <Filter-lines
-          :allLines="favoriteLines"
+          :lines="favoriteLines"
           :destinations="favoriteDestinations"
           :favorite="true"
           v-on:new-filter-value="filterFavorite"

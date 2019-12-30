@@ -136,7 +136,7 @@
               <a
                 class="tag"
                 href="#"
-                v-for="line in allLines"
+                v-for="line in lines"
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineFilterChanged(line)"
               >{{ line.routeShortName }}</a>
@@ -257,7 +257,7 @@ export default {
     STag
   },
   props: {
-    allLines: Array,
+    lines: Array,
     destinations: Array,
     favorite: Boolean
   },
@@ -349,24 +349,24 @@ export default {
       this.reset();
     },
     removeDirectionDuplicates(destinations) {
-      let directions = [];
+      let newDirections = [];
 
       destinations.forEach(item => {
         if (
-          !directions.some(direction => {
+          !newDirections.some(direction => {
             return direction.headsign === item.headsign;
           })
         ) {
-          directions.push({
+          newDirections.push({
             headsign: item.headsign
           });
         }
       });
 
-      return directions;
+      return newDirections;
     },
     filteredDirections(line, destinations) {
-      let directions = [];
+      let newDirections = [];
 
       if (
         line === undefined ||
@@ -378,13 +378,13 @@ export default {
 
       destinations.forEach(item => {
         if (line.routeShortName === item.routeShortName) {
-          directions.push({
+          newDirections.push({
             headsign: item.headsign
           });
         }
       });
 
-      return directions;
+      return newDirections;
     },
     lineFilterChanged: function(line) {
       this.lineFilterValue = line;

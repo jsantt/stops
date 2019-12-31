@@ -86,7 +86,9 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
+      <div>
+        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
+      </div>
     </div>
 
     <div class="no-results" v-if="noResults(stops)">Ei tuloksia</div>

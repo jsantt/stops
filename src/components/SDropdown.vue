@@ -30,7 +30,12 @@ option {
 </style>
 <template>
   <!-- check https://github.com/shentao/vue-multiselect example https://vue-multiselect.js.org/ as alternative -->
-  <select v-if="items !== undefined" v-model="selected" v-on:change="changed" ref="selectDirection">
+  <select
+    v-if="items !== undefined"
+    v-model="selected"
+    v-on:change="changed"
+    ref="selectDirection"
+  >
     <option hidden>Määränpää</option>
     <option v-for="item in items" v-bind:key="item">{{ item }}</option>
   </select>

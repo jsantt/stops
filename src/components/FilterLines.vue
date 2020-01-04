@@ -136,11 +136,7 @@
 <template>
   <div class="filter-lines">
     <div class="filter-tag">
-      <s-tag
-        v-on:opened="toggleLine()"
-        :open="lineAccordionOpen"
-        ref="lineAccordion"
-      >
+      <s-tag v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
         <template slot="header">
           <div class="add-filter">LINJA</div>
         </template>
@@ -154,14 +150,11 @@
                 v-for="line in lines"
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineFilterChanged(line)"
-                >{{ line.routeShortName }}</a
-              >
+              >{{ line.routeShortName }}</a>
             </div>
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
-              <div class="tag tag--selected">
-                {{ lineFilterValue.routeShortName }}
-              </div>
+              <div class="tag tag--selected">{{ lineFilterValue.routeShortName }}</div>
               <a
                 class="tag"
                 href="#"
@@ -172,26 +165,19 @@
                 )"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
-                >{{ direction.headsign }}</a
-              >
+              >{{ direction.headsign }}</a>
             </div>
             <div class="tag-container">
               <div
                 class="tag tag--wide"
                 v-bind:class="{ 'tag--wide': lineFilterValue !== undefined }"
                 @click="toggleLine()"
-              >
-                SULJE
-              </div>
+              >SULJE</div>
             </div>
           </div>
         </template>
       </s-tag>
-      <s-tag
-        v-on:opened="toggleDirection()"
-        :open="directionAccordionOpen"
-        ref="lineAccordion"
-      >
+      <s-tag v-on:opened="toggleDirection()" :open="directionAccordionOpen" ref="lineAccordion">
         <template slot="header">
           <div class="add-filter">SUUNTA</div>
         </template>
@@ -205,8 +191,7 @@
                 v-for="direction in removeDirectionDuplicates(directions)"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
-                >{{ direction.headsign }}</a
-              >
+              >{{ direction.headsign }}</a>
             </div>
             <div class="tag-container">
               <div class="tag tag--wide" @click="toggleDirection()">SULJE</div>
@@ -232,7 +217,9 @@
       >
         {{ filter.routeShortName }}
         {{ filter.headsign }}
-        <span v-if="editingFilters === true">
+        <span
+          v-if="editingFilters === true"
+        >
           <svg
             class="remove-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -254,20 +241,11 @@
         class="tag tag--filter"
         v-bind:class="{ 'tag--selected': !hasActiveFilters() }"
         href="#"
-        >Näytä kaikki</a
-      >
+      >Näytä kaikki</a>
 
-      <div
-        v-if="allFilters.length > 0 && editingFilters === false"
-        class="tag tag--right"
-      >
+      <div v-if="allFilters.length > 0 && editingFilters === false" class="tag tag--right">
         <div class="removal" @click="removeFilters()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path
               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
             />
@@ -276,17 +254,8 @@
           MUOKKAA
         </div>
       </div>
-      <div
-        v-if="editingFilters === true"
-        class="tag tag--wide"
-        @click="reset()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-        >
+      <div v-if="editingFilters === true" class="tag tag--wide" @click="reset()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
           <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
         </svg>
         VALMIS
@@ -341,6 +310,7 @@ export default {
   },
   mounted() {
     this.allFilters = this.restoreFilters();
+    this.notify();
   },
   methods: {
     addFilter(line, direction) {
@@ -514,7 +484,14 @@ export default {
       const key = this.favorite === true ? "favoriteFilters" : "nearestFilters";
       window.localStorage.setItem(key, JSON.stringify(this.allFilters));
 
+      this.notify();
+    },
+    notify() {
       this.$emit("new-filter-value", this.allFilters);
+      this.$emit(
+        "new-filter-value",
+        this.hideEmptyFilters(this.allFilters, this.directions)
+      );
     }
   }
 };

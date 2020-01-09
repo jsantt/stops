@@ -1,5 +1,13 @@
 function geolocate() {
   return new Promise((resolve, reject) => {
+    if (window.navigator.onLine === false) {
+      reject({
+        header: "Ei internet-yhteyttä",
+        body: "Kokeile uudestaan",
+        button: "ok"
+      });
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {

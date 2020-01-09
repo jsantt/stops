@@ -7,7 +7,7 @@
 
     <meta
       name="keywords"
-      content="HSL, pysäkit, pysäkkiaikataulu, lähimmät pysäkit, espoo, helsinki, vantaa"
+      content="HSL, pysäkit, pysäkkiaikataulu, lähimmät pysäkit, pysäkkikohtaiset aikataulut, bussi, metro, juna, espoo, helsinki, vantaa"
     />
     <meta name="author" content="Jani Säntti" />
     <meta name="description" content="HSL pysäkkiaikataulut taskussasi" />
@@ -90,6 +90,22 @@
         }
       }
 
+      .heading-text {
+        color: var(--color-gray-300);
+        animation-name: color-change;
+        animation-duration: 2s;
+        animation-delay: 2.5s;
+        animation-fill-mode: forwards;
+      }
+      @keyframes color-change {
+        0% {
+          color: var(--color-gray-300);
+        }
+        100% {
+          color: var(--color-gray-800);
+        }
+      }
+
       .bus-icon {
         display: inline-block;
         transition: all ease-out 1.6s;
@@ -104,7 +120,7 @@
       .bus-img {
         width: 2rem;
         height: 2rem;
-        /*margin-bottom: -0.5rem;*/
+        margin-bottom: -0.5rem;
       }
 
       footer {
@@ -152,10 +168,10 @@
   </head>
   <body>
     <h1>
+      <span class="heading-text">HSL pysäkit</span>
       <span class="bus-icon"
-        ><img class="bus-img" src="/img/bus-192x192.png" /><!--🚌--></span
-      ><br />
-      HSL pysäkit
+        ><img class="bus-img" src="/img/bus-192x192.png" />
+      </span>
     </h1>
 
     <div id="app"></div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang=fi><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=keywords content="HSL, pysäkit, pysäkkiaikataulu, lähimmät pysäkit, espoo, helsinki, vantaa"><meta name=author content="Jani Säntti"><meta name=description content="HSL pysäkkiaikataulut taskussasi"><!--[if IE]><link rel="icon" href="/favicon.ico" /><![endif]--><title>Pysäkit - HSL pysäkkiaikataulut</title><style>* {
+<!DOCTYPE html><html lang=fi><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=keywords content="HSL, pysäkit, pysäkkiaikataulu, lähimmät pysäkit, pysäkkikohtaiset aikataulut, bussi, metro, juna, espoo, helsinki, vantaa"><meta name=author content="Jani Säntti"><meta name=description content="HSL pysäkkiaikataulut taskussasi"><!--[if IE]><link rel="icon" href="/favicon.ico" /><![endif]--><title>Pysäkit - HSL pysäkkiaikataulut</title><style>* {
         box-sizing: border-box;
       }
       html {
@@ -73,6 +73,22 @@
         }
       }
 
+      .heading-text {
+        color: var(--color-gray-300);
+        animation-name: color-change;
+        animation-duration: 2s;
+        animation-delay: 2.5s;
+        animation-fill-mode: forwards;
+      }
+      @keyframes color-change {
+        0% {
+          color: var(--color-gray-300);
+        }
+        100% {
+          color: var(--color-gray-800);
+        }
+      }
+
       .bus-icon {
         display: inline-block;
         transition: all ease-out 1.6s;
@@ -87,7 +103,7 @@
       .bus-img {
         width: 2rem;
         height: 2rem;
-        /*margin-bottom: -0.5rem;*/
+        margin-bottom: -0.5rem;
       }
 
       footer {
@@ -126,7 +142,7 @@
           "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js";
         wf.async = true;
         s.parentNode.insertBefore(wf, s);
-      })(document);</script><link href=/css/app.bf38e209.css rel=preload as=style><link href=/js/app.3f702f35.js rel=preload as=script><link href=/js/chunk-vendors.ec12355f.js rel=preload as=script><link href=/css/app.bf38e209.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/img/icons/favicon-16x16.png><link rel=manifest href=/manifest.json><meta name=theme-color content=#4DBA87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content=stops><link rel=apple-touch-icon href=/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/img/icons/safari-pinned-tab.svg color=#4DBA87><meta name=msapplication-TileImage content=/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#000000></head><body><h1><span class=bus-icon><img class=bus-img src=/img/bus-192x192.png></span><br>HSL pysäkit</h1><div id=app></div><script type=module>window.addEventListener("DOMContentLoaded", event => {
+      })(document);</script><link href=/css/app.bf38e209.css rel=preload as=style><link href=/js/app.3f702f35.js rel=preload as=script><link href=/js/chunk-vendors.ec12355f.js rel=preload as=script><link href=/css/app.bf38e209.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/img/icons/favicon-16x16.png><link rel=manifest href=/manifest.json><meta name=theme-color content=#4DBA87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content=stops><link rel=apple-touch-icon href=/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/img/icons/safari-pinned-tab.svg color=#4DBA87><meta name=msapplication-TileImage content=/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#000000></head><body><h1><span class=heading-text>HSL pysäkit</span> <span class=bus-icon><img class=bus-img src=/img/bus-192x192.png></span></h1><div id=app></div><script type=module>window.addEventListener("DOMContentLoaded", event => {
         setTimeout(() => {
           document.querySelector(".bus-icon").classList.add("bus-icon--loaded");
         }, 1500);

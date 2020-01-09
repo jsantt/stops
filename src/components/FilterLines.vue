@@ -297,7 +297,6 @@ export default {
        * ]
        */
       allFilters: [],
-      //TODO: FIX sorting
       sortByRouteShortName: (previous, current) => {
         if (previous.routeShortName !== current.routeShortName) {
           return previous.routeShortName < current.routeShortName ? -1 : 1;
@@ -341,7 +340,7 @@ export default {
       });
     },
     hideEmptyFilters(allFilters, directions) {
-      if (this.editingFilters) {
+      if (this.editingFilters || directions === undefined) {
         return allFilters;
       }
 

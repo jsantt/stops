@@ -65,12 +65,23 @@ function parseDirections(data) {
 }
 
 // TODO: vaihda String --> Array, filterText is array
+/**
+ *
+ * @param {Array} data
+ * @param {Array} allFilters -
+ * item example:
+ * {
+ *  headsign: "Jorvi via Espoon keskus"
+ *  active: false
+ *  type: "direction"
+ * }
+ *
+ * @returns Array of stops and departure, marked with hidden=true|false depending on filter
+ */
 function filterData(data, allFilters) {
-  const noFilters =
-    allFilters === undefined ||
-    !allFilters.some(filter => {
-      return filter.active === true;
-    });
+  if (allFilters === undefined || data === undefined) {
+    return data;
+  }
 
   const copy = [...data];
 
@@ -82,7 +93,6 @@ function filterData(data, allFilters) {
     if (item.stoptimesWithoutPatterns !== undefined) {
       item.stoptimesWithoutPatterns.forEach(departure => {
         if (
-          noFilters ||
           allFilters.some(filter => {
             return (
               filter.headsign === departure.headsign &&
@@ -103,7 +113,29 @@ function filterData(data, allFilters) {
       Vue.set(item, "hidden", !departuresVisible);
     }
   });
+
+  if (allHidden(copy)) {
+    copy.map(stop => {
+      Vue.set(stop, "hidden", false);
+      stop.stoptimesWithoutPatterns.map(departure => {
+        Vue.set(departure, "hidden", false);
+      });
+    });
+  }
+
   return copy;
+}
+
+/**
+ * if all the data would be filtered, filter nothing
+ */
+function allHidden(departures) {
+  if (departures === undefined) {
+    return true;
+  }
+  return departures.every(departure => {
+    return departure.hidden === true;
+  });
 }
 
 /**

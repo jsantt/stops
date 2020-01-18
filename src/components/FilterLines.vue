@@ -363,7 +363,6 @@ export default {
   methods: {
     addFilter(line, direction) {
       const copy = [...this.allFilters];
-      debugger;
       const item =
         line === undefined
           ? {

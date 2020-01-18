@@ -37,7 +37,10 @@
 <template>
   <section class="section container">
     <article class="message" :class="accordionClasses">
-      <div @click="$emit('opened')" class="message-header message-header--underline">
+      <div
+        @click="$emit('opened')"
+        class="message-header message-header--underline"
+      >
         <slot name="header"></slot>
         <svg
           class="handle"

@@ -99,6 +99,9 @@
   border: none;
   width: 100%;
 }
+.subway {
+  fill: #ff6319;
+}
 
 @keyframes wobble1 {
   0% {
@@ -150,7 +153,28 @@
                 v-for="line in lines"
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineFilterChanged(line)"
-              >{{ line.routeShortName }}</a>
+              >
+                <!-- TODO: use icons.js -->
+                <svg
+                  v-if="line.mode === 'SUBWAY'"
+                  viewBox="0 0 1024 1024"
+                  width="16"
+                  height="16"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <path
+                    class="subway"
+                    d="M871.036 993.287H154.225c-67.864 0-122.883-55.015-122.883-122.883V153.593c0-67.864 55.015-122.883 122.883-122.883h716.811c67.864 0 122.883 55.015 122.883 122.883v716.811c0 67.868-55.018 122.883-122.883 122.883z"
+                  />
+                  <path
+                    d="M732.237 401.243v-21.037c0-1.252 2.505-2.473 5.009-2.473v504.921h156.056V141.347h-230.28L518.296 647.521l-2.504 34.655h-3.788l-3.788-34.655-144.692-506.174H131.96v741.307h158.56V377.733c1.253 0 3.789 1.22 3.789 2.473v21.037l140.936 481.411h154.773l142.22-481.411z"
+                    fill="#fff"
+                  />
+                </svg>
+                {{ line.routeShortName }}
+              </a>
             </div>
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
@@ -215,6 +239,27 @@
         v-bind:key="filter.routeShortName + filter.headsign"
         v-on:click="toggleFilter(filter)"
       >
+        <!-- TODO: use icons.js -->
+        <svg
+          v-if="filter.mode === 'SUBWAY'"
+          viewBox="0 0 1024 1024"
+          width="20"
+          height="20"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <path
+            class="subway"
+            d="M871.036 993.287H154.225c-67.864 0-122.883-55.015-122.883-122.883V153.593c0-67.864 55.015-122.883 122.883-122.883h716.811c67.864 0 122.883 55.015 122.883 122.883v716.811c0 67.868-55.018 122.883-122.883 122.883z"
+          />
+          <path
+            d="M732.237 401.243v-21.037c0-1.252 2.505-2.473 5.009-2.473v504.921h156.056V141.347h-230.28L518.296 647.521l-2.504 34.655h-3.788l-3.788-34.655-144.692-506.174H131.96v741.307h158.56V377.733c1.253 0 3.789 1.22 3.789 2.473v21.037l140.936 481.411h154.773l142.22-481.411z"
+            fill="#fff"
+          />
+        </svg>
+
+        <!--use xlink:href="#icon-subway"></use-->
         {{ filter.routeShortName }}
         {{ filter.headsign }}
         <span
@@ -243,8 +288,12 @@
         href="#"
       >Näytä kaikki</a>
 
-      <div v-if="allFilters.length > 0 && editingFilters === false" class="tag tag--right">
-        <div class="removal" @click="removeFilters()">
+      <a
+        v-if="allFilters.length > 0 && editingFilters === false"
+        class="tag tag--right removal"
+        @click="removeFilters()"
+      >
+        <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path
               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
@@ -253,7 +302,7 @@
           </svg>
           MUOKKAA
         </div>
-      </div>
+      </a>
       <div v-if="editingFilters === true" class="tag tag--wide" @click="reset()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
           <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
@@ -314,21 +363,22 @@ export default {
   methods: {
     addFilter(line, direction) {
       const copy = [...this.allFilters];
-
+      debugger;
       const item =
         line === undefined
           ? {
-              headsign: direction.headsign,
+              type: "direction",
               active: true,
-              type: "direction"
+              headsign: direction.headsign
             }
           : {
+              type: "line",
+              active: true,
               headsign: direction.headsign,
               lat: line.lat,
               lon: line.lot,
               routeShortName: line.routeShortName,
-              active: true,
-              type: "line"
+              mode: line.mode
             };
 
       copy.push(item);

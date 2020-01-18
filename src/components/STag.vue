@@ -27,23 +27,21 @@
   max-height: 0;
 }
 
-svg {
+.handle {
   margin-top: 0.4rem;
 }
-.svg--open {
+.handle--open {
   transform: rotateX(180deg);
 }
 </style>
 <template>
   <section class="section container">
     <article class="message" :class="accordionClasses">
-      <div
-        @click="$emit('opened')"
-        class="message-header message-header--underline"
-      >
+      <div @click="$emit('opened')" class="message-header message-header--underline">
         <slot name="header"></slot>
         <svg
-          v-bind:class="{ 'svg--open': open }"
+          class="handle"
+          v-bind:class="{ 'handle--open': open }"
           xmlns="http://www.w3.org/2000/svg"
           width="6"
           height="6"

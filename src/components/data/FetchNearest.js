@@ -55,6 +55,9 @@ function _queryBody(lat, lon, stops) {
                         alertHeaderText
                         alertDescriptionText
                       }
+                      route {
+                        mode
+                      }
                     }
                   }
                 }

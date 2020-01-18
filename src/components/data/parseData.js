@@ -26,7 +26,8 @@ function parseLines(data) {
         lines.push({
           routeShortName: departure.trip.routeShortName,
           lat: item.lat,
-          lon: item.lons
+          lon: item.lon,
+          mode: departure.trip.route.mode
         });
       }
     });

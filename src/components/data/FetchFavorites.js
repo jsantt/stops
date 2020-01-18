@@ -48,6 +48,9 @@ function query(stops) {
             id
             directionId
             routeShortName
+            route {
+              mode
+            }
           }
         }
       }

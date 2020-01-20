@@ -67,7 +67,7 @@
 
 <script>
 export default {
-  name: "s-tag",
+  name: "tag-accordion",
   props: {
     open: Boolean
   },

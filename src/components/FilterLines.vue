@@ -314,6 +314,7 @@ export default {
       this.lineFilterValue = line;
     },
     removeFilters() {
+      this.reset();
       this.editingFilters = true;
     },
     removeFilter(filter) {

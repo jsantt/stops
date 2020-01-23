@@ -64,6 +64,12 @@ export default {
       this.$emit("finding-location");
       try {
         const coordinates = await geolocate();
+        if (coordinates.accuracy !== null && coordinates.accuracy > 50) {
+          this.$emit("location-error", {
+            body: `Sijainti epätarkka (${coordinates.accuracy}m)`
+          });
+        }
+
         return coordinates;
       } catch (exception) {
         this.$emit("location-error", exception);

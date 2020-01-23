@@ -38,6 +38,7 @@
       <div>Lähimmät</div>
     </h2>
     <slot></slot>
+
     <div v-for="stop in stops" v-bind:key="stop.gtfsId">
       <section
         v-if="
@@ -50,10 +51,7 @@
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures
-          :departures="stop.stoptimesWithoutPatterns"
-          :realtime="realtime"
-        ></Departures>
+        <Departures :departures="stop.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
       </section>
     </div>
     <div v-if="stops === undefined || stops.length < 1">

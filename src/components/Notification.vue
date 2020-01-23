@@ -2,7 +2,7 @@
 .notification {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto 4rem;
+  grid-template-rows: auto auto auto;
 
   padding: 0rem 1rem 1rem 1rem;
   max-width: var(--main-width);
@@ -20,7 +20,7 @@ footer {
 
 <template>
   <div class="notification" role="dialog" aria-modal="true">
-    <h2>
+    <h2 v-if="texts.header !== undefined">
       <div>
         <svg
           class="icon"
@@ -37,7 +37,7 @@ footer {
       {{ texts.header }}
     </h2>
     <main>{{ texts.body }}</main>
-    <footer v-on:click="$emit('open-locate-prompt')">
+    <footer v-if="texts.button !== undefined" v-on:click="$emit('open-locate-prompt')">
       <s-button>{{ texts.button }}</s-button>
     </footer>
   </div>

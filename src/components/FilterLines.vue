@@ -2,8 +2,8 @@
 .tag-container {
   display: flex;
   flex-wrap: wrap;
-
   padding: var(--space-s) 0;
+  border-radius: var(--border-radius);
 }
 
 .right {
@@ -21,6 +21,10 @@
 
 .gray-background {
   background-color: var(--color-gray-300);
+}
+
+.all-filters {
+  margin: var(--space-xl) 0;
 }
 
 /*

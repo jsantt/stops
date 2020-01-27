@@ -51,7 +51,7 @@
       <div>Suosikit</div>
     </h2>
     <slot></slot>
-    <div v-for="stop in stops" v-bind:key="stop.gtfsId">
+    <div v-for="stop in filteredStops" v-bind:key="stop.gtfsId">
       <section
         v-if="
           stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
@@ -101,18 +101,25 @@
 import Departures from "./Departures.vue";
 import Install from "./Install.vue";
 import Stop from "./Stop.vue";
+import { filterData } from "./filterStops.js";
 
 export default {
   name: "Favorite",
-  props: {
-    favoriteStops: Array,
-    realtime: Boolean,
-    stops: Array
-  },
   components: {
     Departures,
     Install,
     Stop
+  },
+  props: {
+    favoriteStops: Array,
+    filter: Array,
+    realtime: Boolean,
+    stops: Array
+  },
+  computed: {
+    filteredStops: function() {
+      return filterData(this.stops, this.filter);
+    }
   },
   methods: {
     isFavorite(stopId) {

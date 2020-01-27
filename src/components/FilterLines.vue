@@ -42,7 +42,11 @@
 <template>
   <div class="filter-lines">
     <div class="filter-tag">
-      <tag-accordion v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
+      <tag-accordion
+        v-on:opened="toggleLine()"
+        :open="lineAccordionOpen"
+        ref="lineAccordion"
+      >
         <template slot="header">
           <div class="add-filter">LINJA</div>
         </template>
@@ -62,16 +66,18 @@
 
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
-              <tag :tagSelected="true">{{ lineFilterValue.routeShortName }}</tag>
+              <tag :tagSelected="true">{{
+                lineFilterValue.routeShortName
+              }}</tag>
               <div
                 v-for="direction in filteredDirections(
-                          lineFilterValue,
-                          directions
-                        )"
+                  lineFilterValue,
+                  directions
+                )"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
               >
-                <tag>{{direction.headsign}}</tag>
+                <tag>{{ direction.headsign }}</tag>
               </div>
             </div>
             <div class="tag-container" @click="toggleLine()">
@@ -96,7 +102,7 @@
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
               >
-                <tag>{{direction.headsign}}</tag>
+                <tag>{{ direction.headsign }}</tag>
               </div>
             </div>
             <div class="tag-container" @click="toggleDirection()">
@@ -125,7 +131,10 @@
         </tag>
       </div>
 
-      <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
+      <div
+        v-if="allFilters.length > 0 && editingFilters === false"
+        @click="showAll()"
+      >
         <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
       </div>
 
@@ -139,7 +148,12 @@
 
       <div v-if="editingFilters === true" @click="reset()" class="wide">
         <tag type="wide">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+          >
             <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
           </svg>
           VALMIS
@@ -152,14 +166,12 @@
 <script>
 import TagAccordion from "./TagAccordion.vue";
 import Tag from "./Tag.vue";
-import Star from "./Star.vue";
 
 export default {
   name: "filter-lines",
   components: {
     Tag,
-    TagAccordion,
-    Star
+    TagAccordion
   },
   props: {
     lines: Array,
@@ -314,7 +326,6 @@ export default {
       return newDirections;
     },
     lineFilterChanged: function(line) {
-      console.log(line);
       this.lineFilterValue = line;
     },
     removeFilters() {

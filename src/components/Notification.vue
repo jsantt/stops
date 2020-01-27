@@ -37,7 +37,10 @@ footer {
       {{ texts.header }}
     </h2>
     <main>{{ texts.body }}</main>
-    <footer v-if="texts.button !== undefined" v-on:click="$emit('open-locate-prompt')">
+    <footer
+      v-if="texts.button !== undefined"
+      v-on:click="$emit('open-locate-prompt')"
+    >
       <s-button>{{ texts.button }}</s-button>
     </footer>
   </div>

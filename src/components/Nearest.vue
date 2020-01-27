@@ -39,7 +39,7 @@
     </h2>
     <slot></slot>
 
-    <div v-for="stop in stops" v-bind:key="stop.gtfsId">
+    <div v-for="stop in filteredStops" v-bind:key="stop.gtfsId">
       <section
         v-if="
           stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
@@ -65,13 +65,20 @@
 import Departures from "./Departures.vue";
 import LoaderSpinner from "./LoaderSpinner.vue";
 import Stop from "./Stop.vue";
+import { filterData } from "./filterStops.js";
 
 export default {
   name: "Nearest",
   props: {
     favoriteStops: Array,
+    filter: Array,
     realtime: Boolean,
     stops: Array
+  },
+  computed: {
+    filteredStops: function() {
+      return filterData(this.stops, this.filter);
+    }
   },
   components: {
     Departures,

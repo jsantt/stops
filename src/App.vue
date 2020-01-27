@@ -67,6 +67,7 @@ footer {
     <div ref="swipe" class="swipe">
       <Nearest
         class="swipe-page"
+        :filter="nearestFilter"
         :favoriteStops="favoriteStops"
         :realtime="realtime"
         :stops="nearestData"
@@ -81,6 +82,7 @@ footer {
 
       <Favorite
         class="swipe-page"
+        :filter="favoriteFilter"
         :favoriteStops="favoriteStops"
         :realtime="realtime"
         :stops="favoriteData"
@@ -133,11 +135,7 @@ import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
 import TextResizer from "./components/TextResizer.vue";
 import Version from "./components/Version.vue";
-import {
-  filterData,
-  parseDirections,
-  parseLines
-} from "./components/data/parseData.js";
+import { parseDirections, parseLines } from "./components/data/parseData.js";
 
 export default {
   name: "app",
@@ -203,18 +201,17 @@ export default {
       this.locationError = undefined;
     },
     favoriteDataReceived(result) {
+      this.favoriteData = result;
       this.updateStatus("päivitetty");
+
       this.favoriteLines = parseLines(result);
       this.favoriteDirections = parseDirections(result);
-      this.favoriteData = filterData(result, this.favoriteFilter);
     },
     filterFavorite(filter) {
       this.favoriteFilter = filter;
-      this.favoriteData = filterData(this.favoriteData, filter);
     },
     filterNearest(filter) {
       this.nearestFilter = filter;
-      this.nearestData = filterData(this.nearestData, filter);
     },
     nearbyClicked() {
       this.$refs.swipe.scrollTo(0, 0);
@@ -224,10 +221,10 @@ export default {
       this.locationError = undefined;
     },
     nearestDataReceived(result) {
+      this.nearestData = result;
+
       this.nearestLines = parseLines(result);
       this.nearestDirections = parseDirections(result);
-
-      this.nearestData = filterData(result, this.nearestFilter);
     },
     onLocationError(error) {
       this.locationError = error;

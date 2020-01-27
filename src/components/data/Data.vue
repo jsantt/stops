@@ -66,7 +66,7 @@ export default {
         const coordinates = await geolocate();
         if (coordinates.accuracy !== null && coordinates.accuracy > 50) {
           this.$emit("location-error", {
-            body: `Sijainti epätarkka (${coordinates.accuracy}m)`
+            body: `Sijainti epätarkka (${Math.ceil(coordinates.accuracy)}m)`
           });
         }
 

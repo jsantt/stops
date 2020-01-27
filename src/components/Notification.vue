@@ -4,7 +4,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;
 
-  padding: 0rem 1rem 1rem 1rem;
+  padding: var(--space-m);
   max-width: var(--main-width);
 }
 

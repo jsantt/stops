@@ -73,11 +73,7 @@ footer {
         :stops="nearestData"
         v-on:toggle-favorite="toggleFavorite"
       >
-        <Filter-lines
-          :lines="nearestLines"
-          :directions="nearestDirections"
-          v-on:new-filter-value="filterNearest"
-        ></Filter-lines>
+        <Filter-lines :stops="nearestData" v-on:new-filter-value="filterNearest"></Filter-lines>
       </Nearest>
 
       <Favorite
@@ -88,12 +84,7 @@ footer {
         :stops="favoriteData"
         v-on:toggle-favorite="toggleFavorite"
       >
-        <Filter-lines
-          :lines="favoriteLines"
-          :directions="favoriteDirections"
-          :favorite="true"
-          v-on:new-filter-value="filterFavorite"
-        ></Filter-lines>
+        <Filter-lines :favorite="true" :stops="favoriteData" v-on:new-filter-value="filterFavorite"></Filter-lines>
       </Favorite>
     </div>
 
@@ -135,7 +126,6 @@ import Nearest from "./components/Nearest.vue";
 import Notification from "./components/Notification.vue";
 import TextResizer from "./components/TextResizer.vue";
 import Version from "./components/Version.vue";
-import { parseDirections, parseLines } from "./components/data/parseData.js";
 
 export default {
   name: "app",
@@ -153,15 +143,11 @@ export default {
     return {
       favoriteData: [],
       favoriteFilter: undefined,
-      favoriteDirections: undefined,
-      favoriteLines: [],
       favoriteStops: [],
       favoriteTab: false,
       locationError: undefined,
       nearestData: [],
       nearestFilter: [],
-      nearestDirections: undefined,
-      nearestLines: [],
       previousScrollPosition: 0,
       realtime: true
     };
@@ -203,9 +189,6 @@ export default {
     favoriteDataReceived(result) {
       this.favoriteData = result;
       this.updateStatus("päivitetty");
-
-      this.favoriteLines = parseLines(result);
-      this.favoriteDirections = parseDirections(result);
     },
     filterFavorite(filter) {
       this.favoriteFilter = filter;
@@ -222,9 +205,6 @@ export default {
     },
     nearestDataReceived(result) {
       this.nearestData = result;
-
-      this.nearestLines = parseLines(result);
-      this.nearestDirections = parseDirections(result);
     },
     onLocationError(error) {
       this.locationError = error;

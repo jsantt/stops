@@ -42,11 +42,7 @@
 <template>
   <div class="filter-lines">
     <div class="filter-tag">
-      <tag-accordion
-        v-on:opened="toggleLine()"
-        :open="lineAccordionOpen"
-        ref="lineAccordion"
-      >
+      <tag-accordion v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
         <template slot="header">
           <div class="add-filter">LINJA</div>
         </template>
@@ -56,7 +52,7 @@
             <!-- PHASE 1 of select line + direction-->
             <div v-if="lineFilterValue === undefined" class="tag-container">
               <div
-                v-for="line in lines"
+                v-for="line in lineOptions"
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineFilterChanged(line)"
               >
@@ -66,13 +62,15 @@
 
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
-              <tag :tagSelected="true">{{
+              <tag :tagSelected="true">
+                {{
                 lineFilterValue.routeShortName
-              }}</tag>
+                }}
+              </tag>
               <div
                 v-for="direction in filteredDirections(
                   lineFilterValue,
-                  directions
+                  directionOptions
                 )"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
@@ -98,7 +96,7 @@
           <div class="gray-background">
             <div class="tag-container">
               <div
-                v-for="direction in removeDirectionDuplicates(directions)"
+                v-for="direction in removeDirectionDuplicates(directionOptions)"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
               >
@@ -117,7 +115,7 @@
       v-bind:class="{ 'gray-background': editingFilters === true }"
     >
       <div
-        v-for="filter in hideEmptyFilters(allFilters, directions)"
+        v-for="filter in hideEmptyFilters(allFilters, directionOptions)"
         v-bind:key="filter.routeShortName + filter.headsign"
         v-on:click="toggleFilter(filter)"
       >
@@ -131,10 +129,7 @@
         </tag>
       </div>
 
-      <div
-        v-if="allFilters.length > 0 && editingFilters === false"
-        @click="showAll()"
-      >
+      <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
         <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
       </div>
 
@@ -148,12 +143,7 @@
 
       <div v-if="editingFilters === true" @click="reset()" class="wide">
         <tag type="wide">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
           </svg>
           VALMIS
@@ -166,6 +156,7 @@
 <script>
 import TagAccordion from "./TagAccordion.vue";
 import Tag from "./Tag.vue";
+import { parseLines, parseDirections } from "./data/parseData.js";
 
 export default {
   name: "filter-lines",
@@ -174,9 +165,16 @@ export default {
     TagAccordion
   },
   props: {
-    lines: Array,
-    directions: Array,
-    favorite: Boolean
+    favorite: Boolean,
+    stops: Array
+  },
+  computed: {
+    lineOptions: function() {
+      return parseLines(this.stops);
+    },
+    directionOptions: function() {
+      return parseDirections(this.stops);
+    }
   },
   data() {
     return {
@@ -388,10 +386,10 @@ export default {
       this.notify();
     },
     notify() {
-      this.$emit("new-filter-value", this.allFilters);
+      //this.$emit("new-filter-value", this.allFilters);
       this.$emit(
         "new-filter-value",
-        this.hideEmptyFilters(this.allFilters, this.directions)
+        this.hideEmptyFilters(this.allFilters, this.directionOptions)
       );
     }
   }

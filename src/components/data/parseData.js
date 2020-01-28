@@ -56,7 +56,9 @@ function parseDirections(data) {
       ) {
         directions.push({
           headsign: departure.headsign,
-          routeShortName: departure.trip.routeShortName
+          routeShortName: departure.trip.routeShortName,
+          lat: item.lat,
+          lon: item.lon
         });
       }
     });

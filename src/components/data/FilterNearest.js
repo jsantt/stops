@@ -1,4 +1,4 @@
-import { distance, formatDistance } from "./calculateDistance.js";
+import { calculateDistance, formatDistance } from "./calculateDistance.js";
 
 async function flattenNearest(response, lat, lon) {
   const responseJson = await response.json();
@@ -9,7 +9,7 @@ async function flattenNearest(response, lat, lon) {
     const newStop = { ...stop.node.place };
 
     newStop.distance = formatDistance(
-      distance(lat, lon, stop.node.place.lat, stop.node.place.lon)
+      calculateDistance(lat, lon, stop.node.place.lat, stop.node.place.lon)
     );
 
     flattenStops.push(newStop);

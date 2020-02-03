@@ -1,4 +1,4 @@
-import { distance, formatDistance } from "./calculateDistance.js";
+import { calculateDistance, formatDistance } from "./calculateDistance.js";
 
 async function flattenFavorite(response) {
   const responseJson = await response.json();
@@ -10,7 +10,7 @@ function addDistance(favoriteData, lat, lon) {
 
   favoriteData.forEach(stop => {
     const newStop = { ...stop };
-    newStop.distance = formatDistance(distance(lat, lon, stop.lat, stop.lon));
+    newStop.distance = formatDistance(calculateDistance(lat, lon, stop.lat, stop.lon));
     distanceAdded.push(newStop);
   });
 

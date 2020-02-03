@@ -37,6 +37,9 @@ footer {
     color: var(--color-white);
   }
 }
+.version {
+  margin-bottom: 4rem;
+}
 </style>
 
 <template>
@@ -44,12 +47,10 @@ footer {
     <Data
       ref="data"
       :favoriteStops="favoriteStops"
+      v-on:departure-data="departureDataReceived"
       v-on:location-error="onLocationError"
-      v-on:nearest-stops="nearestDataReceived"
-      v-on:favorite-stops="favoriteDataReceived"
-      v-on:finding-location="updateStatus('paikannetaan')"
-      v-on:fetching-favorites="updateStatus('haetaan *')"
-      v-on:fetching-nearest="updateStatus('haetaan')"
+      v-on:finding-location="updateStatus('paikannetaan...')"
+      v-on:fetching-data="updateStatus('haetaan...')"
     ></Data>
     <Navigation
       class="navigation"
@@ -69,48 +70,62 @@ footer {
         class="swipe-page"
         :filter="nearestFilter"
         :favoriteStops="favoriteStops"
+        :lat="departureData.lan"
+        :lon="departureData.lon"
         :realtime="realtime"
-        :stops="nearestData"
+        :departureData="departureData.nearest"
         v-on:toggle-favorite="toggleFavorite"
       >
-        <Filter-lines :stops="nearestData" v-on:new-filter-value="filterNearest"></Filter-lines>
+        <Filter-lines
+          :departureData="departureData.nearest"
+          :lat="departureData.lat"
+          :lon="departureData.lon"
+          v-on:new-filter-value="filterNearest"
+        ></Filter-lines>
       </Nearest>
 
       <Favorite
         class="swipe-page"
         :filter="favoriteFilter"
         :favoriteStops="favoriteStops"
+        :lat="departureData.lan"
+        :lon="departureData.lon"
         :realtime="realtime"
-        :stops="favoriteData"
+        :departureData="departureData.favorite"
         v-on:toggle-favorite="toggleFavorite"
       >
-        <Filter-lines :favorite="true" :stops="favoriteData" v-on:new-filter-value="filterFavorite"></Filter-lines>
+        <Filter-lines
+          :favorite="true"
+          :lat="departureData.lat"
+          :lon="departureData.lon"
+          :departureData="departureData.favorite"
+          v-on:new-filter-value="filterFavorite"
+        ></Filter-lines>
       </Favorite>
     </div>
 
     <footer
       v-if="
-        nearestData !== undefined &&
-          nearestData.length > 0 &&
-          favoriteTab !== true
+        departureData.nearest !== undefined &&
+          departureData.nearest.length > 0 &&
+          favoriteTab === false
       "
     >
       <div class="instructions">
         <svg width="16" height="16" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
+          <circle
+            cx="50"
+            cy="50"
+            r="30"
+            stroke="#d7fae1"
+            stroke-width="25"
+            fill="#94e0a9"
+          />
         </svg>
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
       <div class="version">
         <Version></Version>
-        <div>
-          Katso myös
-          <a href="https://saaennuste.fi">päivän sää</a>
-          <br />
-          <br />
-          <br />
-          <br />
-        </div>
       </div>
     </footer>
     <Text-resizer></Text-resizer>
@@ -141,12 +156,11 @@ export default {
   },
   data: function() {
     return {
-      favoriteData: [],
+      departureData: [],
       favoriteFilter: undefined,
       favoriteStops: [],
       favoriteTab: false,
       locationError: undefined,
-      nearestData: [],
       nearestFilter: [],
       previousScrollPosition: 0,
       realtime: true
@@ -186,9 +200,9 @@ export default {
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
-    favoriteDataReceived(result) {
-      this.favoriteData = result;
+    departureDataReceived(result) {
       this.updateStatus("päivitetty");
+      this.departureData = result;
     },
     filterFavorite(filter) {
       this.favoriteFilter = filter;
@@ -202,9 +216,6 @@ export default {
       this.favoriteTab = false;
       this.$refs.data.startPolling();
       this.locationError = undefined;
-    },
-    nearestDataReceived(result) {
-      this.nearestData = result;
     },
     onLocationError(error) {
       this.locationError = error;

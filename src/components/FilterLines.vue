@@ -3,7 +3,10 @@
   display: flex;
   flex-wrap: wrap;
   padding: var(--space-s) 0;
-  border-radius: var(--border-radius);
+  width: 100%;
+}
+.tag-container--all-and-edit {
+  justify-content: space-evenly;
 }
 
 .right {
@@ -24,7 +27,7 @@
 }
 
 .all-filters {
-  margin: var(--space-xl) 0;
+  margin: var(--space-m) 0 var(--space-m) 0;
 }
 
 /*
@@ -52,17 +55,17 @@
             <!-- PHASE 1 of select line + direction-->
             <div v-if="lineFilterValue === undefined" class="tag-container">
               <div
-                v-for="line in lineOptions"
+                v-for="line in allLineTags"
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineFilterChanged(line)"
               >
-                <tag :iconType="line.mode">{{ line.routeShortName }}</tag>
+                <tag :type="line.mode">{{ line.routeShortName }}</tag>
               </div>
             </div>
 
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
-              <tag :tagSelected="true">
+              <tag :tagSelected="true" :type="lineFilterValue.mode">
                 {{
                 lineFilterValue.routeShortName
                 }}
@@ -70,7 +73,7 @@
               <div
                 v-for="direction in filteredDirections(
                   lineFilterValue,
-                  directionOptions
+                  allDirectionTags
                 )"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
@@ -96,7 +99,7 @@
           <div class="gray-background">
             <div class="tag-container">
               <div
-                v-for="direction in removeDirectionDuplicates(directionOptions)"
+                v-for="direction in removeDirectionDuplicates(allDirectionTags)"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="directionChanged(direction)"
               >
@@ -110,12 +113,13 @@
         </template>
       </tag-accordion>
     </div>
+
     <div
       class="tag-container all-filters"
       v-bind:class="{ 'gray-background': editingFilters === true }"
     >
       <div
-        v-for="filter in hideEmptyFilters(allFilters, directionOptions)"
+        v-for="filter in hideEmptyFilters(allFilters, allDirectionTags)"
         v-bind:key="filter.routeShortName + filter.headsign"
         v-on:click="toggleFilter(filter)"
       >
@@ -126,21 +130,24 @@
         >
           {{ filter.routeShortName }}
           {{ filter.headsign }}
+          <span
+            v-if="editingFilters === true"
+          >
+            ({{ filter.lat }}
+            {{ filter.lon }})
+          </span>
         </tag>
       </div>
 
-      <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
-        <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
-      </div>
+      <div class="tag-container tag-container--all-and-edit">
+        <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
+          <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
+        </div>
 
-      <div
-        v-if="allFilters.length > 0 && editingFilters === false"
-        @click="removeFilters()"
-        class="right"
-      >
-        <tag type="edit">MUOKKAA</tag>
+        <div v-if="allFilters.length > 0 && editingFilters === false" @click="removeFilters()" s>
+          <tag type="edit">MUOKKAA</tag>
+        </div>
       </div>
-
       <div v-if="editingFilters === true" @click="reset()" class="wide">
         <tag type="wide">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -156,6 +163,7 @@
 <script>
 import TagAccordion from "./TagAccordion.vue";
 import Tag from "./Tag.vue";
+import { calculateDistance, formatDistance } from "./data/calculateDistance.js";
 import { parseLines, parseDirections } from "./data/parseData.js";
 
 export default {
@@ -166,14 +174,22 @@ export default {
   },
   props: {
     favorite: Boolean,
-    stops: Array
+    lat: Number,
+    lon: Number,
+    departureData: Array
   },
   computed: {
-    lineOptions: function() {
-      return parseLines(this.stops);
+    allLineTags: function() {
+      if (this.departureData === undefined) {
+        return;
+      }
+      return parseLines(this.departureData);
     },
-    directionOptions: function() {
-      return parseDirections(this.stops);
+    allDirectionTags: function() {
+      if (this.departureData === undefined) {
+        return;
+      }
+      return parseDirections(this.departureData);
     }
   },
   data() {
@@ -225,7 +241,7 @@ export default {
               active: true,
               headsign: direction.headsign,
               lat: line.lat,
-              lon: line.lot,
+              lon: line.lon,
               routeShortName: line.routeShortName,
               mode: line.mode
             };
@@ -238,19 +254,31 @@ export default {
         return filter.active === true;
       });
     },
+
     hideEmptyFilters(allFilters, directions) {
+      const filterLimit = 2000; //2000m
+
       if (this.editingFilters || directions === undefined) {
         return allFilters;
       }
 
       return allFilters.filter(filter => {
         return directions.some(direction => {
+          const distance = formatDistance(
+            calculateDistance(filter.lat, filter.lon, this.lat, this.lon)
+          );
+
+          console.log(direction.headsign, direction.routeShortName, distance);
+
           if (filter.type === "direction") {
-            return filter.headsign === direction.headsign;
+            return (
+              filter.headsign === direction.headsign && distance < filterLimit
+            );
           } else {
             return (
               filter.routeShortName === direction.routeShortName &&
-              filter.headsign === direction.headsign
+              filter.headsign === direction.headsign &&
+              distance < filterLimit
             );
           }
         });
@@ -335,8 +363,6 @@ export default {
       return copy.filter(original => {
         return (
           original.headsign !== filter.headsign ||
-          original.lat !== filter.lat ||
-          original.lon !== filter.lot ||
           original.routeShortName !== filter.routeShortName
         );
       });
@@ -386,10 +412,9 @@ export default {
       this.notify();
     },
     notify() {
-      //this.$emit("new-filter-value", this.allFilters);
       this.$emit(
         "new-filter-value",
-        this.hideEmptyFilters(this.allFilters, this.directionOptions)
+        this.hideEmptyFilters(this.allFilters, this.allDirectionTags)
       );
     }
   }

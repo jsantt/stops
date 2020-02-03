@@ -77,17 +77,21 @@ export default {
       }
     },
     fetch: async function(coordinates) {
-      this.$emit("fetching-nearest");
-      const nearestData = await fetchNearest(coordinates.lat, coordinates.lon);
-      this.$emit("nearest-stops", nearestData);
+      this.$emit("fetching-data");
 
-      this.$emit("fetching-favorites");
-      const favoriteData = await fetchFavorites(
-        this.favoriteStops,
-        coordinates.lat,
-        coordinates.lon
-      );
-      this.$emit("favorite-stops", favoriteData);
+      const [nearest, favorite] = await Promise.all([
+        fetchNearest(coordinates.lat, coordinates.lon),
+        fetchFavorites(this.favoriteStops, coordinates.lat, coordinates.lon)
+      ]);
+
+      const result = {
+        nearest,
+        favorite,
+        lat: coordinates.lat,
+        lon: coordinates.lon
+      };
+
+      this.$emit("departure-data", result);
     }
   }
 };

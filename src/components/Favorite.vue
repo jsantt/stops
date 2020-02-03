@@ -51,7 +51,7 @@
       <div>Suosikit</div>
     </h2>
     <slot></slot>
-    <div v-for="stop in filteredStops" v-bind:key="stop.gtfsId">
+    <div v-for="stop in filteredDepartures" v-bind:key="stop.gtfsId">
       <section
         v-if="
           stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
@@ -70,7 +70,10 @@
         ></Departures>
       </section>
     </div>
-    <div v-if="stops == null || stops.length < 1" class="empty-favorite">
+    <div
+      v-if="departureData == null || departureData.length < 1"
+      class="empty-favorite"
+    >
       <div>
         <svg
           class="favorite-svg"
@@ -91,9 +94,11 @@
       </div>
     </div>
 
-    <div class="no-results" v-if="noResults(stops)">Ei tuloksia</div>
+    <div class="no-results" v-if="noResults(departureData)">Ei tuloksia</div>
 
-    <Install v-if="stops !== undefined && stops.length > 0"></Install>
+    <Install
+      v-if="departureData !== undefined && departureData.length > 0"
+    ></Install>
   </div>
 </template>
 
@@ -114,11 +119,11 @@ export default {
     favoriteStops: Array,
     filter: Array,
     realtime: Boolean,
-    stops: Array
+    departureData: Array
   },
   computed: {
-    filteredStops: function() {
-      return filterData(this.stops, this.filter);
+    filteredDepartures: function() {
+      return filterData(this.favoriteData, this.filter);
     }
   },
   methods: {

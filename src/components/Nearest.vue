@@ -39,7 +39,7 @@
     </h2>
     <slot></slot>
 
-    <div v-for="stop in filteredStops" v-bind:key="stop.gtfsId">
+    <div v-for="stop in filteredDepartures" v-bind:key="stop.gtfsId">
       <section
         v-if="
           stop.stoptimesWithoutPatterns !== undefined && stop.hidden !== true
@@ -51,13 +51,16 @@
           :favorite="isFavorite(stop.gtfsId)"
           v-on:toggle-favorite="toggleFavorite"
         ></Stop>
-        <Departures :departures="stop.stoptimesWithoutPatterns" :realtime="realtime"></Departures>
+        <Departures
+          :departures="stop.stoptimesWithoutPatterns"
+          :realtime="realtime"
+        ></Departures>
       </section>
     </div>
-    <div v-if="stops === undefined || stops.length < 1">
+    <div v-if="departureData === undefined || departureData.length < 1">
       <loader-spinner class="spinner"></loader-spinner>
     </div>
-    <div class="no-results" v-if="noResults(stops)">Ei tuloksia</div>
+    <div class="no-results" v-if="noResults(departureData)">Ei tuloksia</div>
   </div>
 </template>
 
@@ -73,11 +76,11 @@ export default {
     favoriteStops: Array,
     filter: Array,
     realtime: Boolean,
-    stops: Array
+    departureData: Array
   },
   computed: {
-    filteredStops: function() {
-      return filterData(this.stops, this.filter);
+    filteredDepartures: function() {
+      return filterData(this.departureData, this.filter);
     }
   },
   components: {

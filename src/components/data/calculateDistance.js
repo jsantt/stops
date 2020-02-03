@@ -1,5 +1,5 @@
 /* Formula from https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates*/
-function distance(lat1, lon1, lat2, lon2) {
+function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // km
   const dLat = toRadian(lat2 - lat1);
   const dLon = toRadian(lon2 - lon1);
@@ -28,4 +28,4 @@ function formatDistance(distance) {
   return meters;
 }
 
-export { distance, formatDistance };
+export { calculateDistance, formatDistance };

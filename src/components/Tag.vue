@@ -37,8 +37,10 @@
 }
 
 .tag--selected {
-  border: 0.14rem solid var(--color-blue-700);
-  background-color: var(--color-white);
+  background-color: var(--color-gray-300);
+  border-radius: 0.15rem;
+  /*border: 0.14rem solid var(--color-blue-700);*/
+  font-weight: 800;
 }
 
 .tag-symbol {
@@ -82,7 +84,7 @@
   width: 100%;
 }
 .transport-type {
-  margin-right: var(--space-m);
+  margin-right: var(--space-s);
 }
 .subway {
   fill: #ff6319;

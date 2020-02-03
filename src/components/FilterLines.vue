@@ -45,7 +45,11 @@
 <template>
   <div class="filter-lines">
     <div class="filter-tag">
-      <tag-accordion v-on:opened="toggleLine()" :open="lineAccordionOpen" ref="lineAccordion">
+      <tag-accordion
+        v-on:opened="toggleLineAccordion()"
+        :open="lineAccordionOpen"
+        ref="lineAccordion"
+      >
         <template slot="header">
           <div class="add-filter">LINJA</div>
         </template>
@@ -57,7 +61,7 @@
               <div
                 v-for="line in allLineTags"
                 v-bind:key="line.routeShortName + line.headsign"
-                v-on:click="lineFilterChanged(line)"
+                v-on:click="lineSelected(line)"
               >
                 <tag :type="line.mode">{{ line.routeShortName }}</tag>
               </div>
@@ -76,12 +80,12 @@
                   allDirectionTags
                 )"
                 v-bind:key="direction.routeShortName + direction.headsign"
-                v-on:click="directionChanged(direction)"
+                v-on:click="addLineOrDirection(direction)"
               >
                 <tag>{{ direction.headsign }}</tag>
               </div>
             </div>
-            <div class="tag-container" @click="toggleLine()">
+            <div class="tag-container" @click="toggleLineAccordion()">
               <tag type="wide">SULJE</tag>
             </div>
           </div>
@@ -101,12 +105,12 @@
               <div
                 v-for="direction in removeDirectionDuplicates(allDirectionTags)"
                 v-bind:key="direction.routeShortName + direction.headsign"
-                v-on:click="directionChanged(direction)"
+                v-on:click="addLineOrDirection(direction)"
               >
                 <tag>{{ direction.headsign }}</tag>
               </div>
             </div>
-            <div class="tag-container" @click="toggleDirection()">
+            <div class="tag-container" @click="toggleDirectionAccordion()">
               <tag type="wide">SULJE</tag>
             </div>
           </div>
@@ -145,7 +149,7 @@
         </div>
 
         <div v-if="allFilters.length > 0 && editingFilters === false" @click="removeFilters()" s>
-          <tag type="edit">MUOKKAA</tag>
+          <tag>Muokkaa</tag>
         </div>
       </div>
       <div v-if="editingFilters === true" @click="reset()" class="wide">
@@ -234,7 +238,9 @@ export default {
           ? {
               type: "direction",
               active: true,
-              headsign: direction.headsign
+              headsign: direction.headsign,
+              lat: this.lat,
+              lon: this.lon
             }
           : {
               type: "line",
@@ -284,7 +290,7 @@ export default {
         });
       });
     },
-    toggleLine() {
+    toggleLineAccordion() {
       if (this.lineAccordionOpen === false) {
         this.lineAccordionOpen = true;
         this.directionAccordionOpen = false;
@@ -302,7 +308,7 @@ export default {
         this.reset();
       }
     },
-    directionChanged(newDirection) {
+    addLineOrDirection(newDirection) {
       this.lineAccordionOpen = false;
       this.allFilters = this.addFilter(this.lineFilterValue, newDirection);
 
@@ -351,7 +357,7 @@ export default {
 
       return newDirections;
     },
-    lineFilterChanged: function(line) {
+    lineSelected: function(line) {
       this.lineFilterValue = line;
     },
     removeFilters() {

@@ -41,9 +41,13 @@
   opacity: 0;
 }
 */
+.wide {
+  width: 100%;
+}
 </style>
 <template>
   <div class="filter-lines">
+    <Icons></Icons>
     <div class="filter-tag">
       <tag-accordion
         v-on:opened="toggleLineAccordion()"
@@ -92,7 +96,7 @@
         </template>
       </tag-accordion>
       <tag-accordion
-        v-on:opened="toggleDirection()"
+        v-on:opened="toggleDirectionAccordion()"
         :open="directionAccordionOpen"
         ref="lineAccordion"
       >
@@ -102,13 +106,14 @@
         <template slot="body">
           <div class="gray-background">
             <div class="tag-container">
-              <div
+              <tag
                 v-for="direction in removeDirectionDuplicates(allDirectionTags)"
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="addLineOrDirection(direction)"
+                type="wide-left"
               >
-                <tag>{{ direction.headsign }}</tag>
-              </div>
+                <span v-on:click="addLineOrDirection(direction)">{{ direction.headsign }}</span>
+              </tag>
             </div>
             <div class="tag-container" @click="toggleDirectionAccordion()">
               <tag type="wide">SULJE</tag>
@@ -134,12 +139,6 @@
         >
           {{ filter.routeShortName }}
           {{ filter.headsign }}
-          <span
-            v-if="editingFilters === true"
-          >
-            ({{ filter.lat }}
-            {{ filter.lon }})
-          </span>
         </tag>
       </div>
 
@@ -165,6 +164,7 @@
 </template>
 
 <script>
+import Icons from "./Icons.vue";
 import TagAccordion from "./TagAccordion.vue";
 import Tag from "./Tag.vue";
 import { calculateDistance, formatDistance } from "./data/calculateDistance.js";
@@ -173,6 +173,7 @@ import { parseLines, parseDirections } from "./data/parseData.js";
 export default {
   name: "filter-lines",
   components: {
+    Icons,
     Tag,
     TagAccordion
   },
@@ -299,7 +300,7 @@ export default {
         this.reset();
       }
     },
-    toggleDirection() {
+    toggleDirectionAccordion() {
       if (this.directionAccordionOpen === false) {
         this.directionAccordionOpen = true;
         this.lineAccordionOpen = false;

@@ -275,8 +275,6 @@ export default {
             calculateDistance(filter.lat, filter.lon, this.lat, this.lon)
           );
 
-          console.log(direction.headsign, direction.routeShortName, distance);
-
           if (filter.type === "direction") {
             return (
               filter.headsign === direction.headsign && distance < filterLimit

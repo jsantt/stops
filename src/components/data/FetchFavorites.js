@@ -17,6 +17,10 @@ async function fetchFavorites(stops, lat, lon) {
       })
     }
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+
   const flatten = await flattenFavorite(response);
   const distanceAdded = addDistance(flatten, lat, lon);
   const sortedByDistance = sortByDistance(distanceAdded);

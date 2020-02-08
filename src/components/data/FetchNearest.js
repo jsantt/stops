@@ -13,6 +13,11 @@ async function fetchNearest(lat, lon, stops) {
       })
     }
   );
+
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+
   const flatten = await flattenNearest(response, lat, lon);
   const sorted = await sortNearest(flatten);
   return sorted;

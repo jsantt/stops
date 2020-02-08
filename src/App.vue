@@ -62,7 +62,7 @@ footer {
       <Notification
         v-if="locationError !== undefined"
         :texts="locationError"
-        v-on:open-locate-prompt="openLocatePrompt"
+        v-on:open-locate-prompt="allowLocationClicked"
       ></Notification>
     </Navigation>
     <div ref="swipe" class="swipe">
@@ -113,14 +113,7 @@ footer {
     >
       <div class="instructions">
         <svg width="16" height="16" viewBox="0 0 100 100">
-          <circle
-            cx="50"
-            cy="50"
-            r="30"
-            stroke="#d7fae1"
-            stroke-width="25"
-            fill="#94e0a9"
-          />
+          <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
         </svg>
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
@@ -167,18 +160,18 @@ export default {
     };
   },
   mounted: function() {
+    if (window.localStorage.getItem("locationAllowed") === null) {
+      this.setAllowLocationNotification();
+      this.$refs.data.startPollingDefault();
+    } else {
+      this.$refs.data.startPolling();
+    }
+    
     const favoritesString = window.localStorage.getItem("favoriteStops");
     if (favoritesString === null) {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
-      this.setAllowLocationNotification();
-
-      this.$refs.data.startPollingDefault({
-        lat: 60.16704004097834,
-        lon: 24.946832000000086
-      });
     } else {
       this.favoriteStops = JSON.parse(favoritesString);
-      this.openLocatePrompt();
     }
 
     document
@@ -197,7 +190,7 @@ export default {
       this.$refs.swipe.scrollTo(this.$refs.swipe.scrollWidth, 0);
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = true;
-      this.$refs.data.startPolling();
+      this.$refs.data.fetch();
       this.locationError = undefined;
     },
     departureDataReceived(result) {
@@ -214,13 +207,14 @@ export default {
       this.$refs.swipe.scrollTo(0, 0);
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = false;
-      this.$refs.data.startPolling();
+      this.$refs.data.fetch();
       this.locationError = undefined;
     },
     onLocationError(error) {
       this.locationError = error;
     },
-    openLocatePrompt() {
+    allowLocationClicked() {
+      window.localStorage.setItem("locationAllowed", "");
       this.$refs.data.startPolling();
       this.locationError = undefined;
     },
@@ -283,7 +277,7 @@ export default {
       details.selected === true
         ? this.addFavorite(details.stopId)
         : this.removeFavorite(details.stopId);
-      this.$refs.data.startPolling();
+      this.$refs.data.fetch();
     },
     updateStatus(text) {
       this.$refs.navigation.dataUpdated(text);

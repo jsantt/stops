@@ -95,7 +95,7 @@ export default {
         this.onLocationError,
         {
           maximumAge: 5000,
-          enableHighAccuracy: false,
+          enableHighAccuracy: true,
           timeout: 8000
         }
       );

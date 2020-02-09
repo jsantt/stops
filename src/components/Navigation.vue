@@ -9,14 +9,6 @@
   transition: opacity 0.6s ease-in-out;
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  .above-notification {
-    background-color: var(--color-black);
-    color: var(--color-white);
-  }
-}
-
 .above-notification--hidden {
   opacity: 0;
 }
@@ -35,14 +27,6 @@
   right: var(--space-m);
 
   z-index: 1;
-}
-
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  .bottom-sheet {
-    background-color: var(--color-black);
-    color: var(--color-white);
-  }
 }
 
 nav {
@@ -77,12 +61,6 @@ nav {
   border-bottom: 3px solid var(--color-black);
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  [selected] {
-    border-bottom: 3px solid var(--color-white);
-  }
-}
 </style>
 
 <template>

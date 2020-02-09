@@ -41,7 +41,10 @@ export default {
      * @public
      */
     async startPolling() {
-      //clearInterval(this.pollingHandle); // stop default polling
+      clearInterval(this.pollingHandle); // stop default/previous polling
+      this.fetch();
+      this.pollingHandle = setInterval(this.fetch, 15 * 1000);
+
       document.removeEventListener("visibilitychange", this.visibilityChange);
       document.addEventListener("visibilitychange", this.visibilityChange);
 
@@ -82,12 +85,12 @@ export default {
           button: "ok"
         };
 
-        this.$emit("location-error", message);
+        this.$emit("new-message", message);
       }
     },
     watchPosition() {
       this.$emit("finding-location");
-      this.$emit("location-error", {
+      this.$emit("new-message", {
         body: `Haetaan sijaintia`
       });
       this.watchPositionHandle = navigator.geolocation.watchPosition(
@@ -101,7 +104,7 @@ export default {
       );
     },
     onLocationFound(position) {
-      this.$emit("location-error", undefined);
+      this.$emit("new-message", undefined);
 
       const coordinates = {
         accuracy: position.coords.accuracy,
@@ -145,7 +148,7 @@ export default {
             button: "ok"
           };
       }
-      this.$emit("location-error", message);
+      this.$emit("new-message", message);
     },
     notifyIfInaccurateLocation(coordinates) {
       if (coordinates === undefined) {
@@ -153,9 +156,11 @@ export default {
       }
 
       if (coordinates.accuracy !== null && coordinates.accuracy > 50) {
-        this.$emit("location-error", {
+        this.$emit("new-message", {
           body: `Sijainti epätarkka (${Math.ceil(coordinates.accuracy)}m)`
         });
+      } else {
+        this.$emit("new-message", undefined);
       }
     },
     stopPositionWatching() {

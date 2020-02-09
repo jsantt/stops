@@ -31,12 +31,6 @@ footer {
   text-align: center;
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  .instructions {
-    color: var(--color-white);
-  }
-}
 .version {
   margin-bottom: 4rem;
 }
@@ -48,7 +42,7 @@ footer {
       ref="data"
       :favoriteStops="favoriteStops"
       v-on:departure-data="departureDataReceived"
-      v-on:location-error="onLocationError"
+      v-on:new-message="onNewMessage"
       v-on:finding-location="updateStatus('paikannetaan...')"
       v-on:fetching-data="updateStatus('haetaan...')"
     ></Data>
@@ -60,8 +54,8 @@ footer {
       v-on:favorite="favoriteClicked"
     >
       <Notification
-        v-if="locationError !== undefined"
-        :texts="locationError"
+        v-if="message !== undefined"
+        :texts="message"
         v-on:open-locate-prompt="allowLocationClicked"
       ></Notification>
     </Navigation>
@@ -153,7 +147,7 @@ export default {
       favoriteFilter: undefined,
       favoriteStops: [],
       favoriteTab: false,
-      locationError: undefined,
+      message: undefined,
       nearestFilter: [],
       previousScrollPosition: 0,
       realtime: true
@@ -166,7 +160,7 @@ export default {
     } else {
       this.$refs.data.startPolling();
     }
-    
+
     const favoritesString = window.localStorage.getItem("favoriteStops");
     if (favoritesString === null) {
       window.localStorage.setItem("favoriteStops", JSON.stringify([]));
@@ -191,7 +185,6 @@ export default {
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = true;
       this.$refs.data.fetch();
-      this.locationError = undefined;
     },
     departureDataReceived(result) {
       this.updateStatus("päivitetty");
@@ -208,15 +201,14 @@ export default {
       document.querySelector("html").scrollTop = 0;
       this.favoriteTab = false;
       this.$refs.data.fetch();
-      this.locationError = undefined;
     },
-    onLocationError(error) {
-      this.locationError = error;
+    onNewMessage(message) {
+      this.message = message;
     },
     allowLocationClicked() {
       window.localStorage.setItem("locationAllowed", "");
       this.$refs.data.startPolling();
-      this.locationError = undefined;
+      this.message = undefined;
     },
     removeFavorite(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {
@@ -245,7 +237,7 @@ export default {
       });
     },
     setAllowLocationNotification() {
-      this.locationError = {
+      this.message = {
         header: "Tarvitsemme sijaintisi",
         body:
           "Jotta voimme näyttää lähimmät pysäkit. Sijaintiasi ei tallenneta mihinkään",

@@ -10,13 +10,6 @@ section {
   text-align: center;
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  section {
-    color: var(--color-white);
-  }
-}
-
 .ios-share-icon {
   stroke: #000;
   width: 32px;

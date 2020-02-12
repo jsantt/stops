@@ -36,7 +36,10 @@ footer {
       {{ texts.header }}
     </h2>
     <main>{{ texts.body }}</main>
-    <footer v-if="texts.button !== undefined" v-on:click="$emit('notification-button-clicked')">
+    <footer
+      v-if="texts.button !== undefined"
+      v-on:click="$emit('notification-button-clicked')"
+    >
       <s-button>{{ texts.button }}</s-button>
     </footer>
   </div>

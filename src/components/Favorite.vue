@@ -56,7 +56,10 @@
         ></Departures>
       </section>
     </div>
-    <div v-if="departureData == null || departureData.length < 1" class="empty-favorite">
+    <div
+      v-if="departureData == null || departureData.length < 1"
+      class="empty-favorite"
+    >
       <div>
         <svg
           class="favorite-svg"
@@ -72,12 +75,16 @@
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
+      <div>
+        Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä
+      </div>
     </div>
 
     <div class="no-results" v-if="noResults(departureData)">Ei tuloksia</div>
 
-    <Install v-if="departureData !== undefined && departureData.length > 0"></Install>
+    <Install
+      v-if="departureData !== undefined && departureData.length > 0"
+    ></Install>
   </div>
 </template>
 

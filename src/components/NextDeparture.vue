@@ -34,14 +34,19 @@ section {
   <section>
     <div class="minutes">2-9*</div>
     <div>
-      <svg class="transport-type" viewBox="0 0 1024 1024" width="16" height="16">
+      <svg
+        class="transport-type"
+        viewBox="0 0 1024 1024"
+        width="16"
+        height="16"
+      >
         <use xlink:href="#icon-bus" />
         <!--use v-if="type === 'RAIL'" xlink:href="#icon-rail" />
         <use v-if="type === 'SUBWAY'" xlink:href="#icon-subway" />
         <use v-if="type === 'TRAM'" xlink:href="#icon-tram" /-->
       </svg>
-      <span class="line">{{routeShortName}}</span>
-      <div class="direction">{{headsign}}</div>
+      <span class="line">{{ routeShortName }}</span>
+      <div class="direction">{{ headsign }}</div>
     </div>
     <div>
       <svg

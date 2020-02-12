@@ -114,7 +114,14 @@ footer {
     >
       <div class="instructions">
         <svg width="16" height="16" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
+          <circle
+            cx="50"
+            cy="50"
+            r="30"
+            stroke="#d7fae1"
+            stroke-width="25"
+            fill="#94e0a9"
+          />
         </svg>
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
@@ -204,7 +211,6 @@ export default {
     departureDataReceived(result) {
       this.updateStatus("päivitetty");
       this.departureData = result;
-      console.log(departureData);
     },
     filterFavorite(filter) {
       this.favoriteFilter = filter;

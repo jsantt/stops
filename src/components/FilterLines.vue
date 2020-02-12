@@ -74,9 +74,7 @@
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
               <tag :tagSelected="true" :type="lineFilterValue.mode">
-                {{
-                lineFilterValue.routeShortName
-                }}
+                {{ lineFilterValue.routeShortName }}
               </tag>
               <div
                 v-for="direction in filteredDirections(
@@ -112,7 +110,9 @@
                 v-on:click="addLineOrDirection(direction)"
                 type="wide-left"
               >
-                <span v-on:click="addLineOrDirection(direction)">{{ direction.headsign }}</span>
+                <span v-on:click="addLineOrDirection(direction)">{{
+                  direction.headsign
+                }}</span>
               </tag>
             </div>
             <div class="tag-container" @click="toggleDirectionAccordion()">
@@ -143,17 +143,29 @@
       </div>
 
       <div class="tag-container tag-container--all-and-edit">
-        <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
+        <div
+          v-if="allFilters.length > 0 && editingFilters === false"
+          @click="showAll()"
+        >
           <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
         </div>
 
-        <div v-if="allFilters.length > 0 && editingFilters === false" @click="removeFilters()" s>
+        <div
+          v-if="allFilters.length > 0 && editingFilters === false"
+          @click="removeFilters()"
+          s
+        >
           <tag>Muokkaa</tag>
         </div>
       </div>
       <div v-if="editingFilters === true" @click="reset()" class="wide">
         <tag type="wide">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+          >
             <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
           </svg>
           VALMIS

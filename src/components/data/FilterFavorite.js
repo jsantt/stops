@@ -10,7 +10,9 @@ function addDistance(favoriteData, lat, lon) {
 
   favoriteData.forEach(stop => {
     const newStop = { ...stop };
-    newStop.distance = formatDistance(calculateDistance(lat, lon, stop.lat, stop.lon));
+    newStop.distance = formatDistance(
+      calculateDistance(lat, lon, stop.lat, stop.lon)
+    );
     distanceAdded.push(newStop);
   });
 

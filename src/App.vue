@@ -56,8 +56,14 @@ footer {
       <Notification
         v-if="message !== undefined"
         :texts="message"
-        v-on:open-locate-prompt="allowLocationClicked"
+        v-on:notification-button-clicked="allowLocationClicked"
       ></Notification>
+
+      <!--Next-departure
+        v-if="selectedDeparture !== undefined"
+        :routeShortName="selectedDeparture.routeShortName"
+        :headsign="selectedDeparture.headsign"
+      ></Next-departure-->
     </Navigation>
     <div ref="swipe" class="swipe">
       <Nearest
@@ -68,6 +74,7 @@ footer {
         :lon="departureData.lon"
         :realtime="realtime"
         :departureData="departureData.nearest"
+        v-on:departure-clicked="departureClicked"
         v-on:toggle-favorite="toggleFavorite"
       >
         <Filter-lines
@@ -88,13 +95,13 @@ footer {
         :departureData="departureData.favorite"
         v-on:toggle-favorite="toggleFavorite"
       >
-        <Filter-lines
+        <!--Filter-lines
           :favorite="true"
           :lat="departureData.lat"
           :lon="departureData.lon"
           :departureData="departureData.favorite"
           v-on:new-filter-value="filterFavorite"
-        ></Filter-lines>
+        ></Filter-lines-->
       </Favorite>
     </div>
 
@@ -123,8 +130,11 @@ footer {
 import Data from "./components/data/Data.vue";
 import Favorite from "./components/Favorite.vue";
 import FilterLines from "./components/FilterLines.vue";
+
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
+import NextDeparture from "./components/NextDeparture.vue";
+
 import Notification from "./components/Notification.vue";
 import TextResizer from "./components/TextResizer.vue";
 import Version from "./components/Version.vue";
@@ -137,6 +147,7 @@ export default {
     FilterLines,
     Navigation,
     Nearest,
+    NextDeparture,
     Notification,
     TextResizer,
     Version
@@ -150,7 +161,8 @@ export default {
       message: undefined,
       nearestFilter: [],
       previousScrollPosition: 0,
-      realtime: true
+      realtime: true,
+      selectedDeparture: undefined
     };
   },
   mounted: function() {
@@ -186,9 +198,13 @@ export default {
       this.favoriteTab = true;
       this.$refs.data.fetch();
     },
+    departureClicked(event) {
+      this.selectedDeparture = event;
+    },
     departureDataReceived(result) {
       this.updateStatus("päivitetty");
       this.departureData = result;
+      console.log(departureData);
     },
     filterFavorite(filter) {
       this.favoriteFilter = filter;

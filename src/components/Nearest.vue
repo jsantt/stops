@@ -47,6 +47,7 @@
         <Departures
           :departures="stop.stoptimesWithoutPatterns"
           :realtime="realtime"
+          v-on:departure-clicked="departureClicked"
         ></Departures>
       </section>
     </div>
@@ -82,6 +83,9 @@ export default {
     Stop
   },
   methods: {
+    departureClicked(event) {
+      this.$emit("departure-clicked", event);
+    },
     isFavorite(stopId) {
       return this.favoriteStops.includes(stopId);
     },

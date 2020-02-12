@@ -88,23 +88,22 @@ article {
       v-bind:key="departure.trip.id"
       v-on:click="addLine(departure)"
     >
-      <div
-        v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"
-      ></div>
+      <div v-bind:class="{ 'realtime-sign': departure.realtime && realtime }"></div>
       <div class="time">
-        <span v-show="!realtime" data-hook="time-schedule">
-          {{ timeToString(toHourAndMinutes(departure.scheduledDeparture)) }}
-        </span>
+        <span
+          v-show="!realtime"
+          data-hook="time-schedule"
+        >{{ timeToString(toHourAndMinutes(departure.scheduledDeparture)) }}</span>
 
         <span v-show="realtime">
           {{
-            toRealtime(
-              new Date(),
-              departure.scheduledDeparture,
-              departure.departureDelay,
-              departure.realtime,
-              departure.serviceDay
-            )
+          toRealtime(
+          new Date(),
+          departure.scheduledDeparture,
+          departure.departureDelay,
+          departure.realtime,
+          departure.serviceDay
+          )
           }}
         </span>
       </div>
@@ -126,6 +125,7 @@ export default {
 
   methods: {
     addLine(departure) {
+      console.log(departure);
       const route = departure.trip.routeShortName;
       let favoritesString = window.localStorage.getItem("favoriteLines");
 
@@ -145,7 +145,7 @@ export default {
         JSON.stringify(favoriteLines)
       );
 
-      this.$emit("add-favorite-line", {
+      this.$emit("departure-clicked", {
         routeShortName: departure.trip.routeShortName,
         headsign: departure.headsign
       });

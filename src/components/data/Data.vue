@@ -155,7 +155,7 @@ export default {
         return;
       }
 
-      if (coordinates.accuracy !== null && coordinates.accuracy > 50) {
+      if (coordinates.accuracy !== null && coordinates.accuracy > 70) {
         this.$emit("new-message", {
           body: `Sijainti epätarkka (${Math.ceil(coordinates.accuracy)}m)`
         });

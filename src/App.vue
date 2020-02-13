@@ -32,7 +32,7 @@ footer {
 }
 
 .version {
-  margin-bottom: 4rem;
+  margin-bottom: 8rem;
 }
 </style>
 
@@ -119,12 +119,11 @@ footer {
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
       <div class="version">
-        <Version></Version>Suunnittele reitti
+        <Version></Version>
+
         <a
           href="https://itunes.apple.com/fi/app/apple-store/id1340229182?pt=118087532&amp;ct=download-link&amp;mt=8&amp;l=fi"
-        >HSL:n sovelluksessa</a>
-        <br />
-        <br />
+        >Reittioppaaseen</a>
       </div>
     </footer>
     <Text-resizer></Text-resizer>

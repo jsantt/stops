@@ -1,4 +1,14 @@
 <style scoped>
+.above-notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--color-white);
+  padding: 0.15rem 1rem;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out;
+}
+
 .above-notification--hidden {
   opacity: 0;
 }

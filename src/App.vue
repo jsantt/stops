@@ -15,13 +15,6 @@
   overflow-y: hidden;
 }
 
-@media screen and (min-width: 600px) {
-  .swipe {
-    grid-template-columns: repeat(2, 49%);
-    grid-gap: 1rem;
-  }
-}
-
 .swipe-page {
   scroll-snap-align: start;
 }
@@ -42,6 +35,7 @@ footer {
       ref="data"
       :favoriteStops="favoriteStops"
       v-on:departure-data="departureDataReceived"
+      v-on:location-found="onLocationFound"
       v-on:new-message="onNewMessage"
       v-on:finding-location="updateStatus('paikannetaan...')"
       v-on:fetching-data="updateStatus('haetaan...')"
@@ -208,6 +202,7 @@ export default {
     filterFavorite(filter) {
       this.favoriteFilter = filter;
     },
+
     filterNearest(filter) {
       this.nearestFilter = filter;
     },
@@ -217,13 +212,15 @@ export default {
       this.favoriteTab = false;
       this.$refs.data.fetch();
     },
+    onLocationFound() {
+      this.message = undefined;
+      window.localStorage.setItem("locationAllowed");
+    },
     onNewMessage(message) {
       this.message = message;
     },
     allowLocationClicked() {
-      window.localStorage.setItem("locationAllowed", "");
       this.$refs.data.startPolling();
-      this.message = undefined;
     },
     removeFavorite(stopId) {
       this.favoriteStops = this.favoriteStops.filter(item => {

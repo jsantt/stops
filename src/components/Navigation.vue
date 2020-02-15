@@ -1,14 +1,4 @@
 <style scoped>
-.above-notification {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: var(--color-white);
-  padding: 0.15rem 1rem;
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
-}
-
 .above-notification--hidden {
   opacity: 0;
 }
@@ -27,6 +17,9 @@
   left: var(--space-m);
   bottom: 0;
   right: var(--space-m);
+
+  max-width: 684px;
+  margin: 0 auto;
 
   z-index: 1;
 }
@@ -51,13 +44,6 @@ nav {
 .favorite-svg {
   fill: var(--color-red-500);
 }
-/*
-@media screen and (min-width: 600px) {
-  .favorite,
-  .nearby {
-    visibility: hidden;
-  }
-}*/
 
 [selected] {
   border-bottom: 3px solid var(--color-black);
@@ -69,22 +55,14 @@ nav {
     <div
       v-bind:class="{ 'above-notification--hidden': statusText === undefined }"
       class="above-notification"
-    >
-      {{ statusText }}
-    </div>
+    >{{ statusText }}</div>
     <slot></slot>
     <nav>
       <div class="tab">
-        <TimeSwitch
-          v-on:time-switch-clicked="$emit('time-switch-clicked')"
-        ></TimeSwitch>
+        <TimeSwitch v-on:time-switch-clicked="$emit('time-switch-clicked')"></TimeSwitch>
         <Clock></Clock>
       </div>
-      <div
-        class="tab nearby"
-        :selected="selectedTab === 'nearby'"
-        v-on:click="clickNearby"
-      >
+      <div class="tab nearby" :selected="selectedTab === 'nearby'" v-on:click="clickNearby">
         <svg
           class="nearby-svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -98,11 +76,7 @@ nav {
         </svg>
         <div>lähellä</div>
       </div>
-      <div
-        class="tab favorite"
-        :selected="selectedTab === 'favorite'"
-        v-on:click="clickFavorite"
-      >
+      <div class="tab favorite" :selected="selectedTab === 'favorite'" v-on:click="clickFavorite">
         <svg
           class="favorite-svg"
           xmlns="http://www.w3.org/2000/svg"

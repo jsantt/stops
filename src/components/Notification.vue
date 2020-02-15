@@ -7,9 +7,15 @@
   max-width: var(--main-width);
   padding: var(--space-s) 0;
 }
+h2 {
+  font-size: var(--font-size-l);
+  text-align: center;
+  margin: var(--space-m) 0;
+}
 
 main {
   text-align: center;
+  margin: var(--space-m) 0;
 }
 
 footer {
@@ -36,10 +42,7 @@ footer {
       {{ texts.header }}
     </h2>
     <main>{{ texts.body }}</main>
-    <footer
-      v-if="texts.button !== undefined"
-      v-on:click="$emit('notification-button-clicked')"
-    >
+    <footer v-if="texts.button !== undefined" v-on:click="$emit('notification-button-clicked')">
       <s-button>{{ texts.button }}</s-button>
     </footer>
   </div>

@@ -1,12 +1,11 @@
 <style scoped>
-@media screen and (max-width: 599px) {
-  h2 {
-    display: none;
-  }
-}
-
 .nearest-svg {
   fill: var(--color-blue-700);
+}
+
+h2 {
+  text-align: center;
+  font-size: var(--font-size-l);
 }
 
 .no-results {
@@ -16,20 +15,6 @@
 </style>
 <template>
   <div>
-    <h2>
-      <svg
-        class="nearest-svg"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-        />
-      </svg>
-      <div>Lähimmät</div>
-    </h2>
     <slot></slot>
 
     <div v-for="stop in filteredDepartures" v-bind:key="stop.gtfsId">

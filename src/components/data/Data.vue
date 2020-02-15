@@ -60,7 +60,6 @@ export default {
 
     async fetch() {
       const coords = JSON.parse(window.localStorage.getItem("coordinates"));
-      this.notifyIfInaccurateLocation(coords);
 
       this.$emit("fetching-data");
 
@@ -104,7 +103,7 @@ export default {
       );
     },
     onLocationFound(position) {
-      this.$emit("new-message", undefined);
+      this.$emit("location-found");
 
       const coordinates = {
         accuracy: position.coords.accuracy,
@@ -112,6 +111,7 @@ export default {
         lon: position.coords.longitude
       };
       window.localStorage.setItem("coordinates", JSON.stringify(coordinates));
+      this.notifyIfInaccurateLocation(coordinates);
 
       this.fetch();
     },

@@ -1,5 +1,4 @@
 <style scoped>
-
 .empty-favorite {
   margin: 6rem 1rem;
   text-align: center;
@@ -57,12 +56,12 @@ h3 {
         </svg>
       </div>
       <h3>Suosikkilista on tyhjä</h3>
-      <div>Lisää suosikkisi lähellä näkymässä merkitsemällä pysäkki tähdellä</div>
+      <div>Lisää suosikkisi lähellä näkymässä</div>
     </div>
 
     <div class="no-results" v-if="noResults(departureData)">Ei tuloksia</div>
 
-    <Install v-if="departureData !== undefined && departureData.length > 0"></Install>
+    <!--Install v-if="departureData !== undefined && departureData.length > 0" :forceShow="true"></Install-->
   </div>
 </template>
 

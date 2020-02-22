@@ -5,7 +5,7 @@
   grid-template-rows: auto auto auto;
 
   max-width: var(--main-width);
-  padding: var(--space-s) 0;
+  padding: var(--space-s) var(--space-m);
 }
 h2 {
   font-size: var(--font-size-l);

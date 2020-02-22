@@ -20,12 +20,12 @@
 }
 
 footer {
-  margin-top: var(--space-l);
+  padding: var(--space-m) 0 10rem 0;
   text-align: center;
 }
 
-.version {
-  margin-bottom: 6rem;
+.footer-section {
+  padding: var(--space-xl) 0;
 }
 </style>
 
@@ -88,15 +88,7 @@ footer {
         :realtime="realtime"
         :departureData="departureData.favorite"
         v-on:toggle-favorite="toggleFavorite"
-      >
-        <!--Filter-lines
-          :favorite="true"
-          :lat="departureData.lat"
-          :lon="departureData.lon"
-          :departureData="departureData.favorite"
-          v-on:new-filter-value="filterFavorite"
-        ></Filter-lines-->
-      </Favorite>
+      ></Favorite>
     </div>
 
     <footer
@@ -106,16 +98,15 @@ footer {
           favoriteTab === false
       "
     >
-      <div class="instructions">
+      <div class="footer-section">
         <svg width="16" height="16" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="30" stroke="#d7fae1" stroke-width="25" fill="#94e0a9" />
         </svg>
         GPS signaaliin perustuva arvio merkitty tähdelle&nbsp;(*)
       </div>
-      <div class="version">
-        <Version></Version>
-      </div>
+      <Install :forceShow="true"></Install>
     </footer>
+
     <Text-resizer></Text-resizer>
   </div>
 </template>
@@ -125,13 +116,13 @@ import Data from "./components/data/Data.vue";
 import Favorite from "./components/Favorite.vue";
 import FilterLines from "./components/FilterLines.vue";
 
+import Install from "./components/Install.vue";
 import Navigation from "./components/Navigation.vue";
 import Nearest from "./components/Nearest.vue";
 import NextDeparture from "./components/NextDeparture.vue";
 
 import Notification from "./components/Notification.vue";
 import TextResizer from "./components/TextResizer.vue";
-import Version from "./components/Version.vue";
 
 export default {
   name: "app",
@@ -139,12 +130,12 @@ export default {
     Data,
     Favorite,
     FilterLines,
+    Install,
     Navigation,
     Nearest,
     NextDeparture,
     Notification,
-    TextResizer,
-    Version
+    TextResizer
   },
   data: function() {
     return {

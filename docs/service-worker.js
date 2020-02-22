@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.9a7b19956cce2a742faf100e45c3c502.js"
+  "/precache-manifest.f3286a34e2d5063a8b7c47b7d1a8db96.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "stops"});

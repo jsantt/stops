@@ -130,7 +130,13 @@
     }"
     href="#"
   >
-    <svg class="transport-type" viewBox="0 0 1024 1024" width="18" height="18">
+    <svg
+      v-if="icon !== undefined"
+      class="transport-type"
+      viewBox="0 0 1024 1024"
+      width="18"
+      height="18"
+    >
       <use v-if="icon === 'BUS'" xlink:href="#icon-bus" />
       <use v-if="icon === 'RAIL'" xlink:href="#icon-rail" />
       <use v-if="icon === 'SUBWAY'" xlink:href="#icon-subway" />

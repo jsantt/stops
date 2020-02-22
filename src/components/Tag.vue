@@ -90,6 +90,10 @@
   margin-right: var(--space-s);
 }
 
+.remove {
+  margin-left: auto;
+}
+
 @keyframes wobble1 {
   0% {
     transform: rotate(-4deg);
@@ -126,21 +130,18 @@
     }"
     href="#"
   >
-    <svg
-      v-if="type !== undefined"
-      class="transport-type"
-      viewBox="0 0 1024 1024"
-      width="18"
-      height="18"
-    >
-      <use v-if="type === 'BUS'" xlink:href="#icon-bus" />
-      <use v-if="type === 'RAIL'" xlink:href="#icon-rail" />
-      <use v-if="type === 'SUBWAY'" xlink:href="#icon-subway" />
-      <use v-if="type === 'TRAM'" xlink:href="#icon-tram" />
+    <svg class="transport-type" viewBox="0 0 1024 1024" width="18" height="18">
+      <use v-if="icon === 'BUS'" xlink:href="#icon-bus" />
+      <use v-if="icon === 'RAIL'" xlink:href="#icon-rail" />
+      <use v-if="icon === 'SUBWAY'" xlink:href="#icon-subway" />
+      <use v-if="icon === 'TRAM'" xlink:href="#icon-tram" />
+      <use v-if="icon === 'direction'" xlink:href="#icon-direction" />
     </svg>
 
     <slot></slot>
-    <span v-if="tagRemovable === true">
+
+    <!-- remove icon -->
+    <div class="remove" v-if="tagRemovable === true">
       <svg
         class="remove-icon"
         xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +154,7 @@
         />
         <path fill="none" d="M0 0h24v24H0z" />
       </svg>
-    </span>
+    </div>
 
     <svg
       v-if="type === 'edit'"
@@ -174,6 +175,7 @@
 export default {
   name: "tag",
   props: {
+    icon: String,
     type: String,
     tagRemovable: Boolean,
     tagSelected: Boolean,

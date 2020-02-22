@@ -5,7 +5,7 @@
   padding: var(--space-s) 0;
   width: 100%;
 }
-.tag-container--all-and-edit {
+.tag-container__footer {
   justify-content: space-evenly;
 }
 
@@ -28,6 +28,19 @@
 
 .all-filters {
   margin: var(--space-m) 0 var(--space-m) 0;
+}
+
+.route {
+  color: var(--color-blue-800);
+}
+
+.coordinates {
+  color: var(--color-gray-500);
+  font-size: var(--font-size-s);
+}
+.edit-info {
+  padding: var(--space-m) 0;
+  text-align: center;
 }
 
 /*
@@ -67,15 +80,16 @@
                 v-bind:key="line.routeShortName + line.headsign"
                 v-on:click="lineSelected(line)"
               >
-                <tag :type="line.mode">{{ line.routeShortName }}</tag>
+                <tag :icon="line.mode">{{ line.routeShortName }}</tag>
               </div>
             </div>
 
             <!-- PHASE 2 of select line + direction -->
             <div v-if="lineFilterValue !== undefined" class="tag-container">
-              <tag :tagSelected="true" :type="lineFilterValue.mode">
-                {{ lineFilterValue.routeShortName }}
-              </tag>
+              <tag
+                :tagSelected="true"
+                :icon="lineFilterValue.mode"
+              >{{ lineFilterValue.routeShortName }}</tag>
               <div
                 v-for="direction in filteredDirections(
                   lineFilterValue,
@@ -109,10 +123,13 @@
                 v-bind:key="direction.routeShortName + direction.headsign"
                 v-on:click="addLineOrDirection(direction)"
                 type="wide-left"
+                icon="direction"
               >
-                <span v-on:click="addLineOrDirection(direction)">{{
+                <span v-on:click="addLineOrDirection(direction)">
+                  {{
                   direction.headsign
-                }}</span>
+                  }}
+                </span>
               </tag>
             </div>
             <div class="tag-container" @click="toggleDirectionAccordion()">
@@ -127,45 +144,39 @@
       class="tag-container all-filters"
       v-bind:class="{ 'gray-background': editingFilters === true }"
     >
-      <div
+      <tag
         v-for="filter in hideEmptyFilters(allFilters, allDirectionTags)"
         v-bind:key="filter.routeShortName + filter.headsign"
-        v-on:click="toggleFilter(filter)"
+        v-on:click.native="toggleFilter(filter)"
+        :icon="filter.mode"
+        :tagSelected="filter.active === true"
+        :tagRemovable="editingFilters === true"
+        :type="editingFilters === true ? 'wide-left' : undefined"
       >
-        <tag
-          :type="filter.mode"
-          :tagSelected="filter.active === true"
-          :tagRemovable="editingFilters === true"
-        >
+        <span class="route">
           {{ filter.routeShortName }}
           {{ filter.headsign }}
-        </tag>
-      </div>
+        </span>
+        <span
+          v-if="editingFilters === true"
+          class="coordinates"
+        >| {{round(filter.lat)}}, {{round(filter.lon)}}</span>
+      </tag>
 
-      <div class="tag-container tag-container--all-and-edit">
-        <div
-          v-if="allFilters.length > 0 && editingFilters === false"
-          @click="showAll()"
-        >
+      <div class="tag-container tag-container__footer">
+        <div v-if="allFilters.length > 0 && editingFilters === false" @click="showAll()">
           <tag :tagSelected="!hasActiveFilters()">Näytä kaikki</tag>
         </div>
 
-        <div
-          v-if="allFilters.length > 0 && editingFilters === false"
-          @click="removeFilters()"
-          s
-        >
+        <div v-if="allFilters.length > 0 && editingFilters === false" @click="removeFilters()">
           <tag>Muokkaa</tag>
         </div>
       </div>
       <div v-if="editingFilters === true" @click="reset()" class="wide">
+        <div class="edit-info">*Suodattimet näkyvät 2km säteellä lisätystä paikasta</div>
+
         <tag type="wide">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
           </svg>
           VALMIS
@@ -253,7 +264,8 @@ export default {
               active: true,
               headsign: direction.headsign,
               lat: this.lat,
-              lon: this.lon
+              lon: this.lon,
+              mode: "direction"
             }
           : {
               type: "line",
@@ -380,7 +392,9 @@ export default {
       return copy.filter(original => {
         return (
           original.headsign !== filter.headsign ||
-          original.routeShortName !== filter.routeShortName
+          original.routeShortName !== filter.routeShortName ||
+          original.lat !== filter.lat ||
+          original.lon !== filter.lon
         );
       });
     },
@@ -433,6 +447,9 @@ export default {
         "new-filter-value",
         this.hideEmptyFilters(this.allFilters, this.allDirectionTags)
       );
+    },
+    round(coordinate) {
+      return Math.round(coordinate * 1000) / 1000;
     }
   }
 };

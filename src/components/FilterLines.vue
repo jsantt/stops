@@ -39,7 +39,8 @@
   font-size: var(--font-size-s);
 }
 .edit-info {
-  padding: var(--space-m) 0;
+  font-size: var(--font-size-s);
+  padding: var(--space-l) 0;
   text-align: center;
 }
 
@@ -139,8 +140,8 @@
         </template>
       </tag-accordion>
     </div>
-
     <div
+      v-if="allDirectionTags !== undefined"
       class="tag-container all-filters"
       v-bind:class="{ 'gray-background': editingFilters === true }"
     >
@@ -173,7 +174,7 @@
         </div>
       </div>
       <div v-if="editingFilters === true" @click="reset()" class="wide">
-        <div class="edit-info">*Suodattimet näkyvät 2km säteellä lisätystä paikasta</div>
+        <div class="edit-info">Suodattimet näkyvät 2km säteellä lisätystä paikasta</div>
 
         <tag type="wide">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
